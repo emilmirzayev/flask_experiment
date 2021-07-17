@@ -3,6 +3,7 @@ from app.api.performance_resource import PerformanceResource
 from app.api.event_resource import EventResource
 from app.api.recommendation_resource import RecommendationResource
 from app.api.answer_resource import AnswerResource
+from app.api.question_resource import QuestionResource
 
 import sys
 import logging
@@ -82,6 +83,7 @@ def create_app(app_name, env_name):
     flask_app.add_url_rule("/choicesets/", view_func=ChoiceSetResource.as_view("choices"))
     flask_app.add_url_rule("/recommendations/", view_func=RecommendationResource.as_view("recommendations"))
     flask_app.add_url_rule("/answers/", view_func=AnswerResource.as_view("answers"))
+    flask_app.add_url_rule("/questions/", view_func=QuestionResource.as_view("questions"))
     # flask_app.add_url_rule("/tasks/", view_func=TaskResource.as_view("tasks"))
     flask_app.app_context().push()
     return flask_app

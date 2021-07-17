@@ -1,0 +1,3 @@
+id;question_body;question_answers
+1;Some question with 4 answers;"[Answer1, Answer2, Answer3, Answer4]"
+2;Some question with 7 answers;"[Strongly disagree, Disagree, Slightly disagre, Undecided,  Slightly agree, Agree, Strongly agree]"

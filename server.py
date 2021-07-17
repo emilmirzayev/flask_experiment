@@ -2,14 +2,14 @@ import os
 
 from werkzeug.serving import run_simple
 from app.factories.app_factory import create_app, SettingsError
-# from app.helpers.helper import init_event_types
+from app.helpers.helper import init_questions
 
 if os.environ["settings"]:
     settings_name = os.environ["settings"]
 else:
     raise SettingsError("'settings' environment variable is not defined")
 app = create_app(__name__, settings_name)
-# init_event_types()
+init_questions()
 
 if __name__ == "__main__":
     run_simple(

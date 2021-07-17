@@ -79,3 +79,10 @@ class Answers(Model):
     question_number = db.Column(db.Integer, nullable = False)
     # putting answer as string, will filter ex-post
     answer = db.Column(db.String, nullable = False)
+
+
+class Questions(Model):
+    __tablename__ = "questions"
+    id = db.Column(db.Integer, primary_key = True)
+    question_body = db.Column(db.String, nullable=False)
+    question_answers = db.Column(db.String, nullable=False)

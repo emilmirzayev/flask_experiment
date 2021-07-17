@@ -1,8 +1,12 @@
-# from app.data.models import EventTypes
+from app.data.models import Questions
 # from app.core.extensions import db
-# from sqlalchemy import inspect
+from sqlalchemy import inspect
 import pandas as pd
+from app.core.extensions import db
 from flask import jsonify
+import json
+import os
+
 
 
 def create_recommendation(df:pd.DataFrame,columns_to_use:str = "X Y V Z F",  top = True, n:int = 2):
@@ -42,4 +46,17 @@ infer_dtypes = lambda x: pd.api.types.infer_dtype(x, skipna=True)
 #                 EventTypes.create(**event)
 
 
+def init_questions():
 
+    data = pd.read_csv("app/helpers/questions.csv", sep = ";")
+    data_json = data.to_dict(orient = "records")
+    print(data_json)
+    if inspect(db.engine).has_table("questions"):
+        print("table exists")
+        exist = Questions.query.first()
+        print(exist)
+        if not exist:
+            
+            for question in data_json:
+                Questions.create(**question)
+         

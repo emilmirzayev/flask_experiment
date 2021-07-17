@@ -1,4 +1,4 @@
-from app.data.models import ChoiceSets, Events, Performances, Recommendations, Answers
+from app.data.models import ChoiceSets, Events, Performances, Recommendations, Answers, Questions
 from app.core.extensions import ma
 from marshmallow import fields
 
@@ -37,4 +37,10 @@ class RecommendationSchema(ma.SQLAlchemyAutoSchema):
 class AnswerSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Answers
+        include_fk = True
+
+
+class QuestionSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Questions
         include_fk = True

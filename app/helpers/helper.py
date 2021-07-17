@@ -9,7 +9,7 @@ import os
 
 
 
-def create_recommendation(df:pd.DataFrame,columns_to_use:str = "X Y V Z F",  top = True, n:int = 2):
+def create_recommendation(df:pd.DataFrame,columns_to_use:str = "X Y V Z F",  top = True):
 
     """
     This will be used to generate recommendations based on
@@ -18,17 +18,21 @@ def create_recommendation(df:pd.DataFrame,columns_to_use:str = "X Y V Z F",  top
 
     ix = set()
     columns = columns_to_use.split()
+    if len(columns) != 5:
+        per_group = round(10/len(columns)) + 1
+    else:
+        per_group = 2
     if top:
         for col in columns:
             s = df[col].drop(ix).drop_duplicates().sort_values(ascending=False)
-            ix |= set(s.index[:n])
+            ix |= set(s.index[:per_group])
     else:
         for col in columns:
             s = df[col].drop(ix).drop_duplicates().sort_values(ascending=True)
-            ix |= set(s.index[:n])
+            ix |= set(s.index[:per_group])
     result = df.loc[ix]
     
-    return result
+    return result.sort_values(by = ["objective_score"], ascending = False).head(10).sample(frac = 1)
 
 
 infer_dtypes = lambda x: pd.api.types.infer_dtype(x, skipna=True)

@@ -21,7 +21,7 @@ class ChoiceSetResource(MethodView):
         # for record in records:
         #     ChoiceSets.create(**record)
         db.engine.execute(ChoiceSets.__table__.insert(), records)
-        return jsonify({"Choice set": records})
+        return jsonify({"Choice_set": records})
 
     def get(self):
         # get choice set specific to a task

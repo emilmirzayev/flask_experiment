@@ -10,6 +10,8 @@ import random
 class EventResource(MethodView):
     def post(self):
         data = request.get_json()
+        data["task_id"] = str(uuid4())
+        print(data)
         treatment_group = "Already provided"
         if data["event_type"] == 1:
             treatment_group = random.randint(1, 4)

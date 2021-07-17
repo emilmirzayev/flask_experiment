@@ -32,7 +32,7 @@ from app.core.db_setup import Model, db
 
 class Events(Model):
     __tablename__ = "events"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
 
@@ -40,7 +40,7 @@ class Events(Model):
 
 class Performances(Model):
     __tablename__ = "performances"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     objective_score = db.Column(db.Float, nullable= False)
     performance_score = db.Column(db.Float, nullable= False)
@@ -50,7 +50,7 @@ class Performances(Model):
 
 class ChoiceSets(Model):
     __tablename__ = "choices"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     X = db.Column(db.Integer, nullable=False)
     Y = db.Column(db.Integer, nullable=False)
@@ -62,7 +62,7 @@ class ChoiceSets(Model):
 
 class Recommendations(Model):
     __tablename__ = "recommendations"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
     X = db.Column(db.Integer, nullable=True)
@@ -75,7 +75,7 @@ class Recommendations(Model):
 
 class Answers(Model):
     __tablename__ = "answers"
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     question_number = db.Column(db.Integer, nullable = False)
     # putting answer as string, will filter ex-post

@@ -1,8 +1,8 @@
-"""initial creation
+"""smt
 
-Revision ID: 0f44f4da25e0
+Revision ID: 8281824631f4
 Revises: 
-Create Date: 2021-07-17 12:13:50.195363
+Create Date: 2021-07-17 14:40:57.009737
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0f44f4da25e0'
+revision = '8281824631f4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('answers',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('question_number', sa.Integer(), nullable=False),
     sa.Column('answer', sa.String(), nullable=False),
@@ -30,7 +30,7 @@ def upgrade():
     op.create_table('choices',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('X', sa.Integer(), nullable=False),
     sa.Column('Y', sa.Integer(), nullable=False),
@@ -40,10 +40,17 @@ def upgrade():
     sa.Column('objective_score', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('events',
+    op.create_table('event_types',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('event_body', sa.String(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('events',
+    sa.Column('created', sa.DateTime(), nullable=False),
+    sa.Column('updated', sa.DateTime(), nullable=False),
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('event_type', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
@@ -51,10 +58,11 @@ def upgrade():
     op.create_table('performances',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('objective_score', sa.Float(), nullable=False),
     sa.Column('performance_score', sa.Float(), nullable=False),
+    sa.Column('treatment_group', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('questions',
@@ -68,7 +76,7 @@ def upgrade():
     op.create_table('recommendations',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('recommendation_id', sa.String(), nullable=False),
     sa.Column('X', sa.Integer(), nullable=True),
@@ -88,6 +96,7 @@ def downgrade():
     op.drop_table('questions')
     op.drop_table('performances')
     op.drop_table('events')
+    op.drop_table('event_types')
     op.drop_table('choices')
     op.drop_table('answers')
     # ### end Alembic commands ###

@@ -1,4 +1,4 @@
-from app.data.models import Questions
+from app.data.models import Questions, EventTypes
 # from app.core.extensions import db
 from sqlalchemy import inspect
 import pandas as pd
@@ -50,13 +50,23 @@ def init_questions():
 
     data = pd.read_csv("app/helpers/questions.csv", sep = ";")
     data_json = data.to_dict(orient = "records")
-    print(data_json)
+
     if inspect(db.engine).has_table("questions"):
-        print("table exists")
         exist = Questions.query.first()
-        print(exist)
+        if not exist:   
+            db.engine.execute(Questions.__table__.insert(), data_json)
+
+
+def init_event_types():
+
+    data = pd.read_csv("app/helpers/event_types.csv", sep = ";")
+    data_json = data.to_dict(orient = "records")
+
+    if inspect(db.engine).has_table("event_types"):
+
+        exist = EventTypes.query.first()
+
         if not exist:
-            
-            for question in data_json:
-                Questions.create(**question)
+           db.engine.execute(EventTypes.__table__.insert(), data_json)
+         
          

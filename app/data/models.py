@@ -35,7 +35,7 @@ class Events(Model):
     id = db.Column(db.Integer, primary_key=True)
     task_id = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
-    
+
 
 
 class Performances(Model):
@@ -44,6 +44,7 @@ class Performances(Model):
     task_id = db.Column(db.String, nullable=False)
     objective_score = db.Column(db.Float, nullable= False)
     performance_score = db.Column(db.Float, nullable= False)
+    treatment_group = db.Column(db.Integer, nullable=False)
 
 
 
@@ -86,3 +87,9 @@ class Questions(Model):
     id = db.Column(db.Integer, primary_key = True)
     question_body = db.Column(db.String, nullable=False)
     question_answers = db.Column(db.String, nullable=False)
+
+
+class EventTypes(Model):
+    __tablename__ = "event_types"
+    id = db.Column(db.Integer, primary_key=True)
+    event_body = db.Column(db.String, nullable=False)

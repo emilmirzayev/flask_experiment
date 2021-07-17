@@ -1,0 +1,8 @@
+id;event_body
+1;task creation
+2;sort button pressed
+3;hide column pressed
+4;selected from choice set
+5;selected from recommendation set
+6; selection undone
+7;task finished

@@ -3,6 +3,7 @@ from app.core.extensions import ma
 from marshmallow import fields
 
 
+
 # class TaskSchema(ma.SQLAlchemyAutoSchema):
 #     class Meta:
 #         model = Tasks

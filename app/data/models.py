@@ -63,6 +63,7 @@ class ChoiceSets(Model):
 class Recommendations(Model):
     __tablename__ = "recommendations"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    choice_id = db.Column(db.Integer, nullable=False)
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
     X = db.Column(db.Integer, nullable=True)

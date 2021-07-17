@@ -1,8 +1,19 @@
-id;event_body
-1;task creation
-2;sort button pressed
-3;hide column pressed
-4;selected from choice set
-5;selected from recommendation set
-6; selection undone
-7;task finished
+id,event_body
+1,task creation
+2,timer started
+3,timer finished
+4,sort button pressed
+5,hide column X
+6,hide column Y
+7,hide column Z
+8,hide column F
+9,hide column V
+10,selected from choice set
+11,selected from recommendation set
+12,deselected from final set
+13,questionnaire started
+14,question answered
+15,placeholder1
+16,placeholder2
+17,placeholder3
+18,placeholder4

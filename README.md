@@ -26,15 +26,17 @@ flask run
 ```
 
 ## run migrations
+if you have changes in orm models run the following command
+
+```sh
+flask db migrate -m "migration message"
+
+```
 
 ```sh
 flask db upgrade
 ```
-or if you have changes in orm models run the following command
-
-```sh
-flask db migrate -m "migration message"
-```
+or 
 
 ## run in container
 

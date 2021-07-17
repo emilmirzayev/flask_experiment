@@ -63,7 +63,7 @@ def init_questions():
 
 def init_event_types():
 
-    data = pd.read_csv("app/helpers/event_types.csv", sep = ";")
+    data = pd.read_csv("app/helpers/event_types.csv", sep = ",")
     data_json = data.to_dict(orient = "records")
 
     if inspect(db.engine).has_table("event_types"):

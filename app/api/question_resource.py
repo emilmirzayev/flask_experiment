@@ -10,4 +10,4 @@ class QuestionResource(MethodView):
         data  = request.get_json()
         questions = Questions.query.all()
 
-        return jsonify(QuestionSchema().dump(questions, many=True))
+        return jsonify(QuestionSchema(exclude = ['created', 'updated']).dump(questions, many=True))

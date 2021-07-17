@@ -24,7 +24,9 @@ class RecommendationResource(MethodView):
         df_records = (pd
                         .DataFrame(RecommendationSchema().dump(ChoiceSets.query.filter_by(task_id = data["task_id"]), many=True))
                         )
-        df = df_records[df_records.columns.difference(["created", "updated"])].drop("id", axis = 1)
+        df = df_records[df_records.columns.difference(["created", "updated"])]
+        # rename column ID to avoid Uniqueness conflict with choice
+        df = df.rename(columns = {"id": "choice_id"})
         cols = data["columns_to_use"]
         recommendations = create_recommendation(df, columns_to_use= cols)
         uuid = str(uuid4())

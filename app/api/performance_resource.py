@@ -10,7 +10,7 @@ class PerformanceResource(MethodView):
     def post(self):
         data = request.get_json()
         event = Performances.create(**data)
-        return jsonify({"Message": "Performance recorded", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})
+        return jsonify({"Message": "Performance_recorded", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})
 
     def get(self):
         # get performance specific to a task

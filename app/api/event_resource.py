@@ -11,12 +11,11 @@ class EventResource(MethodView):
     def post(self):
         data = request.get_json()
         data["task_id"] = str(uuid4())
-        print(data)
-        treatment_group = "Already provided"
+        treatment_group = "Already_provided"
         if data["event_type"] == 1:
             treatment_group = random.randint(1, 4)
         event = Events.create(**data)
-        return jsonify({"Message": "Event created", "task_id": data["task_id"], "treatment_group": treatment_group})
+        return jsonify({"Message": "Event_created", "task_id": data["task_id"], "treatment_group": treatment_group})
 
     def get(self):
         # get events specific to a task

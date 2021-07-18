@@ -11,7 +11,7 @@ class AnswerResource(MethodView):
     def post(self):
         data = request.get_json()
         answer = Answers.create(**data)
-        return jsonify({"Message": "Answer recorded", 
+        return jsonify({"Message": "Answer_recorded", 
                         "task_id": data["task_id"],
                         "question_number": data["question_number"]})
 

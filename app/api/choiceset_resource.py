@@ -22,12 +22,14 @@ class ChoiceSetResource(MethodView):
         # for record in records:
         #     ChoiceSets.create(**record)
         db.engine.execute(ChoiceSets.__table__.insert(), records)
-        return jsonify({"columns": columns, "choice_set": records})
+        return jsonify({'columns''': columns, 'choice_set': self.get_choice_sets(data["task_id"])})
 
     def get(self):
         # get choice set specific to a task
         data  = request.get_json()
-        sets = ChoiceSets.query.filter_by(task_id = data["task_id"])
-        
 
-        return jsonify(ChoiceSchema().dump(sets, many=True))
+        return jsonify(self.get_choice_sets(data["task_id"]))
+
+    def get_choice_sets(self, task_id):
+        sets = ChoiceSets.query.filter_by(task_id=task_id)
+        return ChoiceSchema(exclude=["created", "updated", "objective_score"]).dump(sets, many=True)

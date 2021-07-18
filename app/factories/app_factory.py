@@ -10,7 +10,6 @@ import sys
 import logging
 
 from flask import jsonify, Flask
-
 from flask.logging import default_handler
 
 from app.core.extensions import db, ma, migrator

@@ -11,6 +11,7 @@ import logging
 
 from flask import jsonify, Flask
 from flask.logging import default_handler
+from flask_cors import CORS
 
 from app.core.extensions import db, ma, migrator
 
@@ -74,6 +75,7 @@ def create_app(app_name, env_name):
     config_obj = get_config(env_name)
 
     flask_app = Flask(app_name)
+    CORS(flask_app, resources={r"/*": {"origins": "*"}})
     flask_app.config.from_object(config_obj)
     register_logger(flask_app)
     register_extensions(flask_app)

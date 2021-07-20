@@ -5,6 +5,7 @@ from app.api.recommendation_resource import RecommendationResource
 from app.api.answer_resource import AnswerResource
 from app.api.question_resource import QuestionResource
 from app.api.event_type_resource import EventTypeResource
+from app.api.final_set_resource import FinalSetResource
 
 import sys
 import logging
@@ -86,6 +87,8 @@ def create_app(app_name, env_name):
     flask_app.add_url_rule("/answers/", view_func=AnswerResource.as_view("answers"))
     flask_app.add_url_rule("/questions/", view_func=QuestionResource.as_view("questions"))
     flask_app.add_url_rule("/event_types/", view_func=EventTypeResource.as_view("event_types"))
+    flask_app.add_url_rule("/final_sets/", view_func=FinalSetResource.as_view("finalsets"))
+    
     # flask_app.add_url_rule("/tasks/", view_func=TaskResource.as_view("tasks"))
     flask_app.app_context().push()
     return flask_app

@@ -1,8 +1,8 @@
-"""smt
+"""initial
 
-Revision ID: 67038aae8c75
+Revision ID: 6eb77888c820
 Revises: 
-Create Date: 2021-07-17 20:46:17.253935
+Create Date: 2021-07-18 17:37:38.551923
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '67038aae8c75'
+revision = '6eb77888c820'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,7 @@ def upgrade():
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('task_id', sa.String(), nullable=True),
+    sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('X', sa.Integer(), nullable=False),
     sa.Column('Y', sa.Integer(), nullable=False),
     sa.Column('Z', sa.Integer(), nullable=False),
@@ -55,13 +55,29 @@ def upgrade():
     sa.Column('event_type', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('finalsets',
+    sa.Column('created', sa.DateTime(), nullable=False),
+    sa.Column('updated', sa.DateTime(), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('task_id', sa.String(), nullable=False),
+    sa.Column('recommendation_id', sa.String(), nullable=False),
+    sa.Column('X', sa.Integer(), nullable=True),
+    sa.Column('Y', sa.Integer(), nullable=True),
+    sa.Column('Z', sa.Integer(), nullable=True),
+    sa.Column('F', sa.Integer(), nullable=True),
+    sa.Column('V', sa.Integer(), nullable=True),
+    sa.Column('objective_score', sa.Float(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('performances',
     sa.Column('created', sa.DateTime(), nullable=False),
     sa.Column('updated', sa.DateTime(), nullable=False),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
-    sa.Column('objective_score', sa.Float(), nullable=False),
-    sa.Column('performance_score', sa.Float(), nullable=False),
+    sa.Column('recommendation_id', sa.String(), nullable=False),
+    sa.Column('real_performance', sa.Float(), nullable=False),
+    sa.Column('recommendation_performance', sa.Float(), nullable=False),
+    sa.Column('user_performance', sa.Float(), nullable=False),
     sa.Column('treatment_group', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -80,6 +96,7 @@ def upgrade():
     sa.Column('choice_id', sa.Integer(), nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('recommendation_id', sa.String(), nullable=False),
+    sa.Column('columns_used', sa.String(), nullable=False),
     sa.Column('X', sa.Integer(), nullable=True),
     sa.Column('Y', sa.Integer(), nullable=True),
     sa.Column('Z', sa.Integer(), nullable=True),
@@ -96,6 +113,7 @@ def downgrade():
     op.drop_table('recommendations')
     op.drop_table('questions')
     op.drop_table('performances')
+    op.drop_table('finalsets')
     op.drop_table('events')
     op.drop_table('event_types')
     op.drop_table('choices')

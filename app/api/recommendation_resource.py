@@ -31,6 +31,7 @@ class RecommendationResource(MethodView):
         recommendations = create_recommendation(df, columns_to_use= cols)
         uuid = str(uuid4())
         recommendations["recommendation_id"] = uuid
+        recommendations["columns_used"] = data["columns_to_use"]
         print(uuid)
         recommendations_json = recommendations.to_dict(orient = "records")
         db.engine.execute(Recommendations.__table__.insert(), recommendations_json)

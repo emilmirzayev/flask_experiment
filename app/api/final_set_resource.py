@@ -17,10 +17,17 @@ class FinalSetResource(MethodView):
         ids = data["ids"]
         recommendation_id = data["recommendation_id"]
         choice_set = ChoiceSets.query.filter_by(task_id = data["task_id"])
-        json_choices = ChoiceSchema(exclude=["created", "updated"]).dump(sets, many=True)
+        json_choices = ChoiceSchema(exclude=["created", "updated"]).dump(choice_set, many=True)
         choice_df = pd.DataFrame.from_records(json_choices)
         final_set = choice_df[choice_df["id"].isin(ids)]
         final_set["recommendation_id"] = recommendation_id
+        final_set["final_set_id"] = str(uuid4())
         final_set_json = final_set.to_dict(orient = "records")
         db.engine.execute(FinalSets.__table__.insert(), final_set_json)
-        return {"message": "final_set_recorded"}
+        return {"message": "final_set_recorded", "data": final_set_json}
+
+    def get(self):
+        """
+        Get the final set and see how it is structured
+        """
+        return {"temp": "temp"}

@@ -81,6 +81,7 @@ class FinalSets(Model):
     id = db.Column(db.Integer,primary_key=True)
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
+    final_set_id = db.Column(db.String, nullable=False)
     X = db.Column(db.Integer, nullable=True)
     Y = db.Column(db.Integer, nullable=True)
     Z = db.Column(db.Integer, nullable=True)

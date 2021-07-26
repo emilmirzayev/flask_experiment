@@ -1,8 +1,8 @@
-"""initial
+"""added finalet id column
 
-Revision ID: 41796b45d37e
+Revision ID: 3cf850ad1629
 Revises: 
-Create Date: 2021-07-20 12:21:05.024412
+Create Date: 2021-07-26 11:56:43.786339
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '41796b45d37e'
+revision = '3cf850ad1629'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -61,6 +61,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('recommendation_id', sa.String(), nullable=False),
+    sa.Column('final_set_id', sa.String(), nullable=False),
     sa.Column('X', sa.Integer(), nullable=True),
     sa.Column('Y', sa.Integer(), nullable=True),
     sa.Column('Z', sa.Integer(), nullable=True),

@@ -50,3 +50,5 @@ class RecommendationResource(MethodView):
         sets = Recommendations.query.filter_by(task_id = data["task_id"], recommendation_id = data["recommendation_id"])
 
         return jsonify(RecommendationSchema().dump(sets, many=True))
+
+    

@@ -35,6 +35,7 @@ class Events(Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
+    treatment_group = db.Column(db.Integer, nullable = False)
 
 
 

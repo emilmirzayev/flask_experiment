@@ -1,9 +1,9 @@
 from flask.views import MethodView
 from flask import request, abort, jsonify
-from app.data.models import Answers
+from app.data.models import Answers, Questions
 from uuid import uuid4
 from datetime import datetime
-from app.schemas.serializer import AnswerSchema
+from app.schemas.serializer import AnswerSchema, QuestionSchema
 
 
 

@@ -60,15 +60,15 @@ class PerformanceResource(MethodView):
     def get(self):
     # change this
 
-
+        data = request.get_json()
 
         performances = Performances.query.filter_by(task_id = data["task_id"])
 
-        return jsonify(PerformanceSchema().dump(performances, many=True))
+        return {"Message": "Performance queried", "data": jsonify(PerformanceSchema().dump(performances, many=True))}
 
 
     def get_performance(self, task_id):
 
-        performances = Performances.query.filter_by(task_id = data["task_id"])
+        performances = Performances.query.filter_by(task_id = task_id)
 
         return {"Message": "Performance recorded", "data": jsonify(PerformanceSchema().dump(performances, many=True))}

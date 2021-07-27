@@ -312,6 +312,78 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "GET questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/questions/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"questions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST answers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"question_number\":1,\r\n    \"answer\": \"Sample answer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/answers/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"answers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST task finish event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"event_type\": 23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

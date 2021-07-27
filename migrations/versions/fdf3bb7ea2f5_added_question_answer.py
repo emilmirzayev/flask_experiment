@@ -1,8 +1,8 @@
-"""added treatment group column
+"""added question answer
 
-Revision ID: 37a151bae0df
+Revision ID: fdf3bb7ea2f5
 Revises: 
-Create Date: 2021-07-27 13:07:17.218332
+Create Date: 2021-07-27 14:17:57.736728
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '37a151bae0df'
+revision = 'fdf3bb7ea2f5'
 down_revision = None
 branch_labels = None
 depends_on = None

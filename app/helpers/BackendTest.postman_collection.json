@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "6c8cc732-d68e-4d34-8648-923c5f9019fd",
+		"name": "BackendTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST task creation event",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let bodyData = pm.response.json()\r",
+							"\r",
+							"let task_id = bodyData.task_id\r",
+							"let treatment_group = bodyData.treatment_group\r",
+							"\r",
+							"console.log(task_id)\r",
+							"console.log(treatment_group)\r",
+							"\r",
+							"pm.environment.set(\"task_id\", task_id)\r",
+							"pm.environment.set(\"treatment_group\", treatment_group)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"event_type\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET events",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST choice sets",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/choicesets/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"choicesets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST recommendations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"responseBody = pm.response.json()\r",
+							"\r",
+							"recommendation_id = responseBody.message[0].recommendation_id\r",
+							"\r",
+							"console.log(recommendation_id)\r",
+							"\r",
+							"pm.environment.set(\"recommendation_id\", recommendation_id)\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"columns_to_use\": \"X Y Z F V\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/recommendations/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"recommendations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET recommendations",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"recommendation_id\":\"{{recommendation_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/recommendations/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"recommendations",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST events",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\":\"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}},\r\n    \"event_type\":4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST final set",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let bodyData = pm.response.json()\r",
+							"\r",
+							"let task_id = bodyData.data[0].task_id\r",
+							"let final_set_id = bodyData.data[0].final_set_id\r",
+							"\r",
+							"pm.environment.set(\"final_set_id\", final_set_id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"ids\":[1, 2, 3, 4, 5],\r\n    \"recommendation_id\": \"{{recommendation_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/final_sets/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"final_sets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET final set",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/final_sets/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"final_sets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST performances",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"recommendation_id\": \"{{recommendation_id}}\",\r\n    \"treatment_group\": {{treatment_group}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/performances/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"performances",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/questions/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"questions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST answers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"question_number\":1,\r\n    \"answer\": \"Sample answer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/answers/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"answers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST task finish event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"event_type\": 23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

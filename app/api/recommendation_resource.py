@@ -20,6 +20,7 @@ class RecommendationResource(MethodView):
         }
         """
         data = request.get_json()
+        print(data)
         df_records = (pd
                         .DataFrame(RecommendationSchema().dump(ChoiceSets.query.filter_by(task_id = data["task_id"]), many=True))
                         )
@@ -30,9 +31,11 @@ class RecommendationResource(MethodView):
         recommendations = create_recommendation(df, columns_to_use= cols)
         uuid = str(uuid4())
         recommendations["recommendation_id"] = uuid
+        recommendations["columns_used"] = data["columns_to_use"]
+        print(uuid)
         recommendations_json = recommendations.to_dict(orient = "records")
         db.engine.execute(Recommendations.__table__.insert(), recommendations_json)
-        return jsonify({"recommendation_id":uuid, "recommendations":recommendations_json})
+        return {"message":recommendations_json}
 
     def get(self):
         # get recommendation set specific to a task and id string
@@ -46,4 +49,5 @@ class RecommendationResource(MethodView):
         data  = request.get_json()
         sets = Recommendations.query.filter_by(task_id = data["task_id"], recommendation_id = data["recommendation_id"])
 
-        return jsonify(RecommendationSchema().dump(sets, many=True))
+        return jsonify(RecommendationSchema(exclude=["created", "updated", "objective_score"]).dump(sets, many=True))
+

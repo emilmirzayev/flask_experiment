@@ -2,18 +2,23 @@ id,event_body
 1,task creation
 2,timer started
 3,timer finished
-4,sort button pressed
-5,hide column X
-6,hide column Y
-7,hide column Z
-8,hide column F
-9,hide column V
-10,selected from choice set
-11,selected from recommendation set
-12,deselected from final set
-13,questionnaire started
-14,question answered
-15,placeholder1
-16,placeholder2
-17,placeholder3
-18,placeholder4
+4,sort by column X
+5,sort by column Y
+6,sort by column Z
+7,sort by column F
+8,sort by column V
+9,hide column X
+10,hide column Y
+11,hide column Z
+12,hide column F
+13,hide column V
+14,selected from choice set
+15,selected from recommendation set
+16,deselected from final set
+17,questionnaire started
+18,question answered
+19,placeholder1
+20,placeholder2
+21,placeholder3
+22,placeholder4
+23,task finish

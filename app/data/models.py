@@ -35,6 +35,7 @@ class Events(Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
+    treatment_group = db.Column(db.Integer, nullable = False)
 
 
 
@@ -42,10 +43,11 @@ class Performances(Model):
     __tablename__ = "performances"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
-    objective_score = db.Column(db.Float, nullable= False)
-    performance_score = db.Column(db.Float, nullable= False)
+    recommendation_id = db.Column(db.String, nullable=False)
+    real_performance = db.Column(db.Float, nullable= False)
+    recommendation_performance = db.Column(db.Float, nullable= False)
+    user_performance = db.Column(db.Float, nullable= False)
     treatment_group = db.Column(db.Integer, nullable=False)
-
 
 
 class ChoiceSets(Model):
@@ -66,6 +68,7 @@ class Recommendations(Model):
     choice_id = db.Column(db.Integer, nullable=False)
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
+    columns_used = db.Column(db.String, nullable=False)
     X = db.Column(db.Integer, nullable=True)
     Y = db.Column(db.Integer, nullable=True)
     Z = db.Column(db.Integer, nullable=True)
@@ -73,6 +76,19 @@ class Recommendations(Model):
     V = db.Column(db.Integer, nullable=True)
     objective_score = db.Column(db.Float, nullable=False)
 
+
+class FinalSets(Model):
+    __tablename__ = "finalsets"
+    id = db.Column(db.Integer,primary_key=True)
+    task_id = db.Column(db.String, nullable=False)
+    recommendation_id = db.Column(db.String, nullable=False)
+    final_set_id = db.Column(db.String, nullable=False)
+    X = db.Column(db.Integer, nullable=True)
+    Y = db.Column(db.Integer, nullable=True)
+    Z = db.Column(db.Integer, nullable=True)
+    F = db.Column(db.Integer, nullable=True)
+    V = db.Column(db.Integer, nullable=True)
+    objective_score = db.Column(db.Float, nullable=False)
 
 class Answers(Model):
     __tablename__ = "answers"
@@ -94,3 +110,5 @@ class EventTypes(Model):
     __tablename__ = "event_types"
     id = db.Column(db.Integer, primary_key=True)
     event_body = db.Column(db.String, nullable=False)
+
+

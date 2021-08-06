@@ -1,4 +1,6 @@
 from app.core.db_setup import Model, db
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.mutable import MutableDict
 
 # class Task(Model):
 #     __tablename__ = "tasks"
@@ -36,6 +38,7 @@ class Events(Model):
     task_id = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
     treatment_group = db.Column(db.Integer, nullable = False)
+    data = db.Column(db.JSON, nullable = True)
 
 
 

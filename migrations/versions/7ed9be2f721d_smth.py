@@ -1,8 +1,8 @@
-"""added question answer
+"""smth
 
-Revision ID: fdf3bb7ea2f5
+Revision ID: 7ed9be2f721d
 Revises: 
-Create Date: 2021-07-27 14:17:57.736728
+Create Date: 2021-08-06 09:58:13.436632
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fdf3bb7ea2f5'
+revision = '7ed9be2f721d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -54,6 +54,7 @@ def upgrade():
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('event_type', sa.Integer(), nullable=False),
     sa.Column('treatment_group', sa.Integer(), nullable=False),
+    sa.Column('data', sa.JSON(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('finalsets',

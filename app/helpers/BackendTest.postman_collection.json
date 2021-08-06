@@ -187,13 +187,67 @@
 			"response": []
 		},
 		{
-			"name": "POST events",
+			"name": "POST sort event",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"task_id\":\"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}},\r\n    \"event_type\":4\r\n}",
+					"raw": "{\r\n    \"task_id\":\"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}},\r\n    \"event_type\":4,\r\n     \"data\" : {\r\n                 \"column\" : \"X\",\r\n                 \"direction\" : \"DESC\",\r\n                 \"table\" : \"choiceset\"\r\n                }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST select event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\":\"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}},\r\n    \"event_type\":6,\r\n     \"data\" : {\r\n                 \"choice_id\" : \"40\",\r\n                 \"state\": \"True\",\r\n                 \"table\" : \"choiceset\"\r\n                }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/events/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST hide event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\":\"{{task_id}}\",\r\n    \"treatment_group\": {{treatment_group}},\r\n    \"event_type\":5,\r\n     \"data\" : {\r\n                 \"column\" : \"X\",\r\n                 \"state\" : \"True\",\r\n                 \"table\" : \"choiceset\"\r\n                }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -314,6 +368,36 @@
 			"response": []
 		},
 		{
+			"name": "GET performances",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"recommendation_id\": \"{{recommendation_id}}\",\r\n    \"treatment_group\": {{treatment_group}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/performances/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"performances",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET questions",
 			"request": {
 				"method": "GET",
@@ -365,7 +449,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"event_type\": 23\r\n}",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"treatment_group\": \"{{treatment_group}}\",\r\n    \"event_type\": 13\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

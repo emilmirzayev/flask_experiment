@@ -17,6 +17,12 @@
 							"let task_id = bodyData.task_id\r",
 							"let treatment_group = bodyData.treatment_group\r",
 							"\r",
+							"var first_selection = 1\r",
+							"var second_selection = 2\r",
+							"var third_selection = 3\r",
+							"var fourth_selection = 4\r",
+							"var fifth_selection = 5\r",
+							"\r",
 							"console.log(task_id)\r",
 							"console.log(treatment_group)\r",
 							"\r",
@@ -463,6 +469,36 @@
 					],
 					"path": [
 						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET answers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/answers/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"answers",
 						""
 					]
 				}

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6c8cc732-d68e-4d34-8648-923c5f9019fd",
+		"_postman_id": "2fb7fcf8-efe6-466b-a756-ea76491b1d46",
 		"name": "BackendTest",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -90,6 +90,35 @@
 		},
 		{
 			"name": "POST choice sets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"responseBody = pm.response.json()\r",
+							"\r",
+							"\r",
+							"idmin = responseBody.choice_set[0].id\r",
+							"\r",
+							"first = idmin\r",
+							"second = idmin+1\r",
+							"third = idmin+2\r",
+							"fourth = idmin+3\r",
+							"fifth = idmin+4\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"idmin\", idmin)\r",
+							"pm.environment.set(\"first\", first)\r",
+							"pm.environment.set(\"second\", second)\r",
+							"pm.environment.set(\"third\", third)\r",
+							"pm.environment.set(\"fourth\", fourth)\r",
+							"pm.environment.set(\"fifth\", fifth)\r",
+							"console.log(idmin)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -289,6 +318,17 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"base = pm.environment.get(\"idmin\")\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -296,7 +336,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"ids\":[1, 2, 3, 4, 5],\r\n    \"recommendation_id\": \"{{recommendation_id}}\"\r\n}",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"ids\":[{{first}}, {{second}}, {{third}}, {{fourth}}, {{fifth}}],\r\n    \"recommendation_id\": \"{{recommendation_id}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

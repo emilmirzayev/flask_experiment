@@ -1,4 +1,6 @@
-id;question_body;question_answers
-1;Some question with 4 answers;"[Answer1, Answer2, Answer3, Answer4]"
-2;Some question with 7 answers;"[Strongly disagree, Disagree, Slightly disagre, Undecided,  Slightly agree, Agree, Strongly agree]"
-3;What is your age;"dropdown to choose from"
+id,question_type,question_body,question_answers
+1,"radio",The recommendations generated are relevant to the task,"""[[1, 'Strongly Disagree'], [2, 'Disagree'], [3, 'Somewhat disagree'], [4, 'Neither agree or disagree'], [5, 'Somewhat agree'], [6, 'Agree'], [7, 'Strongly agree']]"""
+2,"radio",Interaction with recommendation engine requires minimum effort,"""[[1, 'Strongly Disagree'], [2, 'Disagree'], [3, 'Somewhat disagree'], [4, 'Neither agree or disagree'], [5, 'Somewhat agree'], [6, 'Agree'], [7, 'Strongly agree']]"""
+3,"radio",I find this engine is easy to use,"""[[1, 'Strongly Disagree'], [2, 'Disagree'], [3, 'Somewhat disagree'], [4, 'Neither agree or disagree'], [5, 'Somewhat agree'], [6, 'Agree'], [7, 'Strongly agree']]"""
+4,"select","How much time per week on average do you spend using gadgets (smartphone, laptop and etc.)?","""[[1, ""Less than an hour""], [2, ""One to five hours""], [3, ""More than five hours""]]"
+5,"text"," ""How old are you?"""," ""Input INT"""

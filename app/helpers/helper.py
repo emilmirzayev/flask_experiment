@@ -52,7 +52,7 @@ infer_dtypes = lambda x: pd.api.types.infer_dtype(x, skipna=True)
 
 def init_questions():
 
-    data = pd.read_csv("app/helpers/questions.csv", sep = ";")
+    data = pd.read_csv("app/helpers/questions.csv", sep = ",")
     data_json = data.to_dict(orient = "records")
 
     if inspect(db.engine).has_table("questions"):

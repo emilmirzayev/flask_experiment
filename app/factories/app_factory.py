@@ -6,7 +6,7 @@ from app.api.answer_resource import AnswerResource
 from app.api.question_resource import QuestionResource
 from app.api.event_type_resource import EventTypeResource
 from app.api.final_set_resource import FinalSetResource
-
+from flask_cors import CORS
 import sys
 import logging
 
@@ -76,6 +76,7 @@ def create_app(app_name, env_name):
     config_obj = get_config(env_name)
 
     flask_app = Flask(app_name)
+    CORS(flask_app, resources={r"/*": {"origins": "*"}})
     flask_app.config.from_object(config_obj)
     register_logger(flask_app)
     register_extensions(flask_app)

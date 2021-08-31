@@ -39,11 +39,13 @@
 					"script": {
 						"exec": [
 							"var iteration = pm.environment.get('iteration');\r",
-							"var iteration_increase = iteration  + 100;\r",
+							"var iteration_increase = iteration * 100;\r",
 							"\r",
+							"parseInt(iteration)\r",
+							"parseInt(iteration_increase)\r",
 							"\r",
-							"\r",
-							"pm.environment.set('iteration', iteration + 1);"
+							"pm.environment.set(\"iteration_increase\", iteration_increase)\r",
+							"pm.environment.set('iteration', ++iteration);"
 						],
 						"type": "text/javascript"
 					}
@@ -106,6 +108,22 @@
 		},
 		{
 			"name": "POST choice sets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"bodyData = pm.response.json()\r",
+							"\r",
+							"\r",
+							"id = bodyData.choice_set[0].id\r",
+							"\r",
+							"pm.environment.set(\"id\", id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -305,6 +323,27 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"n = pm.environment.get(\"id\")\r",
+							"\r",
+							"var first = 1 + n\r",
+							"var second = 2 + n\r",
+							"var third = 3 + n\r",
+							"var fourth = 4 + n\r",
+							"var fifth = 5 + n\r",
+							"\r",
+							"pm.environment.set(\"first\", first)\r",
+							"pm.environment.set(\"second\", second)\r",
+							"pm.environment.set(\"third\", third)\r",
+							"pm.environment.set(\"fourth\", fourth)\r",
+							"pm.environment.set(\"fifth\", fifth)"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -312,7 +351,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"ids\":[1 + {{iteration_increase}}, 2+ {{iteration_increase}}, 3+ {{iteration_increase}}, 4+ {{iteration_increase}}, 5+ {{iteration_increase}}],\r\n    \"recommendation_id\": \"{{recommendation_id}}\"\r\n}",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"ids\": [{{first}}, {{second}}, {{third}}, {{fourth}}, {{fifth}}],\r\n    \"recommendation_id\": \"{{recommendation_id}}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

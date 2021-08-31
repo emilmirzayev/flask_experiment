@@ -13,7 +13,8 @@ class AnswerResource(MethodView):
         answer = Answers.create(**data)
         return jsonify({"Message": "Answer_recorded", 
                         "task_id": data["task_id"],
-                        "question_number": data["question_number"]})
+                        "question_id": data["question_id"],
+                        "Answer": data["answer"]})
 
     def get(self):
         # get performance specific to a task

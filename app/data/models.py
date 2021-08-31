@@ -97,9 +97,9 @@ class Answers(Model):
     __tablename__ = "answers"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
-    question_number = db.Column(db.Integer, nullable = False)
+    question_id = db.Column(db.Integer, nullable = False)
     # putting answer as string, will filter ex-post
-    answer = db.Column(db.String, nullable = False)
+    answer = db.Column(db.Integer, nullable = False)
 
 
 class Questions(Model):

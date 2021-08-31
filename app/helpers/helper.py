@@ -51,7 +51,10 @@ infer_dtypes = lambda x: pd.api.types.infer_dtype(x, skipna=True)
 
 
 def init_questions():
-
+    # with open("app/helpers/questions.json") as f:
+    #     file = json.load(f)
+    # data = pd.json_normalize(file)
+    # data.question_answers = data.question_answers.apply(str)
     data = pd.read_csv("app/helpers/questions.csv", sep = ",")
     data_json = data.to_dict(orient = "records")
 

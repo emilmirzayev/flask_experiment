@@ -1,0 +1,125 @@
+[
+
+	{
+		"id": 1,
+		"question_type": "radio",
+		"question_body": "The recommendations generated are relevant to the task",
+		"question_answers": [{
+				"id": 1,
+				"answer": "Strongly Disagree"
+			},
+			{
+				"id": 2,
+				"answer": "Disagree"
+			},
+			{
+				"id": 3,
+				"answer": "Somewhat disagree"
+			},
+			{
+				"id": 4,
+				"answer": "Neither agree or disagree"
+			},
+			{
+				"id": 5,
+				"answer": "Somewhat agree"
+			},
+			{
+				"id": 6,
+				"answer": "Agree"
+			},
+			{
+				"id": 7,
+				"answer": "Strongly agree"
+			}
+		]
+	}, {
+		"id": 2,
+		"question_type": "radio",
+		"question_body": "Interaction with recommendation engine requires minimum effort",
+		"question_answers": [{
+				"id": 1,
+				"answer": "Strongly Disagree"
+			},
+			{
+				"id": 2,
+				"answer": "Disagree"
+			},
+			{
+				"id": 3,
+				"answer": "Somewhat disagree"
+			},
+			{
+				"id": 4,
+				"answer": "Neither agree or disagree"
+			},
+			{
+				"id": 5,
+				"answer": "Somewhat agree"
+			},
+			{
+				"id": 6,
+				"answer": "Agree"
+			},
+			{
+				"id": 7,
+				"answer": "Strongly agree"
+			}
+		]
+	}, {
+		"id": 3,
+		"question_type": "radio",
+		"question_body": "I find this engine is easy to use",
+		"question_answers": [{
+				"id": 1,
+				"answer": "Strongly Disagree"
+			},
+			{
+				"id": 2,
+				"answer": "Disagree"
+			},
+			{
+				"id": 3,
+				"answer": "Somewhat disagree"
+			},
+			{
+				"id": 4,
+				"answer": "Neither agree or disagree"
+			},
+			{
+				"id": 5,
+				"answer": "Somewhat agree"
+			},
+			{
+				"id": 6,
+				"answer": "Agree"
+			},
+			{
+				"id": 7,
+				"answer": "Strongly agree"
+			}
+		]
+	}, {
+		"id": 4,
+		"question_type": "select",
+		"question_body": "How much time per week on average do you spend using gadgets (smartphone, laptop and etc.)?",
+		"question_answers": [{
+				"id": 1,
+				"answer": "Less than an hour"
+			},
+			{
+				"id": 2,
+				"answer": "One to five hours"
+			},
+			{
+				"id": 3,
+				"answer": "More than five hours"
+			}
+		]
+	}, {
+		"id": 5,
+		"question_type": "text",
+		"question_body": " How old are you?",
+		"question_answers": "Input INT"
+	}
+]

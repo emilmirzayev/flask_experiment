@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="public/assets/css/style.css"/>
+    <script type="application/javascript" src="public/assets/js/scripts.js"></script>
+    <script type="application/javascript" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="first-page-box">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">>Welcome text and the description of the task.</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="button-box">
+        <div class="row">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary start-button">Start the test</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-tmpl" id="tmpl-demo">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-2 timer {% if (o.task_expires === false) { %} d-none {% } %}">
+                <p>REMAINING TIME: <span id="time">00:00</span></p>
+            </div>
+            <div class="{% if (o.task_expires === false) { %} col-12 {% } else { %} col-10 {% } %} text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">{%=o.task_description%}</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-6">
+                <div class="task-buttons">
+                    <table class="table task-buttons-table">
+                        <tr>
+                            {% for (var i=0; i<o.columns.length; i++) { %}
+                            <td>
+                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == true) { %} disabled {% } %} /> Hide Column {%=o.columns[i]%}</label>
+                            </td>
+                            {% } %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="task-container">
+                    <table class="table table-striped task-data-table"></table>
+                    <div class="task-data-counts">Total selected: <span class="total-selected">0</span></div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="task-recommendation">
+                            <h2>RECOMMENDATIONS</h2>
+                        </div>
+                        <div class="task-container">
+                            <table class="table table-striped task-recommendation-data-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="task-final">
+                            <h2>FINAL SELECTION</h2>
+                        </div>
+                        <div class="task-container">
+                            <table  class="table table-striped task-final-data-table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="task-proces">
+        <div class="row">
+            <div class="col-6 text-right offset-6">
+                <button class="btn btn-primary proceed-button" disabled>CONFIRM & PROCEED TO QUESTIONNAIRE</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="questionnaire-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Almost there... In order to complete task please answer below questions.</p>
+                </blockquote>
+            </div>
+            <!-- Circles which indicates the steps of the form: -->
+            <div class="col-12">
+                 <div style="text-align:center;margin-top:40px;">
+                 {% for (var i=0; i<o.length; i++) { %}
+                 <span class="step"></span>
+                 {% } %}
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12 question-list">
+                {% for (var i=0; i<o.length; i++) { %}
+                <div class="row tab">
+                    <div class="col-12">
+                        <h1 class="question">{%=o[i].question_body%}</h1>
+                    </div>
+                    {% if (o[i].question_type == 'radio') { %}
+                    <div class="col-12">
+                        {% for (var qi=0, qa = o[i].question_answers; qi<qa.length; qi++) { %}
+                            <div class="form-check">
+                            <input class="form-check-input" type="radio" name="question[{%=o[i].id%}]" id="question-answer-{%=o[i].id%}-{%=qa[qi].id%}" value="{%=qa[qi].id%}" />
+                            <label class="form-check-label" for="question-answer-{%=o[i].id%}-{%=qa[qi].id%}">
+                            {%=qa[qi].answer%}
+                            </label>
+                            </div>
+                        {% } %}
+                    </div>
+                    {% } %}
+                    {% if (o[i].question_type == 'select') { %}
+                    <div class="col-4">
+                        <div class="form-group">
+                            <select id="select" name="question[{%=o[i].id%}]" class="form-control">
+                                <option value="">Please select ...</option>
+                                {% for (var qi=0, qa = o[i].question_answers; qi<qa.length; qi++) { %}
+                                <option value="{%=qa[qi].id%}">{%=qa[qi].answer%}</option>
+                                {% } %}
+                            </select>
+                        </div>
+                    </div>
+                    {% } %}
+                    {% if (o[i].question_type == 'text') { %}
+                    <div class="col-12">
+                        <input type="text" name="text-input" id="answer-{%=i+1%}" value="" />
+                    </div>
+                    {% } %}
+                </div>
+                {% } %}
+            </div>
+        </div>
+    </div>
+    <div class="complete-questions">
+        <div class="row">
+            <div class="col-6 text-right offset-3">
+                <div class="btn-group special" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary complete-button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button class="btn btn-primary complete-button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="timeout-unfinished-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Your time is out</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12">
+                Sorry... Your time is out.
+                <br /> Your award will be {%=o.amount%}.
+                <br /> Your task ID: {%=o.task_id%}.
+                <br /> Please copy your task ID and store it somewhere.
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="kickout-tmpl">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restricted</title>
+    <link rel="stylesheet" href="public/assets/css/style.css"/>
+</head>
+<body>
+<div class="container" id="container">
+<div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">{%=o.title%}</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12">
+                {%=o.message%}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</script>
+</body>
+</html>

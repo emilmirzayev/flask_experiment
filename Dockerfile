@@ -6,5 +6,7 @@ RUN apt-get update -y &&    \
  
 ENV settings=dev 
 EXPOSE 5000
-# ENTRYPOINT ["./entrypoint.sh"] 
-CMD gunicorn -c gunicorn_conf.py server:app
+
+RUN ["chmod", "+x", "./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
+# CMD gunicorn -c gunicorn_conf.py server:app

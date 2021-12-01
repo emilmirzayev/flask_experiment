@@ -124,6 +124,32 @@ let requestHandler = {
     }
 }
 
+RegExp.quote = function(str) {
+    return str.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+};
+
+String.prototype.replaceArray = function(find, replace) {
+    var replaceString = this;
+    var regex;
+    for (var i = 0; i < find.length; i++) {
+        regex = new RegExp(RegExp.quote(find[i]), "g");
+        replaceString = replaceString.replace(regex, replace[i]);
+    }
+    return replaceString;
+};
+
+QuestionAnswer = {
+    cleanAnswers: function (answersStringArray) {
+        let answersCollection = [];
+        let answers = answersStringArray.slice(1).slice(0, answersStringArray.length - 2).split("], ");
+        for (let i = 0; i < answers.length; i++) {
+            let cleanAnswerFirst = answers[i].replaceArray(['[', ']', "'"], ['', '', '']).split(', ');
+            answersCollection.push({id: cleanAnswerFirst[0], answer: cleanAnswerFirst[1]});
+        }
+        return answersCollection;
+    }
+};
+
 var devtools = function () {
 };
 devtools.toString = function () {
@@ -275,7 +301,7 @@ $(document).ready(function () {
                     // ToDo: What to do with performance
 
                     requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
-                        document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', data);
+                        document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
                         showTab(currentTab); // Display the current tab
                     });
                 });
@@ -639,7 +665,7 @@ CountDownTimer.parse = function (seconds) {
 
 function showTab(n) {
     // This function will display the specified tab of the form ...
-    var x = document.getElementsByClassName("tab");
+    let x = document.getElementsByClassName("tab");
     x[n].style.display = "block";
     // ... and fix the Previous/Next buttons:
     if (n == 0) {

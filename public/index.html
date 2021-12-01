@@ -101,8 +101,8 @@
             <!-- Circles which indicates the steps of the form: -->
             <div class="col-12">
                  <div style="text-align:center;margin-top:40px;">
-                 {% for (var i=0; i<o.length; i++) { %}
-                 <span class="step"></span>
+                 {% for (const [key, value] of Object.entries(o.questions)) { %}
+                    <span class="step"></span>
                  {% } %}
                  </div>
             </div>
@@ -111,39 +111,41 @@
     <div class="task">
         <div class="row">
             <div class="col-12 question-list">
-                {% for (var i=0; i<o.length; i++) { %}
+                {% for (const [questionsGroupKey, questionsGroupValue] of Object.entries(o.questions)) { %}
                 <div class="row tab">
-                    <div class="col-12">
-                        <h1 class="question">{%=o[i].question_body%}</h1>
-                    </div>
-                    {% if (o[i].question_type == 'radio') { %}
-                    <div class="col-12">
-                        {% for (var qi=0, qa = o[i].question_answers; qi<qa.length; qi++) { %}
-                            <div class="form-check">
-                            <input class="form-check-input" type="radio" name="question[{%=o[i].id%}]" id="question-answer-{%=o[i].id%}-{%=qa[qi].id%}" value="{%=qa[qi].id%}" />
-                            <label class="form-check-label" for="question-answer-{%=o[i].id%}-{%=qa[qi].id%}">
-                            {%=qa[qi].answer%}
-                            </label>
-                            </div>
-                        {% } %}
-                    </div>
-                    {% } %}
-                    {% if (o[i].question_type == 'select') { %}
-                    <div class="col-4">
-                        <div class="form-group">
-                            <select id="select" name="question[{%=o[i].id%}]" class="form-control">
-                                <option value="">Please select ...</option>
-                                {% for (var qi=0, qa = o[i].question_answers; qi<qa.length; qi++) { %}
-                                <option value="{%=qa[qi].id%}">{%=qa[qi].answer%}</option>
-                                {% } %}
-                            </select>
+                    {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
+                        <div class="col-12">
+                            <h1 class="question">{%=questionsListValue.question_body%}</h1>
                         </div>
-                    </div>
-                    {% } %}
-                    {% if (o[i].question_type == 'text') { %}
-                    <div class="col-12">
-                        <input type="text" name="text-input" id="answer-{%=i+1%}" value="" />
-                    </div>
+                        {% if (questionsListValue.question_type == 'radio') { %}
+                        <div class="col-12">
+                            {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="question[{%=questionsListValue.id%}]" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
+                                <label class="form-check-label" for="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}">
+                                {%=questionAnswersList[iqla].answer%}
+                                </label>
+                                </div>
+                            {% } %}
+                        </div>
+                        {% } %}
+                        {% if (questionsListValue.question_type == 'select') { %}
+                        <div class="col-4">
+                            <div class="form-group">
+                                <select id="select" name="question[{%=questionsListValue.id%}]" class="form-control">
+                                    <option value="">Please select ...</option>
+                                    {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
+                                    <option value="{%=questionAnswersList[iqla].id%}">{%=questionAnswersList[iqla].answer%}</option>
+                                    {% } %}
+                                </select>
+                            </div>
+                        </div>
+                        {% } %}
+                        {% if (questionsListValue.question_type == 'text') { %}
+                        <div class="col-12">
+                            <input type="text" name="text-input" id="answer-{%=questionsListKey %}" value="" />
+                        </div>
+                        {% } %}
                     {% } %}
                 </div>
                 {% } %}

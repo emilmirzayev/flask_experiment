@@ -808,7 +808,6 @@ function submitAnswers(){
             });
         }
     }
-    console.log(answers);
     requestHandler.sendRequest(config.api_url + config.endpoints.answers, answers, function (data) {
         //final-message-tmpl
         document.getElementById('container').innerHTML = tmpl('final-message-tmpl', {

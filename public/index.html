@@ -112,13 +112,14 @@
         <div class="row">
             <div class="col-12 question-list">
                 {% for (const [questionsGroupKey, questionsGroupValue] of Object.entries(o.questions)) { %}
+                <input type="hidden" id="question-groups-count-{%=questionsGroupKey%}" class="question-groups-input" value="{%=questionsGroupValue.length%}" />
                 <div class="row tab">
                     {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
                         <div class="col-12">
                             <h1 class="question">{%=questionsListValue.question_body%}</h1>
                         </div>
                         {% if (questionsListValue.question_type == 'radio') { %}
-                        <div class="col-12">
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
                             {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
                                 <div class="form-check">
                                 <input class="form-check-input" type="radio" name="question[{%=questionsListValue.id%}]" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
@@ -130,7 +131,7 @@
                         </div>
                         {% } %}
                         {% if (questionsListValue.question_type == 'select') { %}
-                        <div class="col-4">
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
                             <div class="form-group">
                                 <select id="select" name="question[{%=questionsListValue.id%}]" class="form-control">
                                     <option value="">Please select ...</option>
@@ -142,8 +143,8 @@
                         </div>
                         {% } %}
                         {% if (questionsListValue.question_type == 'text') { %}
-                        <div class="col-12">
-                            <input type="text" name="text-input" id="answer-{%=questionsListKey %}" value="" />
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
+                            <input type="text" name="text-input" class="form-control" id="answer-{%=questionsListKey %}" value="" />
                         </div>
                         {% } %}
                     {% } %}
@@ -158,6 +159,7 @@
                 <div class="btn-group special" role="group" aria-label="Basic example">
                     <button class="btn btn-secondary complete-button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
                     <button class="btn btn-primary complete-button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <button class="btn btn-primary complete-button" id="submitBtn" onclick="submitAnswers()">Submit</button>
                 </div>
             </div>
         </div>

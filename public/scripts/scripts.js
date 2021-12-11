@@ -1,4 +1,5 @@
 var config = {
+    final_task_selected_count: 1,
     task_expires: true,
     task_expires_in_seconds: 150 * 10,
     stopCountDown: false,
@@ -149,17 +150,20 @@ QuestionAnswer = {
         return answersCollection;
     }
 };
-
+// ToDo: Fix! When console is open code can not detect it.
+var isTaskCreated = false;
 var devtools = function () {
 };
 devtools.toString = function () {
-    if (!this.opened) {
+    console.log(isTaskCreated);
+    if (isTaskCreated === true && !this.opened) {
         localStorage.clear();
         let eventsUrl = config.api_url + config.endpoints.events;
         requestHandler.sendRequest(eventsUrl, {
-            'event_type': config.events.task_finish,
-            'status': 'kicked_out',
-            "reason": "DevTools is opened"
+            task_id: localStorage.getItem('task_id') !== null ? localStorage.getItem('task_id') : data.task_id,
+            treatment_group: localStorage.getItem('group') !== null ? localStorage.getItem('task_id') : data.treatment_group,
+            event_type: config.events.task_finish,
+            data: {status: 'task_finish', reason: "DevTools is opened"}
         });
         document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
             title: locals.dev_tools_messages.title,
@@ -170,14 +174,11 @@ devtools.toString = function () {
 }
 console.log('%c', devtools);
 window.onbeforeunload = function() {
- return "Leaving this page will reset the wizard";
+ return "Leaving this page will reset the task";
 };
 
-// ToDo: Send selected final sets - error
 // ToDo: What to do with performance - peff. bu oldu amma bu ola bilerdi. - Your performance / Maximum performance / Your remuneration (?) / Your reward is:
-// ToDo: Do not loose your code
-// ToDo: Dockerize
-// ToDo: Questions must be in one page
+// ToDo: Message to user: Do not loose your code
 // ToDo: Send all user actions to backend as event
 var myStorage = window.localStorage;
 var currentTab = 0;
@@ -185,6 +186,7 @@ var currentTab = 0;
 $(document).ready(function () {
 
     $(".start-button").click(function () {
+        isTaskStarted = true;
         localStorage.clear();
         let createTaskUrl = config.api_url + config.endpoints.events;
         requestHandler.sendRequest(createTaskUrl, {"event_type": config.events.task_creation}, createTask);
@@ -253,8 +255,8 @@ $(document).ready(function () {
         localStorage.setItem('task_id', data.task_id);
         localStorage.setItem('group', data.treatment_group);
         let choicesetsUrl = config.api_url + config.endpoints.choicesets;
+        isTaskCreated = true;
         requestHandler.sendRequest(choicesetsUrl, {"task_id": data.task_id}, createTaskDataTable);
-
         if (config.task_expires === true) {
             let timer = new CountDownTimer(config.task_expires_in_seconds),
                 timeObj = CountDownTimer.parse(config.task_expires_in_seconds);
@@ -263,7 +265,7 @@ $(document).ready(function () {
             timer.onTick(format);
             timer.start(function () {
                 // finish experiment
-                if ($(document).find('.task-final-data-table tbody tr').length == 5) {
+                if ($(document).find('.task-final-data-table tbody tr').length == config.final_task_selected_count) {
                     finishTask();
                 } else {
                     document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
@@ -271,7 +273,12 @@ $(document).ready(function () {
                         message: locals.timeout.message
                     });
                     let eventsUrl = config.api_url + config.endpoints.events;
-                    requestHandler.sendRequest(eventsUrl, {'event_type': config.events.task_finish, 'status': 'kicked_out', "reason": "Timeout"});
+                    requestHandler.sendRequest(eventsUrl, {
+                        task_id: localStorage.getItem('task_id'),
+                        treatment_group: localStorage.getItem('group'),
+                        event_type: config.events.task_finish,
+                        data: {status: 'task_finish', reason: "Timeout"}
+                    });
                 }
             });
         }
@@ -280,7 +287,7 @@ $(document).ready(function () {
     function finishTask() {
         // Send summirized request
         let finalSets = $('.task-final-data-table').find('.selected-choiceset')
-        if (finalSets.length === 5) {
+        if (finalSets.length === config.final_task_selected_count) {
             let eventsEndpoint = config.api_url + config.endpoints.final_set;
             let selected = [];
             finalSets.each(function (k,v) {
@@ -479,7 +486,7 @@ $(document).ready(function () {
             changeSelectedRowColor(recommendationCheckbox);
         });
         // Disable all recommendation inputs if 5 item is already selected/checked
-        if ($('.task-final-data-table tbody tr').length === 5 || $('.task-data-table .check-final:checked').length === 5) {
+        if ($('.task-final-data-table tbody tr').length === config.final_task_selected_count || $('.task-data-table .check-final:checked').length === config.final_task_selected_count) {
             $('.task-recommendation-data-table .check-final:not(:checked)').prop("disabled", true);
         }
         dataTables.hideColumnEvent = false;
@@ -551,10 +558,10 @@ $(document).ready(function () {
         let totalCheckedTask = $('.task-data-table').find('.check-final:checked').length;
         let totalFinalTableItems = $('.task-final-data-table').find('.selected-choiceset').length;
         $('.total-selected').html(totalCheckedTask);
-        if (totalCheckedTask <= 5 || totalFinalTableItems <= 5) {
+        if (totalCheckedTask <= config.final_task_selected_count || totalFinalTableItems <= config.final_task_selected_count) {
             // Change color synchronously
             changeSelectedRowColor($this);
-            if (totalCheckedTask == 5) {
+            if (totalCheckedTask == config.final_task_selected_count) {
                 $('.task-data-table .check-final:not(:checked), .task-recommendation-data-table .check-final:not(:checked)').prop("disabled", true);
                 $('.proceed-button').prop("disabled", false);
             } else {
@@ -674,9 +681,11 @@ function showTab(n) {
         document.getElementById("prevBtn").style.display = "inline";
     }
     if (n == (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "inline";
     } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
+        document.getElementById("nextBtn").display = "inline";
+        document.getElementById("submitBtn").style.display = "none";
     }
     // ... and run a function that displays the correct step indicator:
     fixStepIndicator(n)
@@ -702,45 +711,66 @@ function nextPrev(n) {
 }
 
 function validateForm() {
-    var currentTabElm, input, select, i, checkedRadioCnt = 0, valid = true;
-    currentTabElm = document.getElementsByClassName("tab");
-    input = currentTabElm[currentTab].getElementsByTagName("input");
-    select = currentTabElm[currentTab].getElementsByTagName("select");
-
-    if (input && input.length > 0) {
-        for (i = 0; i < input.length; i++) {
-            if (input[i].type == 'radio' && input[i].checked == true) {
-                checkedRadioCnt++;
-            }
-        }
-
-        if (checkedRadioCnt === 0) {
+    var currentTabElm, input, select, i, answered = 0, valid = true;
+    let questionGroupsCount = document.getElementById('question-groups-count-' + (currentTab + 1));
+    for (let questionsCount = 0; questionsCount < questionGroupsCount.value; questionsCount++) {
+        const answeredQuestions = [];
+        let questionId = 'group-id-' + (currentTab + 1) + '-question-' + questionsCount;
+        let question = document.getElementById(questionId);
+        input = question.getElementsByTagName("input");
+        select = question.getElementsByTagName("select");
+        if (input != null && input.length > 0) {
             for (i = 0; i < input.length; i++) {
-                if (input[i].type == 'radio' && input[i].checked == false) {
-                    input[i].nextElementSibling.className += " is-invalid";
-                    input[i].addEventListener("click", function () {
-                        for (let i = 0; i < input.length; i++) {
-                            input[i].nextElementSibling.classList.remove("is-invalid");
-                        }
-                    });
+                if (input[i].type == 'radio' && input[i].checked == true) {
+                    answered++;
+                    answeredQuestions.push(questionId)
+                    break;
+                }
+                if (input[i].type == "text" && input[i].value != '') {
+                    answered++;
+                    answeredQuestions.push(questionId)
+                    break;
                 }
             }
-            valid = false;
-        }
-    }
-
-    if (select && select.length > 0) {
-        for (i = 0; i < select.length; i++) {
-            if (select[i].value === '') {
-                select[i].className += " is-invalid";
-                select[i].addEventListener("change", function () {
-                    for (let i = 0; i < select.length; i++) {
-                        select[i].classList.remove("is-invalid");
+            for (let i = 0; i < input.length; i++) {
+                if (false === answeredQuestions.includes(input[i].parentElement.parentElement.id)) {
+                    if (input[i].type == 'radio' && input[i].checked == false) {
+                        // Set is-invalid class to all inputs in current question
+                        input[i].nextElementSibling.className += " is-invalid";
+                        // Waiting for click, if radio button clicked remove is-invalid class from all inputs under parent question
+                        input[i].addEventListener("click", function () {
+                            for (let i = 0; i < question.children.length; i++) {
+                                question.children[i].getElementsByTagName('label')[0].classList.remove("is-invalid")
+                            }
+                        });
                     }
-                });
-                valid = false;
+                    if (input[i].type == 'text' && input[i].value == '') {
+                        // Set is-invalid class to all inputs in current question
+                        input[i].className += " is-invalid";
+                        // Waiting for click, if radio button clicked remove is-invalid class from all inputs under parent question
+                        input[i].addEventListener("change", function (elm) {
+                            elm.target.classList.remove("is-invalid")
+                        });
+                    }
+                }
             }
         }
+
+        if (select && select.length > 0) {
+            for (let i = 0; i < select.length; i++) {
+                if (select[i].value === '') {
+                    select[i].className += " is-invalid";
+                    select[i].addEventListener("change", function (elm) {
+                        elm.target.classList.remove("is-invalid");
+                    });
+                } else {
+                    answered++;
+                }
+            }
+        }
+    }
+    if (questionGroupsCount.value > answered) {
+        valid = false;
     }
 
     // If the valid status is true, mark the step as finished and valid:
@@ -758,4 +788,11 @@ function fixStepIndicator(n) {
     }
     //... and adds the "active" class to the current step:
     x[n].className += " active";
+}
+
+function submitAnswers(){
+    requestHandler.sendRequest(recommendationUrl, {
+        "task_id": localStorage.getItem('task_id'),
+        "columns_to_use": choiceSetData.columns.join(" ")
+    }, createRecommendationDataTable);
 }

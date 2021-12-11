@@ -1,5 +1,5 @@
 var config = {
-    final_task_selected_count: 1,
+    final_task_selected_count: 5,
     task_expires: true,
     task_expires_in_seconds: 150 * 10,
     stopCountDown: false,

@@ -1,5 +1,5 @@
 var config = {
-    final_task_selected_count: 5,
+    final_task_selected_count: 1,
     task_expires: true,
     task_expires_in_seconds: 150 * 10,
     stopCountDown: false,
@@ -11,6 +11,7 @@ var config = {
         final_set: "final_sets/",
         performances: "performances/",
         questions: "questions/",
+        answers: "answers/",
     },
     events : {
         task_creation: 1,
@@ -791,8 +792,28 @@ function fixStepIndicator(n) {
 }
 
 function submitAnswers(){
-    requestHandler.sendRequest(recommendationUrl, {
-        "task_id": localStorage.getItem('task_id'),
-        "columns_to_use": choiceSetData.columns.join(" ")
-    }, createRecommendationDataTable);
+    let answers = [];
+    let questions = document.querySelectorAll('.question-field');
+    for(let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+        if (
+            (question.type == 'radio' && question.checked == true)
+            || (question.type == 'text' && question.value != '')
+            || (question.nodeName === 'SELECT' && question.value != '')
+        ) {
+            answers.push({
+                "task_id" : localStorage.getItem('task_id'),
+                "question_id": question.dataset.questionId,
+                "answer": question.value
+            });
+        }
+    }
+    console.log(answers);
+    requestHandler.sendRequest(config.api_url + config.endpoints.answers, answers, function (data) {
+        //final-message-tmpl
+        document.getElementById('container').innerHTML = tmpl('final-message-tmpl', {
+            title: 'Opu',
+            message: 'Bye: ' + data.Message
+        })
+    });
 }

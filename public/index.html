@@ -122,7 +122,7 @@
                         <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
                             {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
                                 <div class="form-check">
-                                <input class="form-check-input" type="radio" name="question[{%=questionsListValue.id%}]" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
+                                <input class="form-check-input question-field" type="radio" name="question[{%=questionsListValue.id%}]" data-question-id="{%=questionsListValue.id%}" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
                                 <label class="form-check-label" for="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}">
                                 {%=questionAnswersList[iqla].answer%}
                                 </label>
@@ -133,7 +133,7 @@
                         {% if (questionsListValue.question_type == 'select') { %}
                         <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
                             <div class="form-group">
-                                <select id="select" name="question[{%=questionsListValue.id%}]" class="form-control">
+                                <select id="select" name="question[]" data-question-id="{%=questionsListValue.id%}" class="form-control question-field">
                                     <option value="">Please select ...</option>
                                     {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
                                     <option value="{%=questionAnswersList[iqla].id%}">{%=questionAnswersList[iqla].answer%}</option>
@@ -144,7 +144,7 @@
                         {% } %}
                         {% if (questionsListValue.question_type == 'text') { %}
                         <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
-                            <input type="text" name="text-input" class="form-control" id="answer-{%=questionsListKey %}" value="" />
+                            <input type="text" name="question[]" data-question-id="{%=questionsListValue.id%}" class="form-control question-field" id="answer-{%=questionsListKey %}" value="" />
                         </div>
                         {% } %}
                     {% } %}
@@ -163,6 +163,20 @@
                 </div>
             </div>
         </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="final-message-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">You are done! Congrats!</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="text">Cavablar qəbul edildi. Ərdoğan baba maçı. {%=o.message%}</div>
     </div>
 </script>
 <script type="text/x-tmpl" id="timeout-unfinished-tmpl">

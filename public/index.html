@@ -27,6 +27,30 @@
         </div>
     </div>
 </div>
+<script type="text/x-tmpl" id="performance-score-tmpl">
+    <div class="finished-page-box">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Thank you for your participation!
+                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_could_be%} hence,
+                    you will be paid ${%=o.amount%}.
+                    Please copy the <b>TASK-ID</b> you see below and provide it
+                    at Amazon MTURK to complete the task.
+                    <b>This is necessary for getting the payment.</b></p>
+                    <h1>TASK-ID: {%=o.task_id%}</h1>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="button-box">
+        <div class="row">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary questions-button">Complete task</button>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/x-tmpl" id="tmpl-demo">
     <div class="task-description">
         <div class="row">

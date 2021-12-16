@@ -23,6 +23,10 @@ var config = {
         questionnaire_started: 7,
         question_answered: 8,
         task_finish: 13
+    },
+    awardCalc : function (real_performance, user_performance) {
+        let amount = ((real_performance/user_performance)*5)+2;
+        return Math.round((amount + Number.EPSILON) * 100) / 100
     }
 };
 
@@ -38,7 +42,7 @@ var locals = {
                 'Thank you for your attendance.'
     },
     task_completed: {
-
+        confirmation_alert : 'Do you really want to complete task and proceed to questionnaire?'
     }
 }
 
@@ -178,7 +182,6 @@ window.onbeforeunload = function() {
  return "Leaving this page will reset the task";
 };
 
-// ToDo: What to do with performance - peff. bu oldu amma bu ola bilerdi. - Your performance / Maximum performance / Your remuneration (?) / Your reward is:
 // ToDo: Message to user: Do not loose your code
 // ToDo: Send all user actions to backend as event
 var myStorage = window.localStorage;
@@ -194,7 +197,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.proceed-button', function () {
-        if (confirm('Do you really want to complete task and proceed to questionnaire?')) {
+        if (confirm(locals.task_completed.confirmation_alert)) {
             config.stopCountDown = true;
             finishTask();
         }
@@ -305,17 +308,25 @@ $(document).ready(function () {
                     "task_id": localStorage.getItem('task_id'),
                     "recommendation_id": localStorage.getItem('current_recommendation_id'),
                     "treatment_group": localStorage.getItem('group')
-                }, function () {
-                    // ToDo: What to do with performance
-
-                    requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
-                        document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
-                        showTab(currentTab); // Display the current tab
+                }, function (data) {
+                    let res = data.data;
+                    document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
+                        performance: res.user_performance,
+                        performance_expected: res.real_performance,
+                        task_id: res.task_id,
+                        amount: config.awardCalc(res.real_performance, res.user_performance)
                     });
                 });
             });
         }
     }
+
+    $(document).on('click','.questions-button', function () {
+        requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
+            document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
+            showTab(currentTab);
+        });
+    });
 
     function getDataTablesColumns(columns) {
         var collection = [{
@@ -797,9 +808,9 @@ function submitAnswers(){
     for(let i = 0; i < questions.length; i++) {
         let question = questions[i];
         if (
-            (question.type == 'radio' && question.checked == true)
-            || (question.type == 'text' && question.value != '')
-            || (question.nodeName === 'SELECT' && question.value != '')
+            (question.type.toLowerCase() == 'radio' && question.checked == true)
+            || (question.type.toLowerCase() == 'text' && question.value != '')
+            || (question.nodeName.toLowerCase() === 'select' && question.value != '')
         ) {
             answers.push({
                 "task_id" : localStorage.getItem('task_id'),

@@ -2,7 +2,7 @@ FROM python:3.8-slim
 WORKDIR /app 
 COPY . .
 RUN apt-get update -y &&    \ 
-    pip install -r requirements.txt 
+    pip install -r requirements.txt --user
  
 ENV settings=dev 
 EXPOSE 5000

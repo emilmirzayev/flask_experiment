@@ -7,6 +7,12 @@ from flask import jsonify
 import json
 import os
 
+DEFAULT_REWARD = 1
+REWARD_MULTIPLIER = 2
+
+def calculate_reward(users_performance, real_performance, default_reward = DEFAULT_REWARD, multiplier = REWARD_MULTIPLIER):
+    reward = default_reward + ((users_performance / real_performance) * multiplier)
+    return reward
 
 
 def create_recommendation(df:pd.DataFrame,columns_to_use:str = "X Y V Z F",  top = True):

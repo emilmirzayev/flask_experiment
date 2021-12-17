@@ -1,8 +1,8 @@
-"""initial
+"""added reward and multipliers
 
-Revision ID: 0b795634b232
+Revision ID: 2ad503a108db
 Revises: 
-Create Date: 2021-11-10 16:27:39.129660
+Create Date: 2021-12-17 11:00:36.738945
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0b795634b232'
+revision = '2ad503a108db'
 down_revision = None
 branch_labels = None
 depends_on = None

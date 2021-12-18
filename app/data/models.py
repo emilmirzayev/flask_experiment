@@ -51,6 +51,7 @@ class Performances(Model):
     recommendation_performance = db.Column(db.Float, nullable= False)
     user_performance = db.Column(db.Float, nullable= False)
     treatment_group = db.Column(db.Integer, nullable=False)
+    reward = db.Column(db.Float, nullable= False)
 
 
 class ChoiceSets(Model):
@@ -105,6 +106,7 @@ class Answers(Model):
 class Questions(Model):
     __tablename__ = "questions"
     id = db.Column(db.Integer, primary_key = True)
+    question_group = db.Column(db.Integer, nullable = False)
     question_type = db.Column(db.String, nullable = False)
     question_body = db.Column(db.String, nullable=False)
     question_answers = db.Column(db.String, nullable=False)

@@ -1,0 +1,27 @@
+/* Bootstrap. */
+@import "bootstrap/bootstrap";
+
+/* Utilities */
+//@import "_utilities/mixins";
+
+/* Project main styles. */
+@import "fonts";
+@import "new_styles";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; // 1
+}
+
+// Display none
+@include media-breakpoint-down(sm) {
+  .d-none-down-sm {
+    display: none !important;
+  }
+}
+@include media-breakpoint-down(md) {
+  .d-none-down-md {
+    display: none !important;
+  }
+}

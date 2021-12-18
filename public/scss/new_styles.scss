@@ -1,0 +1,150 @@
+body {
+    font-family: Arial;
+    background: #ffffff;
+    font-weight: normal;
+}
+a {
+    font-family: Arial;
+    color: #ffffff;
+
+  &:hover {
+    color: #ffffff;
+    text-decoration: none;
+  }
+}
+.fixed-container {
+    max-width: 480px;
+}
+.first-page-box{
+    margin: 200px auto 0;
+    max-width: 800px;
+    padding: 100px 40px 100px 40px;
+    border: solid 1px #000000;
+}
+.finished-page-box{
+    margin: 40px auto 0;
+    max-width: 800px;
+    padding: 100px 40px 100px 40px;
+    border: solid 1px #000000;
+}
+.button-box {
+    margin: 20px auto 0;
+    text-align: center;
+}
+.task-description {
+    margin: 20px 0 10px;
+    padding: 10px;
+    & .text {
+        border: solid 1px #000000;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    & .timer {
+        border: solid 1px #000000;
+        border-right: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        & span#time {
+            font-size: 18px;
+        }
+    }
+}
+.task-buttons, .task-recommendation, .task-final {
+    height: 60px;
+    & h2 {
+        font-size: 24px;
+        line-height: 60px;
+    }
+}
+.task-recommendation, .task-final {
+    padding: 10px 0;
+    text-align: center;
+}
+.task-buttons-table {
+    margin-bottom: 0;
+    & tr td {
+        padding-bottom: 0;
+    }
+}
+.task-data-table , .task-recommendation-data-table, .task-final-data-table {
+    & thead tr th {
+    font-weight: normal;
+    font-size: 14px;
+    }
+}
+.task-buttons-table {
+    & tr td label {
+        font-size: 14px;
+    }
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 2px;
+    font-size: 14px;
+}
+.choicesets-remove {
+    border: 1px solid #faa6a6;
+    background-color: #ffd2d2;
+    height: 24px;
+    border-radius: 3px;
+}
+.choicesets-remove:hover {
+    cursor: pointer;
+}
+.question-list {
+    & .question {
+        font-size: 20px;
+        margin-top: 20px;
+        color: #2d2d2d;
+    }
+    & label {
+        color: #2f2f2f;
+    }
+}
+.complete-questions {
+    margin: 20px 0;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+    background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+    display: none;
+}
+.tab .is-invalid {
+    color: #ff4c4c;
+}
+/* Make circles that indicate the steps of the form: */
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+    opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+    background-color: #04AA6D;
+}
+.btn-group.special {
+    display: flex;
+}
+
+.special .btn {
+    flex: 1
+}
+.submitBtn {
+    display: none;
+}

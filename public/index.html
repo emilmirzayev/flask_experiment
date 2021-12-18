@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="public/assets/css/style.css"/>
+    <script type="application/javascript" src="public/assets/js/scripts.js"></script>
+    <script type="application/javascript" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="first-page-box">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">>Welcome text and the description of the task.</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="button-box">
+        <div class="row">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary start-button">Start the test</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-tmpl" id="performance-score-tmpl">
+    <div class="finished-page-box">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Thank you for your participation!
+                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_could_be%} hence,
+                    you will be paid ${%=o.amount%}.
+                    Please copy the <b>TASK-ID</b> you see below and provide it
+                    at Amazon MTURK to complete the task.
+                    <b>This is necessary for getting the payment.</b></p>
+                    <h1>TASK-ID: {%=o.task_id%}</h1>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="button-box">
+        <div class="row">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary questions-button">Complete task</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="tmpl-demo">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-2 timer {% if (o.task_expires === false) { %} d-none {% } %}">
+                <p>REMAINING TIME: <span id="time">00:00</span></p>
+            </div>
+            <div class="{% if (o.task_expires === false) { %} col-12 {% } else { %} col-10 {% } %} text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">{%=o.task_description%}</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-6">
+                <div class="task-buttons">
+                    <table class="table task-buttons-table">
+                        <tr>
+                            {% for (var i=0; i<o.columns.length; i++) { %}
+                            <td>
+                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == true) { %} disabled {% } %} /> Hide Column {%=o.columns[i]%}</label>
+                            </td>
+                            {% } %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="task-container">
+                    <table class="table table-striped task-data-table"></table>
+                    <div class="task-data-counts">Total selected: <span class="total-selected">0</span></div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="task-recommendation">
+                            <h2>RECOMMENDATIONS</h2>
+                        </div>
+                        <div class="task-container">
+                            <table class="table table-striped task-recommendation-data-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="task-final">
+                            <h2>FINAL SELECTION</h2>
+                        </div>
+                        <div class="task-container">
+                            <table  class="table table-striped task-final-data-table"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="task-proces">
+        <div class="row">
+            <div class="col-6 text-right offset-6">
+                <button class="btn btn-primary proceed-button" disabled>CONFIRM & PROCEED TO QUESTIONNAIRE</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="questionnaire-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Almost there... In order to complete task please answer below questions.</p>
+                </blockquote>
+            </div>
+            <!-- Circles which indicates the steps of the form: -->
+            <div class="col-12">
+                 <div style="text-align:center;margin-top:40px;">
+                 {% for (const [key, value] of Object.entries(o.questions)) { %}
+                    <span class="step"></span>
+                 {% } %}
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12 question-list">
+                {% for (const [questionsGroupKey, questionsGroupValue] of Object.entries(o.questions)) { %}
+                <input type="hidden" id="question-groups-count-{%=questionsGroupKey%}" class="question-groups-input" value="{%=questionsGroupValue.length%}" />
+                <div class="row tab">
+                    {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
+                        <div class="col-12">
+                            <h1 class="question">{%=questionsListValue.question_body%}</h1>
+                        </div>
+                        {% if (questionsListValue.question_type == 'radio') { %}
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
+                            {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
+                                <div class="form-check">
+                                <input class="form-check-input question-field" type="radio" name="question[{%=questionsListValue.id%}]" data-question-id="{%=questionsListValue.id%}" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
+                                <label class="form-check-label" for="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}">
+                                {%=questionAnswersList[iqla].answer%}
+                                </label>
+                                </div>
+                            {% } %}
+                        </div>
+                        {% } %}
+                        {% if (questionsListValue.question_type == 'select') { %}
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
+                            <div class="form-group">
+                                <select id="select" name="question[]" data-question-id="{%=questionsListValue.id%}" class="form-control question-field">
+                                    <option value="">Please select ...</option>
+                                    {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
+                                    <option value="{%=questionAnswersList[iqla].id%}">{%=questionAnswersList[iqla].answer%}</option>
+                                    {% } %}
+                                </select>
+                            </div>
+                        </div>
+                        {% } %}
+                        {% if (questionsListValue.question_type == 'text') { %}
+                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
+                            <input type="text" name="question[]" data-question-id="{%=questionsListValue.id%}" class="form-control question-field" id="answer-{%=questionsListKey %}" value="" />
+                        </div>
+                        {% } %}
+                    {% } %}
+                </div>
+                {% } %}
+            </div>
+        </div>
+    </div>
+    <div class="complete-questions">
+        <div class="row">
+            <div class="col-6 text-right offset-3">
+                <div class="btn-group special" role="group" aria-label="Basic example">
+                    <button class="btn btn-secondary complete-button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                    <button class="btn btn-primary complete-button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                    <button class="btn btn-primary complete-button" id="submitBtn" onclick="submitAnswers()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="final-message-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">You are done! Congrats!</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="text">Cavablar qəbul edildi. Ərdoğan baba maçı. {%=o.message%}</div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="timeout-unfinished-tmpl">
+    <div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">Your time is out</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12">
+                Sorry... Your time is out.
+                <br /> Your award will be {%=o.amount%}.
+                <br /> Your task ID: {%=o.task_id%}.
+                <br /> Please copy your task ID and store it somewhere.
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-tmpl" id="kickout-tmpl">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restricted</title>
+    <link rel="stylesheet" href="public/assets/css/style.css"/>
+</head>
+<body>
+<div class="container" id="container">
+<div class="task-description">
+        <div class="row">
+            <div class="col-12 text">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0">{%=o.title%}</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="task">
+        <div class="row">
+            <div class="col-12">
+                {%=o.message%}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</script>
+</body>
+</html>

@@ -1,10 +1,12 @@
 FROM python:3.8-slim 
-COPY . /app 
 WORKDIR /app 
+COPY . .
 RUN apt-get update -y &&    \ 
-    pip install -r requirements.txt 
+    pip install -r requirements.txt --user
  
 ENV settings=dev 
 EXPOSE 5000
-# ENTRYPOINT ["./entrypoint.sh"] 
+
+RUN ["chmod", "+x", "./entrypoint.sh"]
+ENTRYPOINT ["bash", "entrypoint.sh"]
 CMD gunicorn -c gunicorn_conf.py server:app

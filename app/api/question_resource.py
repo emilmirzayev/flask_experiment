@@ -10,6 +10,13 @@ class QuestionResource(MethodView):
     def get(self):
         # data  = request.get_json()
         # questions = Questions.query.all()
-        with open("app/helpers/questions.json") as f:
-            file = json.load(f)
-        return jsonify(file)
+        # with open("app/helpers/questions.json") as f:
+        #     file = json.load(f)
+        data = pd.read_csv("app/helpers/questions.csv")
+        json = ([data
+                    .groupby("question_group")
+                    .apply(lambda x:  x[["id", "question_type","question_body", "question_answers"]]
+                            .to_dict("r"))
+                        .to_dict()])
+
+        return jsonify(json)

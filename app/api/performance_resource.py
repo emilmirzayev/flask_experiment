@@ -4,6 +4,7 @@ from app.data.models import Performances, FinalSets, ChoiceSets, Recommendations
 from uuid import uuid4
 from datetime import datetime
 from app.schemas.serializer import PerformanceSchema, FinalSetSchema, ChoiceSchema, RecommendationSchema
+from app.helpers.helper import calculate_reward
 import pandas as pd
 from app.core.extensions import db
 
@@ -50,7 +51,8 @@ class PerformanceResource(MethodView):
             final_chice_df = pd.DataFrame.from_records(final_choice_json)
             user_performance = final_chice_df.objective_score.mean()
 
-
+            reward_amount = calculate_reward(users_performance= user_performance, real_performance = real_performance)
+            print(reward_amount)
             performance = dict(
                 
                 task_id = data["task_id"], 
@@ -58,7 +60,8 @@ class PerformanceResource(MethodView):
                 real_performance = real_performance,
                 recommendation_performance = recommendation_performance,
                 user_performance = user_performance,
-                treatment_group = data["treatment_group"]
+                treatment_group = data["treatment_group"],
+                reward = reward_amount
             )
 
             Performances.create(**performance)

@@ -10,7 +10,7 @@ pip install -r requirements.txt
 export settings=dev
 python server.py
 ```
-or
+or for BASH
 ```sh
 export settings=dev
 export FLASK_APP=server

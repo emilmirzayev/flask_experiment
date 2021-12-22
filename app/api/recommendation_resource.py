@@ -7,7 +7,7 @@ from datetime import datetime
 from app.schemas.serializer import RecommendationSchema
 import pandas as pd
 import numpy as np
-from app.helpers.helper import create_recommendation
+from app.helpers.helper import create_recommendation, Recommendation
 
 
 class RecommendationResource(MethodView):
@@ -20,19 +20,27 @@ class RecommendationResource(MethodView):
         }
         """
         data = request.get_json()
-        print(data)
+        
         df_records = (pd
                         .DataFrame(RecommendationSchema().dump(ChoiceSets.query.filter_by(task_id = data["task_id"]), many=True))
                         )
+        
         df = df_records[df_records.columns.difference(["created", "updated"])]
+        
         # rename column ID to avoid Uniqueness conflict with choice
         df = df.rename(columns = {"id": "choice_id"})
+        
         cols = data["columns_to_use"]
-        recommendations = create_recommendation(df, columns_to_use= cols)
+        # getting indices of recommendations
+        recommendations_indices = create_recommendation(df, cols= cols, length = 10)
+        # getting recommendations from the df
+        recommendations = df.loc[recommendations_indices]
+
         uuid = str(uuid4())
+        # assigning each an id
         recommendations["recommendation_id"] = uuid
         recommendations["columns_used"] = data["columns_to_use"]
-        print(uuid)
+        
         recommendations_json = recommendations.to_dict(orient = "records")
         db.engine.execute(Recommendations.__table__.insert(), recommendations_json)
         return {"message":recommendations_json}

@@ -33,7 +33,7 @@
             <div class="col-12">
                 <blockquote class="blockquote text-center">
                     <p class="mb-0">Thank you for your participation!
-                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_could_be%} hence,
+                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_expected%} hence,
                     you will be paid ${%=o.amount%}.
                     Please copy the <b>TASK-ID</b> you see below and provide it
                     at Amazon MTURK to complete the task.
@@ -43,15 +43,15 @@
             </div>
         </div>
     </div>
-    <div class="button-box">
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-primary questions-button">Complete task</button>
-            </div>
-        </div>
-    </div>
+<!--    <div class="button-box">-->
+<!--        <div class="row">-->
+<!--            <div class="col text-center">-->
+<!--                <button type="button" class="btn btn-primary questions-button">Complete task</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 </script>
-<script type="text/x-tmpl" id="tmpl-demo">
+<script type="text/x-tmpl" id="begin-task">
     <div class="task-description">
         <div class="row">
             <div class="col-2 timer {% if (o.task_expires === false) { %} d-none {% } %}">
@@ -225,7 +225,7 @@
     </div>
 </script>
 <script type="text/x-tmpl" id="kickout-tmpl">
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

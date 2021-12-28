@@ -3,8 +3,8 @@ var config = {
     task_expires: true,
     task_expires_in_seconds: 150 * 10,
     stopCountDown: false,
-    //api_url: "http://127.0.0.1:5000/",
-    api_url: "https://api.recexperiment.com/",
+    api_url: "http://127.0.0.1:5000/",
+    //api_url: "https://api.recexperiment.com/",
     endpoints: {
         events: "events/",
         choicesets: "choicesets/",
@@ -27,7 +27,7 @@ var config = {
     },
     awardCalc : function (real_performance, user_performance) {
         let amount = ((real_performance/user_performance)*5)+2;
-        return Math.round((amount + Number.EPSILON) * 100) / 100
+        return Math.round((amount + Number.EPSILON) * 100) / 100;
     }
 };
 
@@ -44,7 +44,8 @@ var locals = {
     },
     task_completed: {
         confirmation_alert : 'Do you really want to complete task and proceed to questionnaire?'
-    }
+    },
+    description_of_the_task: '>The description of the task'
 }
 
 var groupConfigurations = {
@@ -156,35 +157,49 @@ QuestionAnswer = {
         return answersCollection;
     }
 };
-// ToDo: Fix! When console is open code can not detect it.
-var isTaskCreated = false;
-var devtools = function () {
-};
-devtools.toString = function () {
-    console.log(isTaskCreated);
-    if (isTaskCreated === true && !this.opened) {
-        localStorage.clear();
-        let eventsUrl = config.api_url + config.endpoints.events;
-        requestHandler.sendRequest(eventsUrl, {
-            task_id: localStorage.getItem('task_id') !== null ? localStorage.getItem('task_id') : data.task_id,
-            treatment_group: localStorage.getItem('group') !== null ? localStorage.getItem('task_id') : data.treatment_group,
-            event_type: config.events.task_finish,
-            data: {status: 'task_finish', reason: "DevTools is opened"}
-        });
-        document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
-            title: locals.dev_tools_messages.title,
-            message: locals.dev_tools_messages.message
-        });
-    }
-    this.opened = true;
-}
-console.log('%c', devtools);
 window.onbeforeunload = function() {
  return "Leaving this page will reset the task";
 };
 
-// ToDo: Message to user: Do not loose your code
-// ToDo: Send all user actions to backend as event
+!function() {
+    function detectDevTool(allow) {
+        if(isNaN(+allow)) allow = 100;
+        var start = +new Date();
+        var end = +new Date();
+        if(isNaN(start) || isNaN(end) || end - start > allow) {
+            localStorage.clear();
+            let eventsUrl = config.api_url + config.endpoints.events;
+            requestHandler.sendRequest(eventsUrl, {
+                task_id: localStorage.getItem('task_id') !== null ? localStorage.getItem('task_id') : data.task_id,
+                treatment_group: localStorage.getItem('group') !== null ? localStorage.getItem('task_id') : data.treatment_group,
+                event_type: config.events.task_finish,
+                data: {status: 'task_finish', reason: "DevTools is opened"}
+            });
+            document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
+                title: locals.dev_tools_messages.title,
+                message: locals.dev_tools_messages.message
+            });
+        }
+    }
+    if(window.attachEvent) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            detectDevTool();
+            window.attachEvent('onresize', detectDevTool);
+            window.attachEvent('onmousemove', detectDevTool);
+            window.attachEvent('onfocus', detectDevTool);
+            window.attachEvent('onblur', detectDevTool);
+        } else {
+            setTimeout(argument.callee, 0);
+        }
+    } else {
+        window.addEventListener('load', detectDevTool);
+        window.addEventListener('resize', detectDevTool);
+        window.addEventListener('mousemove', detectDevTool);
+        window.addEventListener('focus', detectDevTool);
+        window.addEventListener('blur', detectDevTool);
+    }
+}();
+
 var myStorage = window.localStorage;
 var currentTab = 0;
 
@@ -256,7 +271,19 @@ $(document).ready(function () {
         $(document).find('#time').html(minutes + ':' + seconds);
     }
 
+    function killCopy(e){
+        return false;
+    }
+    function reEnable(){
+        return true;
+    }
+
     function createTask(data) {
+        document.onselectstart=new Function ("return false");
+        if (window.sidebar){
+            document.onmousedown=killCopy;
+            document.onclick=reEnable;
+        }
         localStorage.setItem('task_id', data.task_id);
         localStorage.setItem('group', data.treatment_group);
         let choicesetsUrl = config.api_url + config.endpoints.choicesets;
@@ -290,6 +317,11 @@ $(document).ready(function () {
     }
 
     function finishTask() {
+        document.onselectstart=new Function ("return true");
+        if (window.sidebar){
+            document.onmousedown=true;
+            document.onclick=false;
+        }
         // Send summirized request
         let finalSets = $('.task-final-data-table').find('.selected-choiceset')
         if (finalSets.length === config.final_task_selected_count) {
@@ -298,7 +330,7 @@ $(document).ready(function () {
             finalSets.each(function (k,v) {
                 selected.push(parseInt($(this).val()));
             });
-
+            // Post final set
             requestHandler.sendRequest(eventsEndpoint, {
                 "task_id": localStorage.getItem('task_id'),
                 "ids": selected,
@@ -311,11 +343,13 @@ $(document).ready(function () {
                     "treatment_group": localStorage.getItem('group')
                 }, function (data) {
                     let res = data.data;
-                    document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
-                        performance: res.user_performance,
-                        performance_expected: res.real_performance,
-                        task_id: res.task_id,
-                        amount: config.awardCalc(res.real_performance, res.user_performance)
+                    localStorage.setItem('user_performance', res.user_performance);
+                    localStorage.setItem('real_performance', res.real_performance);
+                    localStorage.setItem('task_id', res.task_id);
+                    // Request questions list
+                    requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
+                        document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
+                        showTab(currentTab);
                     });
                 });
             });
@@ -323,10 +357,7 @@ $(document).ready(function () {
     }
 
     $(document).on('click','.questions-button', function () {
-        requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
-            document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
-            showTab(currentTab);
-        });
+
     });
 
     function getDataTablesColumns(columns) {
@@ -435,10 +466,10 @@ $(document).ready(function () {
     // Building achoice sets data tables
     function createTaskDataTable(choiceSetData) {
         storeDataInLocalStorage('choice_set', choiceSetData.choice_set);
-        choiceSetData.task_description = ">The description of the task";
+        choiceSetData.task_description = locals.description_of_the_task;
         choiceSetData.disable_hide_column = getGroupConfigurations().hide_buttons;
         choiceSetData.task_expires = config.task_expires;
-        document.getElementById('container').innerHTML = tmpl('tmpl-demo', choiceSetData)
+        document.getElementById('container').innerHTML = tmpl('begin-task', choiceSetData)
         dataTables.columns = getDataTablesColumns(choiceSetData.columns);
         dataStorage.setObject('columns', choiceSetData.columns)
         var recommendationUrl = config.api_url + config.endpoints.recommendations;
@@ -822,9 +853,15 @@ function submitAnswers(){
     }
     requestHandler.sendRequest(config.api_url + config.endpoints.answers, answers, function (data) {
         //final-message-tmpl
-        document.getElementById('container').innerHTML = tmpl('final-message-tmpl', {
-            title: 'Opu',
-            message: 'Bye: ' + data.Message
-        })
+        // document.getElementById('container').innerHTML = tmpl('final-message-tmpl', {
+        //     title: 'Opu',
+        //     message: 'Bye: ' + data.Message
+        // })
+        document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
+            performance: localStorage.getItem('user_performance'),
+            performance_expected: localStorage.getItem('real_performance'),
+            task_id: localStorage.getItem('task_id'),
+            amount: config.awardCalc(localStorage.getItem('real_performance'), localStorage.getItem('user_performance'))
+        });
     });
 }

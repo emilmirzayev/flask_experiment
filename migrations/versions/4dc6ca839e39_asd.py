@@ -1,8 +1,8 @@
-"""added reward and multipliers
+"""asd
 
-Revision ID: 2ad503a108db
+Revision ID: 4dc6ca839e39
 Revises: 
-Create Date: 2021-12-17 11:00:36.738945
+Create Date: 2022-01-25 14:31:18.309858
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2ad503a108db'
+revision = '4dc6ca839e39'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -82,6 +82,7 @@ def upgrade():
     sa.Column('recommendation_performance', sa.Float(), nullable=False),
     sa.Column('user_performance', sa.Float(), nullable=False),
     sa.Column('treatment_group', sa.Integer(), nullable=False),
+    sa.Column('reward', sa.Float(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('questions',

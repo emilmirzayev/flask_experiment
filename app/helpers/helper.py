@@ -163,7 +163,7 @@ def init_questions():
     #     file = json.load(f)
     # data = pd.json_normalize(file)
     # data.question_answers = data.question_answers.apply(str)
-    data = pd.read_csv("app/helpers/questions.csv", sep = ",")
+    data = pd.read_csv("app/helpers/questions.csv", sep = ";")
     data_json = data.to_dict(orient = "records")
 
     if inspect(db.engine).has_table("questions"):

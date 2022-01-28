@@ -93,12 +93,15 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 .question-list {
     & .question {
-        font-size: 20px;
+        font-size: 22px;
         margin-top: 20px;
         color: #2d2d2d;
+        font-weight: bold;
     }
     & label {
         color: #2f2f2f;
+        font-style: italic;
+        font-size: 18px;
     }
 }
 .complete-questions {

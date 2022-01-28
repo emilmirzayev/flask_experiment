@@ -1,7 +1,7 @@
 var config = {
     final_task_selected_count: 5,
     task_expires: true,
-    task_expires_in_seconds: 150 * 10,
+    task_expires_in_seconds: 60 * 10,
     stopCountDown: false,
     //api_url: "http://127.0.0.1:5000/",
     api_url: "https://api.recexperiment.com/",
@@ -149,9 +149,9 @@ String.prototype.replaceArray = function(find, replace) {
 QuestionAnswer = {
     cleanAnswers: function (answersStringArray) {
         let answersCollection = [];
-        let answers = answersStringArray.slice(1).slice(0, answersStringArray.length - 2).split("], ");
+        let answers = answersStringArray.slice(1).slice(0, answersStringArray.length - 2).replaceArray(['], ['], ['],[']).split("],");
         for (let i = 0; i < answers.length; i++) {
-            let cleanAnswerFirst = answers[i].replaceArray(['[', ']', "'"], ['', '', '']).split(', ');
+            let cleanAnswerFirst = answers[i].replaceArray(['[', ']', "'"], ['', '', '']).split(',');
             answersCollection.push({id: cleanAnswerFirst[0], answer: cleanAnswerFirst[1]});
         }
         return answersCollection;
@@ -346,6 +346,7 @@ $(document).ready(function () {
                     localStorage.setItem('user_performance', res.user_performance);
                     localStorage.setItem('real_performance', res.real_performance);
                     localStorage.setItem('task_id', res.task_id);
+                    localStorage.setItem('reward', res.reward);
                     // Request questions list
                     requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
                         document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
@@ -857,11 +858,12 @@ function submitAnswers(){
         //     title: 'Opu',
         //     message: 'Bye: ' + data.Message
         // })
+        // config.awardCalc(localStorage.getItem('real_performance'), localStorage.getItem('user_performance'))
         document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
             performance: localStorage.getItem('user_performance'),
             performance_expected: localStorage.getItem('real_performance'),
             task_id: localStorage.getItem('task_id'),
-            amount: config.awardCalc(localStorage.getItem('real_performance'), localStorage.getItem('user_performance'))
+            amount: localStorage.getItem('reward')
         });
     });
 }

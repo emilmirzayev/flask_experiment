@@ -1,1 +1,7 @@
-# experiment_frontend
+# Experiment Frontend
+
+
+```sh
+npm install
+npm run dev:watch
+```

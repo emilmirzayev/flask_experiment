@@ -148,3 +148,24 @@ input.invalid {
 .submitBtn {
     display: none;
 }
+.question-list {
+    .question-title {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .question-options {
+        display: table;
+        margin-bottom: 10px;
+        .form-check {
+            float: left;
+            .form-check-input {
+                position: relative;
+                margin: 0 auto 10px;
+                display: block;
+            }
+        }
+        .question-field {
+
+        }
+    }
+}

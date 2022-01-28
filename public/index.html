@@ -139,11 +139,11 @@
                 <input type="hidden" id="question-groups-count-{%=questionsGroupKey%}" class="question-groups-input" value="{%=questionsGroupValue.length%}" />
                 <div class="row tab">
                     {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
-                        <div class="col-12">
+                        <div class="col-12 question-title">
                             <h1 class="question">{%=questionsListValue.question_body%}</h1>
                         </div>
                         {% if (questionsListValue.question_type == 'radio') { %}
-                        <div class="col-12" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
+                        <div class="col-12 question-options" id="group-id-{%=questionsGroupKey%}-question-{%=questionsListKey%}">
                             {% for (var iqla=0, questionAnswersList = o.questionProperty.cleanAnswers(questionsListValue.question_answers); iqla<questionAnswersList.length; iqla++) { %}
                                 <div class="form-check">
                                 <input class="form-check-input question-field" type="radio" name="question[{%=questionsListValue.id%}]" data-question-id="{%=questionsListValue.id%}" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />

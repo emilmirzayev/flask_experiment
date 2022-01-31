@@ -176,7 +176,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"columns_to_use\": \"X Y Z F V\"\r\n}",
+					"raw": "{\r\n    \"task_id\": \"{{task_id}}\",\r\n    \"columns_to_use\": \"Price Y Duration F V\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

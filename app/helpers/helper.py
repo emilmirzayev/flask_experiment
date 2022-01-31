@@ -10,7 +10,7 @@ from random import choice
 from collections import Counter
 
 DEFAULT_REWARD = 1
-REWARD_MULTIPLIER = 2
+REWARD_MULTIPLIER = 1
 
 
 class Recommendation:
@@ -68,7 +68,7 @@ def calculate_reward(users_performance, real_performance, default_reward = DEFAU
 
 
 
-def create_recommendation(df, cols:str = "X Y Z F V", length = 10):
+def create_recommendation(df, cols:str = "Price Y Duration F V", length = 10):
 
     """
     This function outputs the indices corresponding to the top
@@ -92,9 +92,9 @@ def create_recommendation(df, cols:str = "X Y Z F V", length = 10):
         
     }
     
-    d["X"] = top_10_per_each.query("feature == 'X'").level_1.values.tolist()
+    d["Price"] = top_10_per_each.query("feature == 'Price'").level_1.values.tolist()
     d["Y"] = top_10_per_each.query("feature == 'Y'").level_1.values.tolist()
-    d["Z"] = top_10_per_each.query("feature == 'Z'").level_1.values.tolist()
+    d["Duration"] = top_10_per_each.query("feature == 'Duration'").level_1.values.tolist()
     d["F"] = top_10_per_each.query("feature == 'F'").level_1.values.tolist()
     d["V"] = top_10_per_each.query("feature == 'V'").level_1.values.tolist()
     

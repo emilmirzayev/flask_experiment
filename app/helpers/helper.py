@@ -88,8 +88,7 @@ def create_recommendation(df, cols:str = "Price Y Duration F V", length = 10):
                          .value
                          .nlargest(length)
                         ).reset_index()
-    d = {
-        
+    d = {   
     }
     
     d["Price"] = top_10_per_each.query("feature == 'Price'").level_1.values.tolist()

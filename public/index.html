@@ -17,6 +17,8 @@
                     <p class="mb-0">>Welcome to the task page. Consider you are about to buy a plane ticket between two cities.
                         Your search outputs 100 available options to choose from. However, you want to buy tickets which are either cheap
                         or fast. All features are scaled between 1 and 500 to provide a universal scale.</p>
+                    <hr />
+                    <p class="mb-0" style="font-size: 12px">>By clicking "Start the task" you agree with rules.</p>
                 </blockquote>
             </div>
         </div>
@@ -111,7 +113,7 @@
     <div class="task-proces">
         <div class="row">
             <div class="col-6 text-right offset-6">
-                <button class="btn btn-primary proceed-button" disabled>CONFIRM & PROCEED TO QUESTIONNAIRE</button>
+                <button class="btn btn-primary proceed-button" disabled>CONFIRM & PROCEED TO NEXT STEP</button>
             </div>
         </div>
     </div>
@@ -150,7 +152,7 @@
                                 <div class="form-check">
                                 <input class="form-check-input question-field" type="radio" name="question[{%=questionsListValue.id%}]" data-question-id="{%=questionsListValue.id%}" id="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}" value="{%=questionAnswersList[iqla].id%}" />
                                 <label class="form-check-label" for="question-answer-{%=questionsListValue.id%}-{%=questionAnswersList[iqla].id%}">
-                                {%=questionAnswersList[iqla].answer%}
+                                {% print(questionAnswersList[iqla].answer, true); %}
                                 </label>
                                 </div>
                             {% } %}

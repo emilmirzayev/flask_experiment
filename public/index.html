@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="public/assets/css/style.css?version=0.0.1"/>
     <script type="application/javascript" src="public/assets/js/scripts.js"></script>
     <script type="application/javascript" src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <div class="container" id="container">
@@ -76,7 +77,7 @@
                         <tr>
                             {% for (var i=0; i<o.columns.length; i++) { %}
                             <td>
-                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == true) { %} disabled {% } %} /> Hide Column {%=o.columns[i]%}</label>
+                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == true) { %} disabled {% } %} /> Hide {%=o.columns[i]%}</label>
                             </td>
                             {% } %}
                         </tr>
@@ -102,7 +103,8 @@
                         <div class="task-final">
                             <h2>FINAL SELECTION</h2>
                         </div>
-                        <div class="task-container">
+                        <div class="task-container finals">
+                            <button type="button" id="clear-all-final-selections" class="btn btn-danger btn-sm" style="display:none;"><span class="material-icons md-18">delete</span></button>
                             <table  class="table table-striped task-final-data-table"></table>
                         </div>
                     </div>

@@ -87,6 +87,7 @@ table.dataTable tbody th, table.dataTable tbody td {
     background-color: #ffd2d2;
     height: 24px;
     border-radius: 3px;
+    padding: 1px 3px;
 }
 .choicesets-remove:hover {
     cursor: pointer;
@@ -172,3 +173,28 @@ input.invalid {
         }
     }
 }
+.task-container.finals {
+    position: relative;
+    #clear-all-final-selections {
+        position: absolute;
+        top: 6px;
+        z-index: 99999;
+        padding: 7px 6px 0;
+    }
+}
+/* Rules for sizing the icon. */
+.material-icons.md-16 { font-size: 16px; }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-20 { font-size: 20px; }
+.material-icons.md-22 { font-size: 22px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

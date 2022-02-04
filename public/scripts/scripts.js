@@ -45,7 +45,8 @@ var locals = {
     task_completed: {
         confirmation_alert : 'Do you really want to complete task and proceed to questionnaire?'
     },
-    description_of_the_task: '>The description of the task'
+    description_of_the_task: '>The description of the task',
+    clear_all_alert : 'Are you sure?'
 }
 
 var groupConfigurations = {
@@ -90,7 +91,7 @@ var dataStorage = {
         localStorage.setItem(key, JSON.stringify(value));
     },
     getObject: function (key) {
-        var value = localStorage.getItem(key);
+        let value = localStorage.getItem(key);
         return value && JSON.parse(value);
     }
 };
@@ -216,6 +217,18 @@ $(document).ready(function () {
         if (confirm(locals.task_completed.confirmation_alert)) {
             config.stopCountDown = true;
             finishTask();
+        }
+    });
+
+    $(document).on('click', '#clear-all-final-selections', function () {
+        if (confirm(locals.clear_all_alert)) {
+            let selectedItems = dataStorage.getObject('selected_ids');
+            for (let i=0; i < selectedItems.length; i++) {
+                let id = selectedItems[i];
+                removeRowFromDataTable(id);
+                let choiceSetRowCheckbox = $('#data-choicesets-' + id);
+                choiceSetRowCheckbox.trigger('click');
+            }
         }
     });
 
@@ -544,7 +557,7 @@ $(document).ready(function () {
     // Add row to the final data tables
     function addRowToDataTable(selectedRowData) {
         var row = {
-            'checkbox': '<button type="button" id="data-item-' + selectedRowData.id + '" data-id="' + selectedRowData.id + '" class="choicesets-remove">x</button>' +
+            'checkbox': '<button type="button" id="data-item-' + selectedRowData.id + '" data-id="' + selectedRowData.id + '" class="choicesets-remove"><span class="material-icons md-16">clear</span></button>' +
                 '<input type="hidden" value="' + selectedRowData.id + '" id="data-item-' + selectedRowData.id + '" class="selected-choiceset" />'
         };
         $.extend(row, selectedRowData);
@@ -560,6 +573,7 @@ $(document).ready(function () {
         if (currentList.length <= 0) {
             currentList = [selectedId];
             dataStorage.setObject('selected_ids', currentList);
+            $('#clear-all-final-selections').show();
             return;
         }
         if (currentList.length > 0 && currentList.includes(selectedId) === false) {
@@ -572,12 +586,16 @@ $(document).ready(function () {
         const id = parseInt(unSelectedId);
         let currentList = dataStorage.getObject('selected_ids');
         if (!currentList) {
+            $('#clear-all-final-selections').hide();
             return;
         }
         if (currentList.length > 0 && currentList.includes(id) !== false) {
             const index = currentList.indexOf(id);
             if (index > -1) {
                 currentList.splice(index, 1);
+            }
+            if (currentList.length === 0) {
+                $('#clear-all-final-selections').hide();
             }
             dataStorage.setObject('selected_ids', currentList);
         }

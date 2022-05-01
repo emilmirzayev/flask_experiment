@@ -91,9 +91,9 @@ def create_recommendation(df, cols:str = "Price Y Duration F V", length = 10):
     d = {   
     }
     
-    d["Price"] = top_10_per_each.query("feature == 'Price'").level_1.values.tolist()
+    d["X"] = top_10_per_each.query("feature == 'X'").level_1.values.tolist()
     d["Y"] = top_10_per_each.query("feature == 'Y'").level_1.values.tolist()
-    d["Duration"] = top_10_per_each.query("feature == 'Duration'").level_1.values.tolist()
+    d["Z"] = top_10_per_each.query("feature == 'Z'").level_1.values.tolist()
     d["F"] = top_10_per_each.query("feature == 'F'").level_1.values.tolist()
     d["V"] = top_10_per_each.query("feature == 'V'").level_1.values.tolist()
     

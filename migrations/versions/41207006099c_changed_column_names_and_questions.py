@@ -1,8 +1,8 @@
-"""changed column names
+"""changed column names and questions
 
-Revision ID: 7d944582da20
+Revision ID: 41207006099c
 Revises: 
-Create Date: 2022-01-31 11:04:48.388722
+Create Date: 2022-04-29 14:01:40.466622
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7d944582da20'
+revision = '41207006099c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,9 +32,9 @@ def upgrade():
     sa.Column('updated', sa.DateTime(), nullable=False),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('task_id', sa.String(), nullable=False),
-    sa.Column('Price', sa.Integer(), nullable=False),
+    sa.Column('X', sa.Integer(), nullable=False),
     sa.Column('Y', sa.Integer(), nullable=False),
-    sa.Column('Duration', sa.Integer(), nullable=False),
+    sa.Column('Z', sa.Integer(), nullable=False),
     sa.Column('F', sa.Integer(), nullable=False),
     sa.Column('V', sa.Integer(), nullable=False),
     sa.Column('objective_score', sa.Float(), nullable=False),
@@ -64,9 +64,9 @@ def upgrade():
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('recommendation_id', sa.String(), nullable=False),
     sa.Column('final_set_id', sa.String(), nullable=False),
-    sa.Column('Price', sa.Integer(), nullable=True),
+    sa.Column('X', sa.Integer(), nullable=True),
     sa.Column('Y', sa.Integer(), nullable=True),
-    sa.Column('Duration', sa.Integer(), nullable=True),
+    sa.Column('Z', sa.Integer(), nullable=True),
     sa.Column('F', sa.Integer(), nullable=True),
     sa.Column('V', sa.Integer(), nullable=True),
     sa.Column('objective_score', sa.Float(), nullable=False),
@@ -103,9 +103,9 @@ def upgrade():
     sa.Column('task_id', sa.String(), nullable=False),
     sa.Column('recommendation_id', sa.String(), nullable=False),
     sa.Column('columns_used', sa.String(), nullable=False),
-    sa.Column('Price', sa.Integer(), nullable=True),
+    sa.Column('X', sa.Integer(), nullable=True),
     sa.Column('Y', sa.Integer(), nullable=True),
-    sa.Column('Duration', sa.Integer(), nullable=True),
+    sa.Column('Z', sa.Integer(), nullable=True),
     sa.Column('F', sa.Integer(), nullable=True),
     sa.Column('V', sa.Integer(), nullable=True),
     sa.Column('objective_score', sa.Float(), nullable=False),

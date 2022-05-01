@@ -1,8 +1,8 @@
-"""changed column names and questions
+"""initial
 
-Revision ID: 41207006099c
+Revision ID: 9ff3887f8cdc
 Revises: 
-Create Date: 2022-04-29 14:01:40.466622
+Create Date: 2022-05-01 20:57:58.383798
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '41207006099c'
+revision = '9ff3887f8cdc'
 down_revision = None
 branch_labels = None
 depends_on = None

@@ -19,7 +19,7 @@ from app.core.extensions import db, ma, migrator
 
 settings = {
     "dev": "app.settings.dev_config.DevelopmentConfig",
-    "prod": "core.settings.prod_config.ProductionConfig",
+    "prod": "app.settings.prod_config.ProductionConfig",
     "test": "app.settings.test_config.TestConfig"
 }
 

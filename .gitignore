@@ -116,3 +116,6 @@ venv.bak/
 
 # VSCode
 .vscode/
+
+# Database files
+db/*.db

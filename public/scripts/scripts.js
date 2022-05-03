@@ -206,6 +206,12 @@ var currentTab = 0;
 
 $(document).ready(function () {
 
+    $(".next-button").click(function () {
+        $('.page-box.first').toggle();
+        $('.second-page-button').toggle();
+        $('.page-box.second').toggle();
+        $('.first-page-button').toggle();
+    });
     $(".start-button").click(function () {
         isTaskStarted = true;
         localStorage.clear();
@@ -608,7 +614,7 @@ $(document).ready(function () {
         removeSelectedStorageList(id);
     }
 
-    function checkUncheckRow($this) {
+    function checkUncheckRow($this, table) {
         syncCheck($this);
         if ($this.is(':checked')) {
             let findRow;
@@ -654,6 +660,19 @@ $(document).ready(function () {
         synCheckbox.prop("checked", $this.prop('checked'));
         // Change color synchronously
         changeSelectedRowColor(synCheckbox);
+
+        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+            task_id: localStorage.getItem('task_id'),
+            treatment_group: localStorage.getItem('group'),
+            event_type: config.events.selected,
+            data: {
+                state: $this.prop('checked'),
+                choice_id: $this.val(),
+                table: tableType
+            }
+        }, function () {
+
+        });
     }
 
     function changeSelectedRowColor($this) {

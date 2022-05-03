@@ -12,8 +12,9 @@ DEFAULT_GUNICORN_CONF=./gunicorn_conf.py
 export GUNICORN_CONF=${GUNICORN_CONF:-$DEFAULT_GUNICORN_CONF}
 export FLASK_APP=$APP_MODULE
 # Run migrations
-flask db upgrade
+python3 -m flask db migrate -m "initial migrate"
+python3 -m flask db upgrade
 
 
 # Start Gunicorn
-gunicorn -c "$GUNICORN_CONF" "$APP_MODULE"
+python3 -m gunicorn -c "$GUNICORN_CONF" "$APP_MODULE"

@@ -15,11 +15,21 @@ a {
 .fixed-container {
     max-width: 480px;
 }
-.first-page-box{
+.page-box{
     margin: 200px auto 0;
     max-width: 800px;
     padding: 100px 40px 100px 40px;
     border: solid 1px #000000;
+    display: none;
+}
+.second-page-button {
+    display: none;
+}
+.page-box.first{
+    display: block;
+}
+.page-box.second{
+    display: none;
 }
 .finished-page-box{
     margin: 40px auto 0;

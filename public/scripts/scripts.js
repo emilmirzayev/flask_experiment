@@ -34,7 +34,7 @@ var config = {
 var locals = {
     dev_tools_messages: {
         title: 'Restricted action',
-        message: 'Unfortunately, you can not finish task. </br>\n' +
+        message: 'You have tried to perform a restricted action. Therefore, you can not finish task. </br>\n' +
             'Thank you for your attendance.'
     },
     timeout: {
@@ -43,9 +43,9 @@ var locals = {
                 'Thank you for your attendance.'
     },
     task_completed: {
-        confirmation_alert : 'Do you really want to complete task and proceed to questionnaire?'
+        confirmation_alert : 'Do you really want to complete this task and proceed to questionnaire?'
     },
-    description_of_the_task: '>The description of the task',
+    description_of_the_task: 'Task: Select five options with the highest possible (X + Y + Z) value. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out',
     clear_all_alert : 'Are you sure?'
 }
 
@@ -159,7 +159,7 @@ QuestionAnswer = {
     }
 };
 window.onbeforeunload = function() {
- return "Leaving this page will reset the task";
+ return "Leaving this page will reset the progress";
 };
 
 !function() {

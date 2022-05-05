@@ -59,4 +59,3 @@ class RecommendationResource(MethodView):
 
         return jsonify(RecommendationSchema(exclude=["created", "updated", "objective_score"]).dump(sets, many=True))
 
-    

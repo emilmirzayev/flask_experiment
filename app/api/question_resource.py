@@ -15,7 +15,7 @@ class QuestionResource(MethodView):
         data = pd.read_csv("app/helpers/questions.csv", sep = ";")
         json = ([data
                     .groupby("question_group")
-                    .apply(lambda x:  x[["id", "question_type","question_body", "question_answers"]]
+                    .apply(lambda x:  x[["id", "question_header","question_type","question_body", "question_answers"]]
                             .to_dict("r"))
                         .to_dict()])
 

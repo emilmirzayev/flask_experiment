@@ -206,11 +206,15 @@ var currentTab = 0;
 
 $(document).ready(function () {
 
+    let welcomeTabs = 0;
+    let welcomeTabsCount = $('.page-box').length;
     $(".next-button").click(function () {
-        $('.page-box.first').toggle();
-        $('.second-page-button').toggle();
-        $('.page-box.second').toggle();
-        $('.first-page-button').toggle();
+        welcomeTabs++;
+        $('.page-box:nth-child('+welcomeTabs+'), .page-box:nth-child('+(welcomeTabs+1)+')').toggle();
+        if (welcomeTabs == (welcomeTabsCount - 1)) {
+            $('.second-page-button').toggle();
+            $('.first-page-button').toggle();
+        }
     });
     $(".start-button").click(function () {
         isTaskStarted = true;

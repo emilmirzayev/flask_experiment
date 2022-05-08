@@ -16,9 +16,9 @@ a {
     max-width: 480px;
 }
 .page-box{
-    margin: 200px auto 0;
-    max-width: 800px;
-    padding: 100px 40px 100px 40px;
+    margin: 50px auto 0;
+    max-width: 1000px;
+    padding: 50px 40px 50px 40px;
     border: solid 1px #000000;
     display: none;
 }
@@ -34,7 +34,7 @@ a {
 .finished-page-box{
     margin: 40px auto 0;
     max-width: 800px;
-    padding: 100px 40px 100px 40px;
+    padding: 50px 40px 50px 40px;
     border: solid 1px #000000;
 }
 .button-box {
@@ -172,6 +172,7 @@ input.invalid {
         margin-bottom: 10px;
         .form-check {
             float: left;
+            padding-right: 50px;
             .form-check-input {
                 position: relative;
                 margin: 0 auto 10px;
@@ -191,6 +192,9 @@ input.invalid {
         z-index: 99999;
         padding: 7px 6px 0;
     }
+}
+.task-proces {
+    padding-bottom: 20px;
 }
 /* Rules for sizing the icon. */
 .material-icons.md-16 { font-size: 16px; }

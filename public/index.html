@@ -46,6 +46,33 @@
             </div>
         </div>
     </div>
+    <div class="page-box third">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0" style="font-size: 20px;"><b>The choice task (2)</b></p>
+                    <p style="font-size: 15px;">Note that, given the aim of the experiment, you will be randomly allocated to one of the scenarios which will or will not allow you to use one or both of those interaction tools.
+                        To assist you in the search task, you will be provided with a set of recommended options. The recommendation algorithm is not aware of the precise aim of your task and considers all features when generating recommendations. Based on your behavior during the search process, the recommender system might revise recommended set to better help you in the search process.
+                        Note that you can select and de-select items multiple times. You can select items either from the main search table or from the table with recommended options.
+                        Next button</p>
+                    </p>
+                    <hr />
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="page-box compensation">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
+                    <p style="font-size: 15px;">You will be rewarded $1 for completing the task. An additional bonus will depend on how well you identified the five items according to the formula – [put formula].</p>
+                    </p>
+                    <hr />
+                </blockquote>
+            </div>
+        </div>
+    </div>
     <div class="button-box">
         <div class="row">
             <div class="col text-center first-page-button">
@@ -171,6 +198,9 @@
                 <div class="row tab">
                     {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
                         <div class="col-12 question-title">
+                        {% if (questionsListValue.question_header != '') { %}
+                            <p class="question-header">{%=questionsListValue.question_header%}</p>
+                        {% } %}
                             <h1 class="question">{%=questionsListValue.question_body%}</h1>
                         </div>
                         {% if (questionsListValue.question_type == 'radio') { %}

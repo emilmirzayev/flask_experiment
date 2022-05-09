@@ -55,3 +55,24 @@ docker ps
 docker exec -ti flask_experiment_flask_1 /bin/bash
 ```
 go to address 127.0.0.1:8080/test 
+
+
+## Deployment & New Releases
+
+```shell
+git pull
+# only if database changed (change [date] with current date)
+today=$(date +"%Y-%m-%d")
+mv db/test.db db/backup-${today}.test.db.bak
+# You can change below parameters based on environment
+export settings=dev
+export FLASK_APP=server
+export FLASK_ENV=development
+flask db init
+flask db migrate -m "changed database"
+flask db upgrade
+chmod -R 755 db/test.db
+chown -R www-data:www-data db/*
+systemctl restart flask_experiment.service
+systemctl status flask_experiment.service
+```

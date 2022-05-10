@@ -79,4 +79,4 @@ class PerformanceResource(MethodView):
     def get_performance(self, task_id):
 
         performances = Performances.query.filter_by(task_id = task_id)
-        return PerformanceSchema(exclude = ["created", "updated"]).dump(performances, many=True)
+        return PerformanceSchema(exclude = ["created", "updated"]).dump(performances, many=True)[0]

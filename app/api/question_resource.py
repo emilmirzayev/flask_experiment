@@ -13,7 +13,8 @@ class QuestionResource(MethodView):
         # with open("app/helpers/questions.json") as f:
         #     file = json.load(f)
         data = pd.read_csv("app/helpers/questions.csv", sep = ";")
-        json = ([data
+        data_non_null = data.fillna("")   
+        json = ([data_non_null
                     .groupby("question_group")
                     .apply(lambda x:  x[["id", "question_header","question_type","question_body", "question_answers"]]
                             .to_dict("r"))

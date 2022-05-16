@@ -16,11 +16,11 @@
             <div class="col-12">
                 <blockquote class="blockquote text-center">
                     <p class="mb-0" style="font-size:
-                    20px;" align="left"><b>Welcome to this
+                    20px;"><b>Welcome to this
                     experiment!</b></p>
                     
-                    <p style="font-size:15px;" align="left">We appreciate your participation.</p>
-                    <p style="font-size: 15px;" align="left">The experiment constitutes a part of the academic research project studying the usage of recommender systems in search environments.
+                    <p style="font-size:15px;">We appreciate your participation.</p>
+                    <p style="font-size: 15px;">The experiment constitutes a part of the academic research project studying the usage of recommender systems in search environments.
                         Before you start the main part of the experiment, make sure you read instructions carefully. You will not be able to go back after you start. Refreshing the browser will cause the data to be lost.
                         Please remember that after completing the task, you will have to copy the survey code given to you and paste it into Mturk to get compensated.
                         The experiment consists of two stages: a choice task and a questionnaire. Your compensation depends on your performance in the choice task. It is not affected by your answers in your questionnaire. However, you need to complete the questionnaire to qualify for the payment.</p>
@@ -34,9 +34,8 @@
         <div class="row">
             <div class="col-12">
                 <blockquote class="blockquote text-center">
-                    <p class="mb-0" style="font-size: 20px;"align="left"><b>The choice task</b></p>
-                    <p class="mb-0" style="font-size: 15px;"
-                    align="left">In the choice task you will be given
+                    <p class="mb-0" style="font-size: 20px;"><b>The choice task</b></p>
+                    <p class="mb-0" style="font-size: 15px;">In the choice task you will be given
                     a table with one hundred items, each characterized
                     by five features (X, Y, Z, F, V). All features are
                     numeric.
@@ -47,7 +46,7 @@
                         You have 10 minutes to complete the task. The task will automatically terminate at the end of 10 minutes. Make sure to make the choice (select and submit 5 items) before time runs out to qualify for payment.
                         Once you have selected 5 options and would like to terminate the task, you need to confirm your choices to move to the post-task questionnaire.
                         </p>
-                    <p style="font-size: 15px;" align="left">For performing the task, you can potentially interact with the table in two ways: 1) you can hide features in the table (using hide feature button), and/or 2) you can sort items in increasing/decreasing order based on a given feature (with arrows next to each feature).
+                    <p style="font-size: 15px;">For performing the task, you can potentially interact with the table in two ways: 1) you can hide features in the table (using hide feature button), and/or 2) you can sort items in increasing/decreasing order based on a given feature (with arrows next to each feature).
                         Note that, given the aim of the experiment, you will be randomly allocated to one of the scenarios which will or will not allow you to use one or both of those interaction tools.
                         To assist you in the search task, you will be provided with a set of recommended options. The recommendation algorithm is not aware of the precise aim of your task and considers all features when generating recommendations. Based on your behavior during the search process, the recommender system might revise recommended set to better help you in the search process.
                         Note that you can select and de-select items multiple times. You can select items either from the main search table or from the table with recommended options.
@@ -65,7 +64,7 @@
                     <p class="mb-0" style="font-size: 20px;"><b>The
                     choice task (2)</b></p>
                     <p></p>
-                    <p style="font-size: 15px;" align="left">Note that, given the aim of the experiment, you will be randomly allocated to one of the scenarios which will or will not allow you to use one or both of those interaction tools.
+                    <p style="font-size: 15px;">Note that, given the aim of the experiment, you will be randomly allocated to one of the scenarios which will or will not allow you to use one or both of those interaction tools.
                         To assist you in the search task, you will be provided with a set of recommended options. The recommendation algorithm is not aware of the precise aim of your task and considers all features when generating recommendations. Based on your behavior during the search process, the recommender system might revise recommended set to better help you in the search process.
                         Note that you can select and de-select items multiple times. You can select items either from the main search table or from the table with recommended options.
                         </p>
@@ -80,7 +79,7 @@
             <div class="col-12">
                 <blockquote class="blockquote text-center">
                     <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
-                    <p style="font-size: 15px;" align="left">You will
+                    <p style="font-size: 15px;">You will
                     be rewarded $1 for completing the task. An
                     additional bonus will depend on how well you
                     identified the five items according to the formula
@@ -217,7 +216,8 @@
                 <div class="row tab">
                     {% for (const [questionsListKey, questionsListValue] of Object.entries(questionsGroupValue)) { %}
                         <div class="col-12 question-title">
-                        {% if (questionsListValue.question_header != '') { %}
+                        {% console.log(questionsListValue.question_header); %}
+                        {% if (questionsListValue.question_header != '' && questionsListValue.question_header != null) { %}
                             <p class="question-header">{%=questionsListValue.question_header%}</p>
                         {% } %}
                             <h1 class="question">{%=questionsListValue.question_body%}</h1>

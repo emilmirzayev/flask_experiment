@@ -2,6 +2,7 @@ body {
     font-family: Arial;
     background: #ffffff;
     font-weight: normal;
+    text-align: left;
 }
 a {
     font-family: Arial;
@@ -40,7 +41,6 @@ a {
 }
 .button-box {
     margin: 20px auto 0;
-    text-align: center;
 }
 .task-description {
     margin: 20px 0 10px;
@@ -55,7 +55,6 @@ a {
         border-right: 0;
         padding-top: 10px;
         padding-bottom: 10px;
-        text-align: center;
         & span#time {
             font-size: 18px;
         }
@@ -70,7 +69,6 @@ a {
 }
 .task-recommendation, .task-final {
     padding: 10px 0;
-    text-align: center;
 }
 .task-buttons-table {
     margin-bottom: 0;
@@ -104,11 +102,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     cursor: pointer;
 }
 .question-list {
+    & .question-header {
+        font-size: 24px;
+        font-weight: bold;
+    }
     & .question {
         font-size: 22px;
         margin-top: 20px;
         color: #2d2d2d;
-        font-weight: bold;
+        font-weight: normal;
     }
     & label {
         color: #2f2f2f;

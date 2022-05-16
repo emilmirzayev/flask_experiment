@@ -14,7 +14,7 @@
     <div class="page-box first">
         <div class="row">
             <div class="col-12">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0" style="font-size:
                     20px;"><b>Welcome to this
                     experiment!</b></p>
@@ -33,7 +33,7 @@
     <div class="page-box second">
         <div class="row">
             <div class="col-12">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>The choice task</b></p>
                     <p class="mb-0" style="font-size: 15px;">In the choice task you will be given
                     a table with one hundred items, each characterized
@@ -60,7 +60,7 @@
     <div class="page-box third">
         <div class="row">
             <div class="col-12">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>The
                     choice task (2)</b></p>
                     <p></p>
@@ -77,7 +77,7 @@
     <div class="page-box compensation">
         <div class="row">
             <div class="col-12">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
                     <p style="font-size: 15px;">You will
                     be rewarded $1 for completing the task. An
@@ -86,7 +86,7 @@
                     –> X + Z + V.</p>
                     </p>
                     <hr />
-                    <p class="mb-0" style="font-size: 12px">>By clicking "Start the task" you agree with rules.</p>
+                    <p class="mb-0 start-the-task" style="font-size: 12px">>By clicking "Start the task" you agree with rules.</p>
                 </blockquote>
             </div>
         </div>
@@ -106,7 +106,7 @@
     <div class="finished-page-box">
         <div class="row">
             <div class="col-12">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">Thank you for your participation!
                     Your task performance was {%=o.performance%} when it could have been {%=o.performance_expected%} hence,
                     you will be paid ${%=o.amount%}.
@@ -118,13 +118,6 @@
             </div>
         </div>
     </div>
-<!--    <div class="button-box">-->
-<!--        <div class="row">-->
-<!--            <div class="col text-center">-->
-<!--                <button type="button" class="btn btn-primary questions-button">Complete task</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
 </script>
 <script type="text/x-tmpl" id="begin-task">
     <div class="task-description">
@@ -133,7 +126,7 @@
                 <p>REMAINING TIME: <span id="time">00:00</span></p>
             </div>
             <div class="{% if (o.task_expires === false) { %} col-12 {% } else { %} col-10 {% } %} text">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">{%=o.task_description%}</p>
                 </blockquote>
             </div>
@@ -194,7 +187,7 @@
     <div class="task-description">
         <div class="row">
             <div class="col-12 text">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">Thank you for completing the first task! In order to receive the payment please complete this short questionnaire. After finishing the questionnaire, you will be provided with your reward amount and the survey code for getting the payment</p>
                 </blockquote>
             </div>
@@ -274,7 +267,7 @@
     <div class="task-description">
         <div class="row">
             <div class="col-12 text">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">You are done! Congrats!</p>
                 </blockquote>
             </div>
@@ -288,7 +281,7 @@
     <div class="task-description">
         <div class="row">
             <div class="col-12 text">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">Your time is out</p>
                 </blockquote>
             </div>
@@ -318,7 +311,7 @@
 <div class="task-description">
         <div class="row">
             <div class="col-12 text">
-                <blockquote class="blockquote text-center">
+                <blockquote class="blockquote">
                     <p class="mb-0">{%=o.title%}</p>
                 </blockquote>
             </div>

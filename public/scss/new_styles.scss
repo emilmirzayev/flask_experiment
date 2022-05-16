@@ -2,7 +2,6 @@ body {
     font-family: Arial;
     background: #ffffff;
     font-weight: normal;
-    text-align: left;
 }
 a {
     font-family: Arial;
@@ -215,3 +214,15 @@ input.invalid {
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+.page-box.compensation{
+    position: relative;
+    .col-12{
+        position: initial;
+    }
+    .start-the-task {
+        position: absolute;
+        bottom: 50px;
+        left: 40px;
+    }
+}

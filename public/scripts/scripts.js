@@ -3,8 +3,8 @@ var config = {
     task_expires: true,
     task_expires_in_seconds: 60 * 10,
     stopCountDown: false,
-    //api_url: "http://127.0.0.1:5000/",
-    api_url: "https://api.recexperiment.com/",
+    api_url: "http://127.0.0.1:5000/",
+    //api_url: "https://api.recexperiment.com/",
     endpoints: {
         events: "events/",
         choicesets: "choicesets/",
@@ -648,6 +648,17 @@ $(document).ready(function () {
         let tableType = $this.data('type'),
             syncTableClassName,
             syncCheckId;
+        // Save user events (actions)
+        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+            task_id: localStorage.getItem('task_id'),
+            treatment_group: localStorage.getItem('group'),
+            event_type: config.events.selected,
+            data: {
+                state: $this.prop('checked'),
+                choice_id: $this.val(),
+                table: tableType
+            }
+        });
         if (tableType == 'recommendation') {
             syncTableClassName = 'task-data-table';
             syncCheckId = 'data-choicesets-' + $this.val();
@@ -664,19 +675,6 @@ $(document).ready(function () {
         synCheckbox.prop("checked", $this.prop('checked'));
         // Change color synchronously
         changeSelectedRowColor(synCheckbox);
-
-        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
-            task_id: localStorage.getItem('task_id'),
-            treatment_group: localStorage.getItem('group'),
-            event_type: config.events.selected,
-            data: {
-                state: $this.prop('checked'),
-                choice_id: $this.val(),
-                table: tableType
-            }
-        }, function () {
-
-        });
     }
 
     function changeSelectedRowColor($this) {
@@ -894,17 +892,19 @@ function submitAnswers(){
         }
     }
     requestHandler.sendRequest(config.api_url + config.endpoints.answers, answers, function (data) {
-        //final-message-tmpl
-        // document.getElementById('container').innerHTML = tmpl('final-message-tmpl', {
-        //     title: 'Opu',
-        //     message: 'Bye: ' + data.Message
-        // })
-        // config.awardCalc(localStorage.getItem('real_performance'), localStorage.getItem('user_performance'))
         document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
             performance: localStorage.getItem('user_performance'),
             performance_expected: localStorage.getItem('real_performance'),
             task_id: localStorage.getItem('task_id'),
             amount: localStorage.getItem('reward')
+        });
+        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+            task_id: localStorage.getItem('task_id'),
+            treatment_group: localStorage.getItem('group'),
+            event_type: config.events.task_finish,
+            data: {
+                data: {status: 'task_finish', reason: "Submit"}
+            }
         });
     });
 }

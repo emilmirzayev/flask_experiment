@@ -52,10 +52,10 @@
 
                     <p style="font-size: 15px;">In the choice task you will be given
                     a table with one hundred items, each characterized
-                    by five features (X, Y, Z, F, V). All features are
+                    by five features (F1, F2, F3, F4, F5). All features are
                     numeric.</p>
                     <p style="font-size: 15px;">Your task is to find and select 5 items with the
-                    highest possible value of <b>X + Z + V </b>(i.e., the sum
+                    highest possible value of <b>F1 + F3 + F5 </b>(i.e., the sum
                     of the numbers associated to each of the three
                     features).</p>
                     <p style="font-size: 15px;">You have 10 minutes to complete the task. The
@@ -90,17 +90,33 @@
                     allocated to one of the scenarios which will or
                     will not allow you to use one or both of those
                     interaction tools.</p>
-                    <p style="font-size: 15px;">To assist you in the search task, you will be
-                    provided with a set of recommended options. The
-                    recommendation algorithm is not aware of the
-                    precise aim of your task and considers all
-                    features when generating recommendations. Based on
-                    your behavior during the search process.</p>
-                    <p style="font-size: 15px;">Note that you can select and de-select items
+                    </p>
+                    <hr />
+                </blockquote>
+            </div>
+        </div>
+    </div>
+    <div class="page-box fourth">
+        <div class="row">
+            <div class="col-12">
+                <blockquote class="blockquote">
+                    <p class="mb-0" style="font-size: 20px;"><b>The
+                    choice task (3)</b></p>
+                    <p style="font-size: 15px;">
+                        To assist you in the search task, you will be
+                        provided with 10 recommended options. The
+                        recommendation algorithm is not aware of the
+                        precise aim of your task and considers all
+                        features which are visible in the table when generating recommendations. 
+                        Based on your behavior during the search process, the recommender system might 
+                        revise recommended set to better help you in the search process.
+                </p>
+                <p style="font-size: 15px;">
+                    Note that you can select and de-select items
                     multiple times. You can select items either from
                     the main search table or from the table with
                     recommended options.</p>
-                    </p>
+                </p>
                     <hr />
                 </blockquote>
             </div>
@@ -111,11 +127,23 @@
             <div class="col-12">
                 <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
-                    <p style="font-size: 15px;">You will
-                    be rewarded $1 for completing the task. An
-                    additional bonus will depend on how well you
-                    identified the five items according to the formula
-                    –> X + Z + V.</p>
+                    <p style="font-size: 15px;">
+                        Your intial reward will be $1 for completing the task. You can also earn a bonus up to 1$ based on your performance. 
+                        These will be calculated in following four steps:
+                    </p>
+                    <p style="font-size: 15px;">
+                        First, your performance score will be calulated as the average score of 5 options you have chosen. Score of one  option is 
+                        equal to the sum of its three dimensions -> (F1, F3, F5).
+                    </p>
+                    <p style="font-size: 15px;">
+                        Second, "maximum attainable amount" will be calculated. It will be equal to the average score of 5 options which 
+                        have actual highest value along these three dimensions.
+                    </p>
+                    <p style="font-size: 15px;">
+                        Then, your bonus payment will be calculated as -> 1$ * (your performance / maximum attainable amount).
+                    </p>
+                    <p style="font-size: 15px;">
+                        Finally, your full payment will be equal to -> 1$ + bonus.
                     </p>
                     <hr />
                     <p class="mb-0 start-the-task" style="font-size:

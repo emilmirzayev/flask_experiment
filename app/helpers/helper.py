@@ -68,7 +68,7 @@ def calculate_reward(users_performance, real_performance, default_reward = DEFAU
 
 
 
-def create_recommendation(df, cols:str = "Price Y Duration F V", length = 10):
+def create_recommendation(df, cols:str = "F1 F2 F3 F4 F5", length = 10):
 
     """
     This function outputs the indices corresponding to the top
@@ -91,11 +91,11 @@ def create_recommendation(df, cols:str = "Price Y Duration F V", length = 10):
     d = {   
     }
     
-    d["X"] = top_10_per_each.query("feature == 'X'").level_1.values.tolist()
-    d["Y"] = top_10_per_each.query("feature == 'Y'").level_1.values.tolist()
-    d["Z"] = top_10_per_each.query("feature == 'Z'").level_1.values.tolist()
-    d["F"] = top_10_per_each.query("feature == 'F'").level_1.values.tolist()
-    d["V"] = top_10_per_each.query("feature == 'V'").level_1.values.tolist()
+    d["F1"] = top_10_per_each.query("feature == 'F1'").level_1.values.tolist()
+    d["F2"] = top_10_per_each.query("feature == 'F2'").level_1.values.tolist()
+    d["F3"] = top_10_per_each.query("feature == 'F3'").level_1.values.tolist()
+    d["F4"] = top_10_per_each.query("feature == 'F4'").level_1.values.tolist()
+    d["F5"] = top_10_per_each.query("feature == 'F5'").level_1.values.tolist()
     
     def argparse():
 

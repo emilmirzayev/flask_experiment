@@ -58,11 +58,11 @@ class ChoiceSets(Model):
     __tablename__ = "choices"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
-    X = db.Column(db.Integer, nullable=False)
-    Y = db.Column(db.Integer, nullable=False)
-    Z = db.Column(db.Integer, nullable=False)
-    F = db.Column(db.Integer, nullable=False)
-    V = db.Column(db.Integer, nullable=False)
+    F1 = db.Column(db.Integer, nullable=False)
+    F2 = db.Column(db.Integer, nullable=False)
+    F3 = db.Column(db.Integer, nullable=False)
+    F4 = db.Column(db.Integer, nullable=False)
+    F5 = db.Column(db.Integer, nullable=False)
     objective_score = db.Column(db.Float, nullable=False)
 
 
@@ -73,11 +73,11 @@ class Recommendations(Model):
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
     columns_used = db.Column(db.String, nullable=False)
-    X = db.Column(db.Integer, nullable=True)
-    Y = db.Column(db.Integer, nullable=True)
-    Z = db.Column(db.Integer, nullable=True)
-    F = db.Column(db.Integer, nullable=True)
-    V = db.Column(db.Integer, nullable=True)
+    F1 = db.Column(db.Integer, nullable=True)
+    F2 = db.Column(db.Integer, nullable=True)
+    F3 = db.Column(db.Integer, nullable=True)
+    F4 = db.Column(db.Integer, nullable=True)
+    F5 = db.Column(db.Integer, nullable=True)
     objective_score = db.Column(db.Float, nullable=False)
 
 
@@ -87,11 +87,11 @@ class FinalSets(Model):
     task_id = db.Column(db.String, nullable=False)
     recommendation_id = db.Column(db.String, nullable=False)
     final_set_id = db.Column(db.String, nullable=False)
-    X = db.Column(db.Integer, nullable=True)
-    Y = db.Column(db.Integer, nullable=True)
-    Z = db.Column(db.Integer, nullable=True)
-    F = db.Column(db.Integer, nullable=True)
-    V = db.Column(db.Integer, nullable=True)
+    F1 = db.Column(db.Integer, nullable=True)
+    F2 = db.Column(db.Integer, nullable=True)
+    F3 = db.Column(db.Integer, nullable=True)
+    F4 = db.Column(db.Integer, nullable=True)
+    F5 = db.Column(db.Integer, nullable=True)
     objective_score = db.Column(db.Float, nullable=False)
 
 class Answers(Model):

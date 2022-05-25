@@ -13,7 +13,7 @@ import numpy as np
 class ChoiceSetResource(MethodView):
     def post(self):
         data = request.get_json()
-        columns = "X Y Z F V".split()
+        columns = "F1 F2 F3 F4 F5".split()
         # check first if such choice set for that task id exists. if yes, return it. if not, create it
         exists = db.session.query(
                     db.session.query(ChoiceSets).filter_by(task_id = data["task_id"]).exists()
@@ -26,7 +26,7 @@ class ChoiceSetResource(MethodView):
             df = pd.DataFrame(np.random.randint(0, 500, size = (100, 5)))
             
             df.columns = columns
-            df["objective_score"] = df.X + df.Z + df.V
+            df["objective_score"] = df["F1"] + df["F3"] + df["F5"]
             df["task_id"] = data["task_id"]
             records = df.to_dict(orient = "records")
             # for record in records:

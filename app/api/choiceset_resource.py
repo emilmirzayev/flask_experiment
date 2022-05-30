@@ -23,7 +23,7 @@ class ChoiceSetResource(MethodView):
             return jsonify({"Message": "Choice set already exists for this task_id, returning", 'columns''': columns, 'choice_set': self.get_choice_sets(data["task_id"])})
         else:
                 
-            df = pd.DataFrame(np.random.randint(0, 500, size = (100, 5)))
+            df = pd.DataFrame(np.random.randint(1, 500, size = (100, 5)))
             
             df.columns = columns
             df["objective_score"] = df["F1"] + df["F3"] + df["F5"]

@@ -29,9 +29,11 @@
                     carefully. You will not be able to go back after
                     you start. Refreshing the browser will cause the
                     data to be lost.</p>
-                    <p style="font-size: 15px;">Please remember that after completing the task,
-                    you will have to copy the survey code given to you
-                    and paste it into Mturk to get compensated.</p>    
+                    <p style="font-size: 15px;">Please note that after completing the task you will be given a unique survey code. 
+                    Please copy that code and send back to me by e-mail 
+                    (along with any suggestions for improvement of the process) 
+                    at <b>emil.mirzayev@skema.edu</b> so that I can match your 
+                    comments to your experience during the experiment.</p>    
                     <p style="font-size: 15px;">The experiment consists of two stages: a choice
                     task and a questionnaire. Your compensation
                     depends on your performance in the choice task. It
@@ -51,8 +53,8 @@
                     choice task (1)</b></p>
 
                     <p style="font-size: 15px;">In the choice task you will be given
-                    a table with one hundred items, each characterized
-                    by five features (F1, F2, F3, F4, F5). All features are
+                    a table with 100 items, each characterized
+                    by five features <b>F1, F2, F3, F4, F5</b>. All features are
                     numeric.</p>
                     <p style="font-size: 15px;">Your task is to find and select 5 items with the
                     highest possible value of <b>F1 + F3 + F5 </b>(i.e., the sum
@@ -81,7 +83,7 @@
                     <p style="font-size: 15px;">For performing the
                     task, you can potentially interact with the table
                     in two ways: 1) you can hide features in the table
-                    (using hide feature button), and/or 2) you can
+                    (using hide feature buttons), and/or 2) you can
                     sort items in increasing/decreasing order based on
                     a given feature (with arrows next to each
                     feature).</p>
@@ -90,6 +92,12 @@
                     allocated to one of the scenarios which will or
                     will not allow you to use one or both of those
                     interaction tools.</p>
+                    </p>
+                    <p style="font-size: 15px;">
+                        Also note that you can select and de-select items
+                        multiple times. You can select items either from
+                        the main search table or from the table with
+                        recommended options.</p>
                     </p>
                     <hr />
                 </blockquote>
@@ -106,17 +114,11 @@
                         To assist you in the search task, you will be
                         provided with 10 recommended options. The
                         recommendation algorithm is not aware of the
-                        precise aim of your task and considers all
-                        features which are visible in the table when generating recommendations. 
+                        exact aim of your task and considers all
+                        visible features in the table when generating recommendations. 
                         Based on your behavior during the search process, the recommender system might 
                         revise recommended set to better help you in the search process.
-                </p>
-                <p style="font-size: 15px;">
-                    Note that you can select and de-select items
-                    multiple times. You can select items either from
-                    the main search table or from the table with
-                    recommended options.</p>
-                </p>
+                    </p>
                     <hr />
                 </blockquote>
             </div>
@@ -128,22 +130,22 @@
                 <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
                     <p style="font-size: 15px;">
-                        Your intial reward will be $1 for completing the task. You can also earn a bonus up to 1$ based on your performance. 
-                        These will be calculated in following four steps:
+                        Your baseline reward will be $1 for completing the task. You can also earn an additonal bonus up to 1$ based on your performance. 
+                        These will be calculated in following way:
                     </p>
                     <p style="font-size: 15px;">
-                        First, your performance score will be calulated as the average score of 5 options you have chosen. Score of one  option is 
-                        equal to the sum of its three dimensions -> (F1, F3, F5).
+                        First, your performance score will be calulated as the average score of 5 options you have chosen. Score of one option is 
+                        equal to <b>F1 + F3 + F5</b>.
                     </p>
                     <p style="font-size: 15px;">
-                        Second, "maximum attainable amount" will be calculated. It will be equal to the average score of 5 options which 
-                        have actual highest value along these three dimensions.
+                        Second, maximum attainable score will be calculated. It will be equal to the average score of 5 options which 
+                        have the highest value of <b>F1 + F3 + F5</b>.
                     </p>
                     <p style="font-size: 15px;">
-                        Then, your bonus payment will be calculated as -> 1$ * (your performance / maximum attainable amount).
+                        Then, your bonus payment will equal to 1$ * (your performance score/ maximum attainable score).
                     </p>
                     <p style="font-size: 15px;">
-                        Finally, your full payment will be equal to -> 1$ + bonus.
+                        Finally, your full payment will be equal to 1$ + bonus.
                     </p>
                     <hr />
                     <p class="mb-0 start-the-task" style="font-size:
@@ -170,13 +172,12 @@
             <div class="col-12">
                 <blockquote class="blockquote">
                     <p class="mb-0">Thank you for your participation!
-                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_expected%}. Hence,
-                    you will be paid ${%=o.amount%}.</p>
-                    <p>Please copy the survey code you see below and provide it
-                    at Amazon Mturk HIT page to complete the whole task.
-                    <b>This is necessary for getting the payment.</b></p>
-                    <h1>Survey code: {%=o.task_id%}</h1>
-                    <p><b> After providing survey code to Amazon Mturk you can close this tab.</b></p>
+                    Your performance score for the task was {%=o.performance%} when it could have been {%=o.performance_expected%}. Hence,
+                    you bonus will be ${%= (o.amount - 1).toFixed(2)%}. Your final payment will be ${%= o.amount%} </p>
+                    <p><b>Please copy the survey code you see below and send it to me at emil.mirzayev@skema.edu.</b>
+                    This is necessary for getting the payment.</p>
+                    <h2>Survey code -> {%=o.task_id%}</h2>
+                    <p><b> Once you have copied and sent me the code, you can close the tab and exit the experiment.</b></p>
                 </blockquote>
             </div>
         </div>
@@ -354,9 +355,9 @@
         <div class="row">
             <div class="col-12">
                 Sorry... Your time is out.
-                <br /> Your award will be {%=o.amount%}.
-                <br /> Your task ID: {%=o.task_id%}.
-                <br /> Please copy your task ID and store it somewhere.
+                <br /> Your award will be $1.
+                <br /> Your survey code: {%=o.task_id%}.
+                <br /> Please copy your survey code and provide it according to your insturctions.
             </div>
         </div>
     </div>

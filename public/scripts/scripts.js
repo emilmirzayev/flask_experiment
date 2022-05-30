@@ -45,7 +45,7 @@ var locals = {
     task_completed: {
         confirmation_alert : 'Do you really want to complete this task and proceed to post-task questionnaire?'
     },
-    description_of_the_task: 'Please select five options with the highest possible F1 + F3 +  F5. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out.',
+    description_of_the_task: 'Please select 5 options with the highest possible F1 + F3 +  F5. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out.',
     clear_all_alert : 'Are you sure?'
 }
 

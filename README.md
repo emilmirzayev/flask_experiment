@@ -73,6 +73,7 @@ flask db migrate -m "changed database"
 flask db upgrade
 chmod -R 755 db/test.db
 chown -R www-data:www-data db/*
+sudo update-rc.d apache2 disable # disable apache so that CORS does not screw up
 systemctl restart flask_experiment.service
 systemctl status flask_experiment.service
 ```

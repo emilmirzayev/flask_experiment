@@ -39,8 +39,8 @@ var locals = {
     },
     timeout: {
         title: 'Timeout',
-        message: 'Unfortunately, your time run out </br>\n' +
-                'Thank you for your attendance.'
+        message: 'Unfortunately, your time run out.' +
+                'Thank you for your interest.'
     },
     task_completed: {
         confirmation_alert : 'Do you really want to complete this task and proceed to post-task questionnaire?'

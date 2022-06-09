@@ -210,10 +210,27 @@ $(document).ready(function () {
     let welcomeTabsCount = $('.page-box').length;
     $(".next-button").click(function () {
         welcomeTabs++;
+        if (welcomeTabs === 1) {
+            $('.first-page-button .back-button').show();
+        }
         $('.page-box:nth-child('+welcomeTabs+'), .page-box:nth-child('+(welcomeTabs+1)+')').toggle();
-        if (welcomeTabs == (welcomeTabsCount - 1)) {
+        if (welcomeTabs === (welcomeTabsCount - 1)) {
             $('.second-page-button').toggle();
-            $('.first-page-button').toggle();
+            $('.first-page-button .next-button').toggle();
+        }
+    });
+    $(".back-button").click(function () {
+        console.log(welcomeTabs, welcomeTabsCount);
+        $('.page-box:nth-child('+(welcomeTabs+1)+'), .page-box:nth-child('+welcomeTabs+')').toggle();
+        if (welcomeTabs === (welcomeTabsCount-1)) {
+            $('.first-page-button .next-button').show();
+            $('.second-page-button').hide();
+        }
+        if (welcomeTabs === 1) {
+            $(this).hide();
+        }
+        if (welcomeTabs !== 0) {
+            welcomeTabs--;
         }
     });
     $(".start-button").click(function () {

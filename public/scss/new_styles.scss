@@ -226,3 +226,8 @@ input.invalid {
         left: 40px;
     }
 }
+.first-page-button {
+    & .back-button {
+        display: none;
+    }
+}

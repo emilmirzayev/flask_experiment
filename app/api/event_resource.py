@@ -4,7 +4,7 @@ from app.data.models import Events
 from uuid import uuid4
 from datetime import datetime
 from app.schemas.serializer import EventSchema
-import random
+import numpy as np
 
 
 class EventResource(MethodView):
@@ -17,7 +17,7 @@ class EventResource(MethodView):
             generated.
             """
             data["task_id"] = str(uuid4())
-            data["treatment_group"] = random.randint(1, 4)
+            data["treatment_group"] = np.random.randint(1, 5)
             
         Events.create(**data)
         return jsonify({"Message": "Event_created", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})

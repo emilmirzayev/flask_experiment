@@ -4,7 +4,7 @@ url = "http://127.0.0.1:5000/events/"
 data = {"event_type":1}
 
 stats = []
-for i in range(30):
+for i in range(23):
     
 
     response = requests.post(url= url,

@@ -8,10 +8,19 @@ import json
 import os
 from random import choice
 from collections import Counter
+from random import shuffle
+
 
 DEFAULT_REWARD = 1
 REWARD_MULTIPLIER = 1
+# Here we use the infinite sequence of treatment groups
+def shuffler(sequence):
+    while True:
+        shuffle(sequence)
+        yield from sequence
 
+
+TREATMENT_GROUPS = shuffler([1, 2, 3, 4])
 
 class Recommendation:
     

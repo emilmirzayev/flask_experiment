@@ -39,7 +39,7 @@ var locals = {
     },
     timeout: {
         title: 'Timeout',
-        message: 'Unfortunately, your time run out </br>\n' +
+        message: 'Unfortunately, your time run out ' +
                 'Thank you for your attendance.'
     },
     task_completed: {
@@ -174,7 +174,7 @@ window.onbeforeunload = function() {
                 task_id: localStorage.getItem('task_id') !== null ? localStorage.getItem('task_id') : data.task_id,
                 treatment_group: localStorage.getItem('group') !== null ? localStorage.getItem('task_id') : data.treatment_group,
                 event_type: config.events.task_finish,
-                data: {status: 'task_finish', reason: "DevTools is opened"}
+                data: {data: {status: 'interrupted', reason: "DevTools is opened"}}
             });
             document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
                 title: locals.dev_tools_messages.title,
@@ -348,10 +348,17 @@ $(document).ready(function () {
                     requestHandler.sendRequest(eventsUrl, {
                         task_id: localStorage.getItem('task_id'),
                         treatment_group: localStorage.getItem('group'),
-                        event_type: config.events.task_finish,
-                        data: {status: 'task_finish', reason: "Timeout"}
+                        event_type: config.events.timer_finished,
+                        data: {data: {status: 'task_finish', reason: "Timeout"}}
                     });
                 }
+            });
+            timer.expired(function (){
+                requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+                    task_id: localStorage.getItem('task_id'),
+                    treatment_group: localStorage.getItem('group'),
+                    event_type: config.events.questionnaire_started
+                });
             });
         }
     }
@@ -391,15 +398,16 @@ $(document).ready(function () {
                     requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
                         document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
                         showTab(currentTab);
+                        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+                            task_id: localStorage.getItem('task_id'),
+                            treatment_group: localStorage.getItem('group'),
+                            event_type: config.events.questionnaire_started
+                        });
                     });
                 });
             });
         }
     }
-
-    $(document).on('click','.questions-button', function () {
-
-    });
 
     function getDataTablesColumns(columns) {
         var collection = [{

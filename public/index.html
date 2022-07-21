@@ -191,7 +191,7 @@
             </div>
             <div class="{% if (o.task_expires === false) { %} col-12 {% } else { %} col-10 {% } %} text">
                 <blockquote class="blockquote">
-                    <p class="mb-0">{%=o.task_description%}</p>
+                    <p class="mb-0">{%= o.task_description %}</p>
                 </blockquote>
             </div>
         </div>
@@ -204,7 +204,7 @@
                         <tr>
                             {% for (var i=0; i<o.columns.length; i++) { %}
                             <td>
-                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == true) { %} disabled {% } %} /> Hide {%=o.columns[i]%}</label>
+                                <label><input type="checkbox" class="hide-column" id="hide-column-{%=i+1%}" value="{%=o.columns[i]%}" {% if (o.disable_hide_column == false) { %} disabled {% } %} /> Hide {%=o.columns[i]%}</label>
                             </td>
                             {% } %}
                         </tr>

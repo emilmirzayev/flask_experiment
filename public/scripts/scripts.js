@@ -45,26 +45,37 @@ var locals = {
     task_completed: {
         confirmation_alert : 'Do you really want to complete this task and proceed to post-task questionnaire?'
     },
-    description_of_the_task: 'Please select five options with the highest possible -> X + Y + Z value. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out.',
+    description_of_the_task: 'Please select five options with the highest possible -> X + Y + Z value. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out. ',
     clear_all_alert : 'Are you sure?'
 }
 
+/*
+if hide_buttons_active set true the button for hiding columns will NOT be disabled
+qrup 1: sort - hide +
+qrup 2: sort + hide +
+qrup 3: sort + hide -
+qrup 4: sort - hide -
+* */
 var groupConfigurations = {
     1: {
-        "hide_buttons": false,
-        "sort_tables": false
+        "hide_buttons_active": true,
+        "sort_tables": false,
+        "group_text": "You can hide columns but you can not sort"
     },
     2: {
-        "hide_buttons": false,
-        "sort_tables": true
+        "hide_buttons_active": true,
+        "sort_tables": true,
+        "group_text": "You can hide columns and you can sort columns"
     },
     3: {
-        "hide_buttons": true,
-        "sort_tables": true
+        "hide_buttons_active": false,
+        "sort_tables": true,
+        "group_text": "You can not hide columns but you can sort"
     },
     4: {
-        "hide_buttons": true,
-        "sort_tables": false
+        "hide_buttons_active": false,
+        "sort_tables": false,
+        "group_text": "You can not hide columns neither sort"
     },
 };
 
@@ -497,7 +508,7 @@ $(document).ready(function () {
     }
 
     function getGroupConfigurations(){
-        return groupConfigurations[localStorage.getItem('group')];
+        return groupConfigurations[parseInt(localStorage.getItem('group'))];
     }
 
     function getCommonDataTableConfigurations(tableColumns) {
@@ -515,8 +526,9 @@ $(document).ready(function () {
     // Building achoice sets data tables
     function createTaskDataTable(choiceSetData) {
         storeDataInLocalStorage('choice_set', choiceSetData.choice_set);
-        choiceSetData.task_description = locals.description_of_the_task;
-        choiceSetData.disable_hide_column = getGroupConfigurations().hide_buttons;
+        let configurations = getGroupConfigurations();
+        choiceSetData.task_description = locals.description_of_the_task + ' ' + configurations.group_text;
+        choiceSetData.disable_hide_column = configurations.hide_buttons_active;
         choiceSetData.task_expires = config.task_expires;
         document.getElementById('container').innerHTML = tmpl('begin-task', choiceSetData)
         dataTables.columns = getDataTablesColumns(choiceSetData.columns);

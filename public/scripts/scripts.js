@@ -39,14 +39,14 @@ var locals = {
     },
     timeout: {
         title: 'Timeout',
-        message: 'Unfortunately, your time run out ' +
+        message: 'Unfortunately, your time run out. You will not be qualified for payment. ' +
                 'Thank you for your attendance.'
     },
     task_completed: {
         confirmation_alert : 'Do you really want to complete this task and proceed to post-task questionnaire?'
     },
-    description_of_the_task: 'Please select five options with the highest possible -> X + Y + Z value. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out. ',
-    clear_all_alert : 'Are you sure?'
+    description_of_the_task: 'Please select five options with the highest possible -> F1 + F3 + F5 value. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out. ',
+    clear_all_alert : 'Are you sure that you want to proceed to the next stage?'
 }
 
 /*
@@ -60,22 +60,22 @@ var groupConfigurations = {
     1: {
         "hide_buttons_active": true,
         "sort_tables": false,
-        "group_text": "You can hide columns but you can not sort"
+        "group_text": "Based on random assignment, you can hide columns but you can not sort them."
     },
     2: {
         "hide_buttons_active": true,
         "sort_tables": true,
-        "group_text": "You can hide columns and you can sort columns"
+        "group_text": "Based on random assignment, you can hide columns and you can sort them."
     },
     3: {
         "hide_buttons_active": false,
         "sort_tables": true,
-        "group_text": "You can not hide columns but you can sort"
+        "group_text": "Based on random assignment, you can not hide columns but you can sort them."
     },
     4: {
         "hide_buttons_active": false,
         "sort_tables": false,
-        "group_text": "You can not hide columns neither sort"
+        "group_text": "Based on random assignment, you can neither hide columns nor sort them."
     },
 };
 

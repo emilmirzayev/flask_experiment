@@ -3,8 +3,8 @@ var config = {
     task_expires: true,
     task_expires_in_seconds: 60 * 10,
     stopCountDown: false,
-    //api_url: "http://127.0.0.1:5000/",
-    api_url: "https://api.recexperiment.com/",
+    api_url: "http://127.0.0.1:5000/",
+    //api_url: "https://api.recexperiment.com/",
     endpoints: {
         events: "events/",
         choicesets: "choicesets/",

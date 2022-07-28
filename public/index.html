@@ -53,17 +53,16 @@
                     <p style="font-size: 15px;">In the choice task you will be given
                     a table with one hundred items, each characterized
                     by five features (F1, F2, F3, F4, F5). All features are
-                    numeric.</p>
+                    numeric. You can use mouse wheel to scroll up or down to see all options in the table.</p>
                     <p style="font-size: 15px;">Your task is to find and select 5 items with the
                     highest possible value of <b>F1 + F3 + F5 </b>(i.e., the sum
                     of the numbers associated to each of the three
                     features).</p>
                     <p style="font-size: 15px;">You have 10 minutes to complete the task. The
                     task will automatically terminate at the end of 10
-                    minutes. Make sure to make the choice (select and
+                    minutes. <b>Make sure to make the choice (select and
                     submit 5 items) before time runs out to qualify
-                    for payment.
-                    Once you have selected 5 options and would like to
+                    for payment</b>. Once you have selected 5 options and would like to
                     terminate the task, you need to confirm your
                     choices to move to the post-task questionnaire.</p>
                     <hr />
@@ -104,7 +103,7 @@
                     choice task (3)</b></p>
                     <p style="font-size: 15px;">
                         To assist you in the search task, you will be
-                        provided with 10 recommended options. The
+                        provided with <b>10 recommended options</b>. The
                         recommendation algorithm is not aware of the
                         precise aim of your task and considers all
                         features which are visible in the table when generating recommendations. 
@@ -140,7 +139,7 @@
                         have actual highest value along these three dimensions.
                     </p>
                     <p style="font-size: 15px;">
-                        Then, your bonus payment will be calculated as -> 1$ * (your performance / maximum attainable amount).
+                        Then, your bonus payment will be calculated as -> 1$ x (your performance / maximum attainable amount).
                     </p>
                     <p style="font-size: 15px;">
                         Finally, your full payment will be equal to -> 1$ + bonus.
@@ -171,8 +170,8 @@
             <div class="col-12">
                 <blockquote class="blockquote">
                     <p class="mb-0">Thank you for your participation!
-                    Your task performance was {%=o.performance%} when it could have been {%=o.performance_expected%}. Hence,
-                    you will be paid ${%=o.amount%}.</p>
+                    Your task performance was {%=o.performance%} whereas the maximum achievable performance was {%=o.performance_expected%}.</p> 
+                    <p>Hence, you will be paid overall ${%=o.amount%} of which $1 is participation reward and the rest is a bonus.</p>
                     <p>Please copy the survey code you see below and provide it
                     at Amazon Mturk HIT page to complete the whole task.
                     <b>This is necessary for getting the payment.</b></p>

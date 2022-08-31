@@ -75,4 +75,6 @@ chmod -R 755 db/test.db
 chown -R www-data:www-data db/*
 systemctl restart flask_experiment.service
 systemctl status flask_experiment.service
+
+/etc/nginx/conf.d/nginx-cloudfare-realip.conf ip list burda
 ```

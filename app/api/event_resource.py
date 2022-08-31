@@ -21,7 +21,9 @@ class EventResource(MethodView):
             data["treatment_group"] = next(TREATMENT_GROUPS)
             
         Events.create(**data)
-        return jsonify({"Message": "Event_created", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})
+        return jsonify({"Message": "Event_created", "task_id": data["task_id"], 
+                        "treatment_group": data["treatment_group"],
+                        "ralip": request.headers.get("X-Real-IP")})
 
     def get(self):
         # get events specific to a task

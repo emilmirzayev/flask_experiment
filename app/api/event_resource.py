@@ -22,12 +22,12 @@ class EventResource(MethodView):
             data["treatment_group"] = next(TREATMENT_GROUPS)
             
         Events.create(**data)
-        return jsonify({"Message": "Event_created", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})
+        return jsonify({"Message": "Event_created", 
+        "task_id": data["task_id"], "treatment_group": data["treatment_group"], 
+        "real_ip": request.headers.get('HTTP_CF_CONNECTING_IP')})
 
     def get(self):
-        print(request.headers.get('HTTP_CF_CONNECTING_IP'))
-        with open("nginx.log", "wr") as file:
-            file.write(request.headers)
+
         # get events specific to a task
         data  = request.get_json()
         events = Events.query.filter_by(task_id = data["task_id"])

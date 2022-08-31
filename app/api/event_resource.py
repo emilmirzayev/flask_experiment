@@ -26,7 +26,7 @@ class EventResource(MethodView):
 
     def get(self):
         print(request.headers.get('HTTP_CF_CONNECTING_IP'))
-        with open(nginx.log, "wr") as file:
+        with open("nginx.log", "wr") as file:
             file.write(request.headers)
         # get events specific to a task
         data  = request.get_json()

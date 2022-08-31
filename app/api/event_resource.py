@@ -12,6 +12,7 @@ class EventResource(MethodView):
     def post(self):
         data = request.get_json()
 
+
         if data["event_type"] == 1:
             """
             Only when event type is 1 -> task_creation then the new task id will be
@@ -24,6 +25,7 @@ class EventResource(MethodView):
         return jsonify({"Message": "Event_created", "task_id": data["task_id"], "treatment_group": data["treatment_group"]})
 
     def get(self):
+        print(request.headers.get('HTTP_CF_CONNECTING_IP'))
         # get events specific to a task
         data  = request.get_json()
         events = Events.query.filter_by(task_id = data["task_id"])

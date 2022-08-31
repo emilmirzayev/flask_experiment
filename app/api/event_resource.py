@@ -24,7 +24,7 @@ class EventResource(MethodView):
         Events.create(**data)
         return jsonify({"Message": "Event_created", 
         "task_id": data["task_id"], "treatment_group": data["treatment_group"], 
-        "real_ip": request.headers.get('HTTP_CF_CONNECTING_IP')})
+        "real_ip": request.headers})
 
     def get(self):
 

@@ -36,6 +36,7 @@ class Events(Model):
     __tablename__ = "events"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     task_id = db.Column(db.String, nullable=False)
+    real_ip = db.Column(db.String, nullable=False)
     event_type = db.Column(db.Integer, nullable=False)
     treatment_group = db.Column(db.Integer, nullable = False)
     data = db.Column(db.JSON, nullable = True)

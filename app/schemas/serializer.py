@@ -1,4 +1,4 @@
-from app.data.models import ChoiceSets, Events, Performances, Recommendations, Answers, Questions, EventTypes, FinalSets
+from app.data.models import ChoiceSets, Users, Events, Performances, Recommendations, Answers, Questions, EventTypes, FinalSets
 from app.core.extensions import ma
 from marshmallow import fields
 
@@ -10,6 +10,10 @@ from marshmallow import fields
 
 #     events = fields.Nested("EventSchema", many=True, exclude=("task_id",))
 
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Users
+        include_fk = True
 
 class EventSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

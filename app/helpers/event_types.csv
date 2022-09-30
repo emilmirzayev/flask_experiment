@@ -1,5 +1,5 @@
 id,event_body
-0, new_user_check,
+0, new_user_check
 1,task creation
 2,timer started
 3,timer finished

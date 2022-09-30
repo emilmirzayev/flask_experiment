@@ -31,7 +31,7 @@ class EventResource(MethodView):
 
 
             # check if the user exists in the users database
-            user_exists_in_users_db = db.session.query(Events).filter_by(real_ip = ip).exists().scalar()
+            user_exists_in_users_db = db.session.query(db.session.query(Events).filter_by(real_ip = ip).exists()).scalar()
 
             # if user exists, find out in which stage user is
             # if there is event_type 13, user finished
@@ -42,14 +42,14 @@ class EventResource(MethodView):
                 
                 # get its task id
                 sample_event_to_get_task_id = db.session.query(Events).filter_by(real_ip = ip).first()
-                formatted_sample_event = EventSchema(exclude=["created", "updated", "real_ip"]).dump(sample_event_to_get_task_id, many =True)
-                response["task_id"] = formatted_sample_event[0]["task_id"]
-                response["treatment_group"] = formatted_sample_event[0]["treatment_group"]
+                formatted_sample_event = EventSchema(exclude=["created", "updated", "real_ip"]).dump(sample_event_to_get_task_id)
+                response["task_id"] = formatted_sample_event["task_id"]
+                response["treatment_group"] = formatted_sample_event["treatment_group"]
 
 
                 # find which stage user is
                 # if we have event_type 13
-                user_has_finished_task = db.session.query(Events).filter_by(real_ip = ip, event_type = 13).exists().scalar()
+                user_has_finished_task = db.session.query(db.session.query(Events).filter_by(real_ip = ip, event_type = 13).exists()).scalar()
                 if user_has_finished_task:
                     
                     response["status"] = "task_finished"
@@ -59,7 +59,7 @@ class EventResource(MethodView):
                     # it means user has not finished the task and in the middle of it
 
                     # we check whether the user has finished the first task. Event code 7 is for questionnaire starting
-                    user_has_finished_task1 = db.session.query(Events).filter_by(real_ip = ip, event_type = 7).exists().scalar()
+                    user_has_finished_task1 = db.session.query(db.session.query(Events).filter_by(real_ip = ip, event_type = 7).exists()).scalar()
 
                     if user_has_finished_task1:
                             
@@ -69,7 +69,7 @@ class EventResource(MethodView):
                     
                     # if user has started but not finished the task1
                     users_task_1_details = db.session.query(Events).filter_by(real_ip = ip, event_type = 1)
-                    task_1_binary = users_task_1_details.exists().scalar()
+                    task_1_binary = db.session.query(users_task_1_details.exists()).scalar()
 
                     users_task_1_details_json = EventSchema(exclude=["updated"]).dump(users_task_1_details, many=True)
                     start_time = users_task_1_details_json[0]["created"].split(".")[0]

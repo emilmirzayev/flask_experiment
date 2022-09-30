@@ -85,7 +85,10 @@ class EventResource(MethodView):
                         return response
 
                     # user can not be in the database and not start the task 1. Only add users when they started the task1
-                    
+            else:
+                response["status"] = "new_user"
+                return response
+                     
                     
 
 

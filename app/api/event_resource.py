@@ -1,4 +1,3 @@
-from curses import is_term_resized
 from flask.views import MethodView
 from flask import request, abort, jsonify
 from app.data.models import Events, Users, ChoiceSets
@@ -9,6 +8,7 @@ from app.schemas.serializer import EventSchema, ChoiceSchema
 import numpy as np
 from app.helpers.helper import TREATMENT_GROUPS
 import time
+import pytz
 
 
 
@@ -40,6 +40,7 @@ class EventResource(MethodView):
             # if there is only event_type 1, user has started the task1
             #   
             if user_exists_in_users_db:
+                print(f"User found in the database user {ip}")
                 
                 # get its task id
                 sample_event_to_get_task_id = db.session.query(Events).filter_by(real_ip = ip).first()
@@ -52,44 +53,59 @@ class EventResource(MethodView):
                 # if we have event_type 13
                 user_has_finished_task = db.session.query(db.session.query(Events).filter_by(real_ip = ip, event_type = 13).exists()).scalar()
                 if user_has_finished_task:
+
+                    print(f"User has finished the task user {ip}")
                     
                     response["status"] = "task_finished"
 
                     return response
                 else:
+
+                    print(f"User is in the middle of the task user {ip}")
                     # it means user has not finished the task and in the middle of it
 
                     # we check whether the user has finished the first task. Event code 7 is for questionnaire starting
                     user_has_finished_task1 = db.session.query(db.session.query(Events).filter_by(real_ip = ip, event_type = 7).exists()).scalar()
 
                     if user_has_finished_task1:
+
+                        print(f"Task 1 has finished with user {ip}")
                             
                         response["status"] = "questionnaire_started"
 
                         return response
                     
                     # if user has started but not finished the task1
+
+                    
                     users_task_1_details = db.session.query(Events).filter_by(real_ip = ip, event_type = 1)
                     task_1_binary = db.session.query(users_task_1_details.exists()).scalar()
-
+                    print(f"User is {task_1_binary} middle of the task 1")
                     users_task_1_details_json = EventSchema(exclude=["updated"]).dump(users_task_1_details, many=True)
                     start_time = users_task_1_details_json[0]["created"].split(".")[0]
 
                     start_time_as_timestamp  =  int(time.mktime(time.strptime(start_time, "%Y-%m-%dT%H:%M:%S")))
-
+                    print(f"Task 1 started at {start_time_as_timestamp}")
                     response["start_timestamp"] = start_time_as_timestamp
-                    current_time = int(time.time())
-                    time_passed = current_time - start_time_as_timestamp
-                    response["time_remaining"] = time_passed
-                    is_timeout = time_passed >= 600
-                    response["is_timeout"] = is_timeout
+                    current_time = int(datetime.now(tz = pytz.UTC).replace().timestamp())
+                    response["current_timestamp"] = current_time
+                    response["star_time"] = start_time
+                    response["current_time"] = datetime.now(tz = pytz.UTC)
 
-                    if task_1_binary:
-                        if not is_timeout:
-                            response["status"] = "timeout"
-                        else: 
-                            response["status"] = "task_in_progress"
-                        return response
+                    time_passed = current_time - start_time_as_timestamp
+                    print(f"{time_passed} seconds passed since the task 1 has started user {ip}")
+                    response["time_passed"] = time_passed
+                    # for some reason it takes time as one hour differnce
+                    is_timeout = time_passed >= 4200
+                    
+                    if is_timeout:
+                        response["status"] = "timeout"
+                    else:
+                        response["status"] = "task_1_in_progress"
+
+                    return response
+                    
+                    
 
                     # user can not be in the database and not start the task 1. Only add users when they started the task1
             else:

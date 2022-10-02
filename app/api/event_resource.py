@@ -1,10 +1,10 @@
 from flask.views import MethodView
 from flask import request, abort, jsonify
-from app.data.models import Events, Users
+from app.data.models import Events, Users, ChoiceSets
 from app.core.extensions import db
 from uuid import uuid4
 from datetime import datetime
-from app.schemas.serializer import EventSchema
+from app.schemas.serializer import EventSchema, ChoiceSchema
 import numpy as np
 from app.helpers.helper import TREATMENT_GROUPS
 import time
@@ -74,7 +74,7 @@ class EventResource(MethodView):
                     users_task_1_details_json = EventSchema(exclude=["updated"]).dump(users_task_1_details, many=True)
                     start_time = users_task_1_details_json[0]["created"].split(".")[0]
 
-                    start_time_as_timestamp  =  int(time.mktime(time.strptime(start_time, "%Y-%m-%d %H:%M:%S")))
+                    start_time_as_timestamp  =  int(time.mktime(time.strptime(start_time, "%Y-%m-%dT%H:%M:%S")))
 
                     response["start_timestamp"] = start_time_as_timestamp
                     current_time = int(time.time())
@@ -114,14 +114,29 @@ class EventResource(MethodView):
             user_data = {
 
             }
-            user_data["real_ip"] = ip
-            user_data["task_status"] = "new_user"
-            db.engine.execute(Users.__table__.insert(), user_data)
+
 
             # now prepare the upload to Events table
+            user_exists_in_users_db = db.session.query(db.session.query(Events).filter_by(real_ip = ip).exists()).scalar()
+            
+            if user_exists_in_users_db:
+                return_data = {
 
-            data["task_id"] = str(uuid4())
-            data["treatment_group"] = next(TREATMENT_GROUPS)
+                }
+                sample_event_to_get_task_id = db.session.query(Events).filter_by(real_ip = ip, event_type = 1).first()
+                formatted_sample_event = EventSchema(exclude=["created", "updated", "real_ip"]).dump(sample_event_to_get_task_id)
+                task_id = formatted_sample_event["task_id"]
+                # sets = ChoiceSets.query.filter_by(task_id=task_id)
+                treatment_group = formatted_sample_event["treatment_group"]
+                data["task_id"] = task_id
+                data["treatment_group"] = treatment_group
+            else:
+                # if this user is not in the database at all
+                user_data["real_ip"] = ip
+                user_data["task_status"] = "new_user"
+                db.engine.execute(Users.__table__.insert(), user_data)
+                data["task_id"] = str(uuid4())
+                data["treatment_group"] = next(TREATMENT_GROUPS)
 
 
             # if exists:

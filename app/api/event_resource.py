@@ -77,6 +77,10 @@ class EventResource(MethodView):
                     start_time_as_timestamp  =  int(time.mktime(time.strptime(start_time, "%Y-%m-%d %H:%M:%S")))
 
                     response["start_timestamp"] = start_time_as_timestamp
+                    current_time = int(time.time())
+                    remaining_time = current_time - start_time_as_timestamp
+                    response["time_remaining"] = remaining_time
+                    response["is_timeout"] = remaining_time >= 600
 
 
                     if task_1_binary:
@@ -88,7 +92,7 @@ class EventResource(MethodView):
             else:
                 response["status"] = "new_user"
                 return response
-                     
+
                     
 
 
@@ -111,7 +115,7 @@ class EventResource(MethodView):
 
             }
             user_data["real_ip"] = ip
-            user_data["task_status"] = "new"
+            user_data["task_status"] = "new_user"
             db.engine.execute(Users.__table__.insert(), user_data)
 
             # now prepare the upload to Events table

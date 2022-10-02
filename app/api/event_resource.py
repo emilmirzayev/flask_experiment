@@ -1,3 +1,4 @@
+from curses import is_term_resized
 from flask.views import MethodView
 from flask import request, abort, jsonify
 from app.data.models import Events, Users, ChoiceSets
@@ -78,14 +79,16 @@ class EventResource(MethodView):
 
                     response["start_timestamp"] = start_time_as_timestamp
                     current_time = int(time.time())
-                    remaining_time = current_time - start_time_as_timestamp
-                    response["time_remaining"] = remaining_time
-                    response["is_timeout"] = remaining_time >= 600
-
+                    time_passed = current_time - start_time_as_timestamp
+                    response["time_remaining"] = time_passed
+                    is_timeout = time_passed >= 600
+                    response["is_timeout"] = is_timeout
 
                     if task_1_binary:
-                        response["status"] = "task_in_progress"
-
+                        if not is_timeout:
+                            response["status"] = "timeout"
+                        else: 
+                            response["status"] = "task_in_progress"
                         return response
 
                     # user can not be in the database and not start the task 1. Only add users when they started the task1

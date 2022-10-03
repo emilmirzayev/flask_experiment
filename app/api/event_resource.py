@@ -84,7 +84,7 @@ class EventResource(MethodView):
                     users_task_1_details_json = EventSchema(exclude=["updated"]).dump(users_task_1_details, many=True)
                     start_time = users_task_1_details_json[0]["created"].split(".")[0]
 
-                    start_time_as_timestamp  =  int(time.mktime(time.strptime(start_time, "%Y-%m-%dT%H:%M:%S")))
+                    start_time_as_timestamp  =  int(time.mktime(datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S").replace(tzinfo = pytz.UTC).timetuple()))
                     print(f"Task 1 started at {start_time_as_timestamp}")
                     response["start_timestamp"] = start_time_as_timestamp
                     current_time = int(datetime.now(tz = pytz.UTC).replace().timestamp())
@@ -96,7 +96,7 @@ class EventResource(MethodView):
                     print(f"{time_passed} seconds passed since the task 1 has started user {ip}")
                     response["time_passed"] = time_passed
                     # for some reason it takes time as one hour differnce
-                    is_timeout = time_passed >= 4200
+                    is_timeout = time_passed >= 600
                     
                     if is_timeout:
                         response["status"] = "timeout"

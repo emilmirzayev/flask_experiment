@@ -15,6 +15,7 @@ var config = {
         answers: "answers/",
     },
     events : {
+        user_control: 0,
         task_creation: 1,
         timer_started: 2,
         timer_finished: 3,
@@ -217,39 +218,64 @@ var currentTab = 0;
 
 $(document).ready(function () {
 
-    let welcomeTabs = 0;
-    let welcomeTabsCount = $('.page-box').length;
-    $(".next-button").click(function () {
-        welcomeTabs++;
-        if (welcomeTabs === 1) {
-            $('.first-page-button .back-button').show();
-        }
-        $('.page-box:nth-child('+welcomeTabs+'), .page-box:nth-child('+(welcomeTabs+1)+')').toggle();
-        if (welcomeTabs === (welcomeTabsCount - 1)) {
-            $('.second-page-button').toggle();
-            $('.first-page-button .next-button').toggle();
-        }
-    });
-    $(".back-button").click(function () {
-        console.log(welcomeTabs, welcomeTabsCount);
-        $('.page-box:nth-child('+(welcomeTabs+1)+'), .page-box:nth-child('+welcomeTabs+')').toggle();
-        if (welcomeTabs === (welcomeTabsCount-1)) {
-            $('.first-page-button .next-button').show();
-            $('.second-page-button').hide();
-        }
-        if (welcomeTabs === 1) {
-            $(this).hide();
-        }
-        if (welcomeTabs !== 0) {
-            welcomeTabs--;
-        }
-    });
-    $(".start-button").click(function () {
-        isTaskStarted = true;
-        localStorage.clear();
+    function applicationStart(){
         let createTaskUrl = config.api_url + config.endpoints.events;
-        requestHandler.sendRequest(createTaskUrl, {"event_type": config.events.task_creation}, createTask);
-    });
+        requestHandler.sendRequest(createTaskUrl, {"event_type": config.events.user_control}, function (data){
+            if (data.status === 'timeout') {
+                showTimeout();
+            }
+            if (data.status === 'new_user') {
+                document.getElementById('container').innerHTML = tmpl('application-start-tmpl', {});
+                applicationStartDescription();
+            }
+            if (data.status === 'task_1_in_progress') {
+                createTask(data);
+            } else if (data.status === 'task_finished') {
+                showPerformanceScore();
+            } else if (data.status === 'questionnaire_started') {
+                showQuestions();
+            }
+        });
+    }
+
+    function applicationStartDescription() {
+        let welcomeTabs = 0;
+        let welcomeTabsCount = $('.page-box').length;
+        $(document).on('click', ".next-button", function () {
+            welcomeTabs++;
+            if (welcomeTabs === 1) {
+                $('.first-page-button .back-button').show();
+            }
+            $('.page-box:nth-child(' + welcomeTabs + '), .page-box:nth-child(' + (welcomeTabs + 1) + ')').toggle();
+            if (welcomeTabs === (welcomeTabsCount - 1)) {
+                $('.second-page-button').toggle();
+                $('.first-page-button .next-button').toggle();
+            }
+        });
+        $(document).on('click', ".back-button", function () {
+            console.log(welcomeTabs, welcomeTabsCount);
+            $('.page-box:nth-child(' + (welcomeTabs + 1) + '), .page-box:nth-child(' + welcomeTabs + ')').toggle();
+            if (welcomeTabs === (welcomeTabsCount - 1)) {
+                $('.first-page-button .next-button').show();
+                $('.second-page-button').hide();
+            }
+            if (welcomeTabs === 1) {
+                $(this).hide();
+            }
+            if (welcomeTabs !== 0) {
+                welcomeTabs--;
+            }
+        });
+
+        $(document).on('click', ".start-button", function () {
+            isTaskStarted = true;
+            localStorage.clear();
+            let createTaskUrl = config.api_url + config.endpoints.events;
+            requestHandler.sendRequest(createTaskUrl, {"event_type": config.events.task_creation}, createTask);
+        });
+    }
+
+    applicationStart();
 
     $(document).on('click', '.proceed-button', function () {
         if (confirm(locals.task_completed.confirmation_alert)) {
@@ -340,10 +366,24 @@ $(document).ready(function () {
         let choicesetsUrl = config.api_url + config.endpoints.choicesets;
         isTaskCreated = true;
         requestHandler.sendRequest(choicesetsUrl, {"task_id": data.task_id}, createTaskDataTable);
+        let startTime;
+        if (data.start_timestamp !== undefined) {
+            startTime = Date.now() - (data.time_passed * 1000);
+        } else {
+            console.log(data);
+            startTime = Date.now();
+        }
+
+        startTheTimer(startTime)
+    }
+
+    function startTheTimer(startTime){
+        if (startTime == '' || startTime !== undefined || startTime != null) {
+            let startTime = Date.now();
+        }
         if (config.task_expires === true) {
             let timer = new CountDownTimer(config.task_expires_in_seconds),
                 timeObj = CountDownTimer.parse(config.task_expires_in_seconds);
-
             format(timeObj.minutes, timeObj.seconds);
             timer.onTick(format);
             timer.start(function () {
@@ -351,10 +391,7 @@ $(document).ready(function () {
                 if ($(document).find('.task-final-data-table tbody tr').length == config.final_task_selected_count) {
                     finishTask();
                 } else {
-                    document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
-                        title: locals.timeout.title,
-                        message: locals.timeout.message
-                    });
+                    showTimeout();
                     let eventsUrl = config.api_url + config.endpoints.events;
                     requestHandler.sendRequest(eventsUrl, {
                         task_id: localStorage.getItem('task_id'),
@@ -363,7 +400,7 @@ $(document).ready(function () {
                         data: {data: {status: 'task_finish', reason: "Timeout"}}
                     });
                 }
-            });
+            }, startTime);
             timer.expired(function (){
                 requestHandler.sendRequest(config.api_url + config.endpoints.events, {
                     task_id: localStorage.getItem('task_id'),
@@ -372,6 +409,13 @@ $(document).ready(function () {
                 });
             });
         }
+    }
+
+    function showTimeout(){
+        document.getElementsByTagName('html')[0].innerHTML = tmpl('kickout-tmpl', {
+            title: locals.timeout.title,
+            message: locals.timeout.message
+        });
     }
 
     function finishTask() {
@@ -406,18 +450,22 @@ $(document).ready(function () {
                     localStorage.setItem('task_id', res.task_id);
                     localStorage.setItem('reward', res.reward);
                     // Request questions list
-                    requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
-                        document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
-                        showTab(currentTab);
-                        requestHandler.sendRequest(config.api_url + config.endpoints.events, {
-                            task_id: localStorage.getItem('task_id'),
-                            treatment_group: localStorage.getItem('group'),
-                            event_type: config.events.questionnaire_started
-                        });
-                    });
+                    showQuestions();
                 });
             });
         }
+    }
+
+    function showQuestions() {
+        requestHandler.sendGetRequest(config.api_url + config.endpoints.questions, function (data) {
+            document.getElementById('container').innerHTML = tmpl('questionnaire-tmpl', {questions: data[0], questionProperty: QuestionAnswer});
+            showTab(currentTab);
+            requestHandler.sendRequest(config.api_url + config.endpoints.events, {
+                task_id: localStorage.getItem('task_id'),
+                treatment_group: localStorage.getItem('group'),
+                event_type: config.events.questionnaire_started
+            });
+        });
     }
 
     function getDataTablesColumns(columns) {
@@ -740,12 +788,12 @@ function CountDownTimer(duration, granularity) {
     this.running = false;
 }
 
-CountDownTimer.prototype.start = function (callback) {
+CountDownTimer.prototype.start = function (callback, startTime) {
     if (this.running) {
         return;
     }
     this.running = true;
-    var start = Date.now(),
+    var start = startTime,
         that = this,
         diff, obj;
 
@@ -911,6 +959,15 @@ function fixStepIndicator(n) {
     x[n].className += " active";
 }
 
+function showPerformanceScore(){
+    document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
+        performance: localStorage.getItem('user_performance'),
+        performance_expected: localStorage.getItem('real_performance'),
+        task_id: localStorage.getItem('task_id'),
+        amount: localStorage.getItem('reward')
+    });
+}
+
 function submitAnswers(){
     let answers = [];
     let questions = document.querySelectorAll('.question-field');
@@ -929,12 +986,7 @@ function submitAnswers(){
         }
     }
     requestHandler.sendRequest(config.api_url + config.endpoints.answers, answers, function (data) {
-        document.getElementById('container').innerHTML = tmpl('performance-score-tmpl', {
-            performance: localStorage.getItem('user_performance'),
-            performance_expected: localStorage.getItem('real_performance'),
-            task_id: localStorage.getItem('task_id'),
-            amount: localStorage.getItem('reward')
-        });
+        showPerformanceScore();
         requestHandler.sendRequest(config.api_url + config.endpoints.events, {
             task_id: localStorage.getItem('task_id'),
             treatment_group: localStorage.getItem('group'),

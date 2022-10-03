@@ -7,6 +7,7 @@ from datetime import datetime
 from app.schemas.serializer import EventSchema, ChoiceSchema
 import numpy as np
 from app.helpers.helper import TREATMENT_GROUPS
+import socket
 import time
 import pytz
 
@@ -18,7 +19,9 @@ class EventResource(MethodView):
         null_or_default = lambda x: "NoIPP" if x is None else x
         # get the real ip of the person
         ip = null_or_default(request.headers.get("X-Real-IP"))
-
+        if ip == "NoIPP":
+            hostname = socket.gethostname()
+            ip = socket.gethostbyname(hostname)
         data["real_ip"] = ip
 
         

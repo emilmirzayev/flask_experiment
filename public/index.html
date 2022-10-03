@@ -11,6 +11,8 @@
 </head>
 <body>
 <div class="container" id="container">
+</div>
+<script type="text/x-tmpl" id="application-start-tmpl">
     <div class="page-box first">
         <div class="row">
             <div class="col-12">
@@ -18,7 +20,7 @@
                     <p class="mb-0" style="font-size:
                     20px;"><b>Welcome to this
                     experiment!</b></p>
-                    
+
                     <p style="font-size:15px;">We appreciate your participation.</p>
                     <p style="font-size: 15px;">The experiment
                     constitutes a part of the academic research
@@ -31,7 +33,7 @@
                     data to be lost.</p>
                     <p style="font-size: 15px;">Please remember that after completing the task,
                     you will have to copy the survey code given to you
-                    and paste it into Mturk to get compensated.</p>    
+                    and paste it into Mturk to get compensated.</p>
                     <p style="font-size: 15px;">The experiment consists of two stages: a choice
                     task and a questionnaire. Your compensation
                     depends on your performance in the choice task. It
@@ -66,7 +68,7 @@
                     terminate the task, you need to confirm your
                     choices to move to the post-task questionnaire.</p>
                     <hr />
-                    
+
                 </blockquote>
             </div>
         </div>
@@ -106,8 +108,8 @@
                         provided with <b>10 recommended options</b>. The
                         recommendation algorithm is not aware of the
                         precise aim of your task and considers all
-                        features which are visible in the table when generating recommendations. 
-                        Based on your behavior during the search process, the recommender system might 
+                        features which are visible in the table when generating recommendations.
+                        Based on your behavior during the search process, the recommender system might
                         revise recommended set to better help you in the search process.
                 </p>
                 <p style="font-size: 15px;">
@@ -127,15 +129,15 @@
                 <blockquote class="blockquote">
                     <p class="mb-0" style="font-size: 20px;"><b>Compensation</b></p>
                     <p style="font-size: 15px;">
-                        Your intial reward will be $1 for completing the task. You can also earn a bonus up to 1$ based on your performance. 
+                        Your intial reward will be $1 for completing the task. You can also earn a bonus up to 1$ based on your performance.
                         These will be calculated in following four steps:
                     </p>
                     <p style="font-size: 15px;">
-                        First, your performance score will be calulated as the average score of 5 options you have chosen. Score of one  option is 
+                        First, your performance score will be calulated as the average score of 5 options you have chosen. Score of one  option is
                         equal to the sum of its three dimensions -> (F1, F3, F5).
                     </p>
                     <p style="font-size: 15px;">
-                        Second, "maximum attainable amount" will be calculated. It will be equal to the average score of 5 options which 
+                        Second, "maximum attainable amount" will be calculated. It will be equal to the average score of 5 options which
                         have actual highest value along these three dimensions.
                     </p>
                     <p style="font-size: 15px;">
@@ -163,7 +165,7 @@
             </div>
         </div>
     </div>
-</div>
+</script>
 <script type="text/x-tmpl" id="performance-score-tmpl">
     <div class="finished-page-box">
         <div class="row">
@@ -336,7 +338,7 @@
         </div>
     </div>
     <div class="task">
-        <div class="text">Cavablar qəbul edildi. Ərdoğan baba maçı. {%=o.message%}</div>
+        <div class="text">{%=o.message%}</div>
     </div>
 </script>
 <script type="text/x-tmpl" id="timeout-unfinished-tmpl">

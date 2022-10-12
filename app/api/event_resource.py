@@ -43,7 +43,7 @@ class EventResource(MethodView):
             # if there is only event_type 1, user has started the task1
             #   
             if user_exists_in_users_db:
-                print(f"User found in the database user {ip}")
+                #print(f"User found in the database user {ip}")
                 
                 # get its task id
                 sample_event_to_get_task_id = db.session.query(Events).filter_by(real_ip = ip).first()
@@ -57,14 +57,14 @@ class EventResource(MethodView):
                 user_has_finished_task = db.session.query(db.session.query(Events).filter_by(real_ip = ip, event_type = 13).exists()).scalar()
                 if user_has_finished_task:
 
-                    print(f"User has finished the task user {ip}")
+                    #print(f"User has finished the task user {ip}")
                     
                     response["status"] = "task_finished"
 
                     return response
                 else:
 
-                    print(f"User is in the middle of the task user {ip}")
+                    #print(f"User is in the middle of the task user {ip}")
                     # it means user has not finished the task and in the middle of it
 
                     # we check whether the user has finished the first task. Event code 7 is for questionnaire starting
@@ -83,12 +83,12 @@ class EventResource(MethodView):
                     
                     users_task_1_details = db.session.query(Events).filter_by(real_ip = ip, event_type = 1)
                     task_1_binary = db.session.query(users_task_1_details.exists()).scalar()
-                    print(f"User is {task_1_binary} middle of the task 1")
+                    #print(f"User is {task_1_binary} middle of the task 1")
                     users_task_1_details_json = EventSchema(exclude=["updated"]).dump(users_task_1_details, many=True)
                     start_time = users_task_1_details_json[0]["created"].split(".")[0]
 
                     start_time_as_timestamp  =  int(time.mktime(datetime.strptime(start_time, "%Y-%m-%dT%H:%M:%S").replace(tzinfo = pytz.UTC).timetuple()))
-                    print(f"Task 1 started at {start_time_as_timestamp}")
+                    #print(f"Task 1 started at {start_time_as_timestamp}")
                     response["start_timestamp"] = start_time_as_timestamp
                     current_time = int(datetime.now(tz = pytz.UTC).replace().timestamp())
                     response["current_timestamp"] = current_time
@@ -96,7 +96,7 @@ class EventResource(MethodView):
                     response["current_time"] = datetime.now(tz = pytz.UTC)
 
                     time_passed = current_time - start_time_as_timestamp
-                    print(f"{time_passed} seconds passed since the task 1 has started user {ip}")
+                    #print(f"{time_passed} seconds passed since the task 1 has started user {ip}")
                     response["time_passed"] = time_passed
                     # for some reason it takes time as one hour differnce
                     is_timeout = time_passed >= 600
@@ -131,6 +131,10 @@ class EventResource(MethodView):
             null_or_default = lambda x: "NoIP" if x is None else x
             # get the real ip of the person
             ip = null_or_default(request.headers.get("X-Real-IP"))
+            if ip == "NoIPP":
+                hostname = socket.gethostname()
+                ip = socket.gethostbyname(hostname)
+        
 
             # add the user to the database Users. For the record only.
             user_data = {
@@ -154,11 +158,15 @@ class EventResource(MethodView):
                 data["treatment_group"] = treatment_group
             else:
                 # if this user is not in the database at all
+
+                task_id = str(uuid4())
+                data["task_id"] = task_id
+                data["treatment_group"] = next(TREATMENT_GROUPS)
+
                 user_data["real_ip"] = ip
+                user_data["task_id"] = task_id
                 user_data["task_status"] = "new_user"
                 db.engine.execute(Users.__table__.insert(), user_data)
-                data["task_id"] = str(uuid4())
-                data["treatment_group"] = next(TREATMENT_GROUPS)
 
 
             # if exists:

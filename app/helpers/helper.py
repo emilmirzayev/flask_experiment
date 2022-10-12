@@ -11,8 +11,8 @@ from collections import Counter
 from random import shuffle
 
 
-DEFAULT_REWARD = 1
-REWARD_MULTIPLIER = 1
+DEFAULT_REWARD = 2
+REWARD_MULTIPLIER = 2
 # Here we use the infinite sequence of treatment groups
 def shuffler(sequence):
     while True:

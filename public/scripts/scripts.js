@@ -40,11 +40,11 @@ var locals = {
     },
     timeout: {
         title: 'Timeout',
-        message: 'Unfortunately, your time run out. You will not be qualified for payment. ' +
+        message: 'Unfortunately, your time has run out. You will not be able to continue. As per the conditions of the task, you will not be qualified for payment. ' +
                 'Thank you for your attendance.'
     },
     task_completed: {
-        confirmation_alert : 'Do you really want to complete this task and proceed to post-task questionnaire?'
+        confirmation_alert : 'Are you sure you want to complete this task and proceed to post-task questionnaire?'
     },
     description_of_the_task: 'Please select five options with the highest possible -> F1 + F3 + F5 value. You can either select options from recommendations, or from the entire choice set. You have 10 minutes to complete the task. Do not forget to confirm your choice before the time runs out. ',
     clear_all_alert : 'Are you sure that you want to proceed to the next stage?'

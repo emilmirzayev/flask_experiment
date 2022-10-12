@@ -35,6 +35,7 @@ class Users(Model):
     __tablename__ = "users"
     id = db.Column(db.Integer(), primary_key=True)
     real_ip = db.Column(db.String(), nullable=False)
+    task_id = db.Column(db.String(), nullable=False)
     task_status = db.Column(db.String(), nullable=False)
 
     

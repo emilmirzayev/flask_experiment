@@ -20,7 +20,7 @@ class ChoiceSetResource(MethodView):
             return jsonify({'columns''': columns, 'choice_set': self.get_choice_sets(data["task_id"])})
 
         # we might need to change the minimum value for given feature to 1      
-        df = pd.DataFrame(np.random.randint(0, 500, size = (100, 5)))
+        df = pd.DataFrame(np.random.randint(1, 500, size = (100, 5)))
         
         df.columns = columns
         df["objective_score"] = df["F1"] + df["F3"] + df["F5"]

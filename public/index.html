@@ -140,7 +140,7 @@
                         have actual highest value along these three dimensions.
                     </p>
                     <p style="font-size: 15px;">
-                        Then, your bonus payment will be calculated as -> 2$ x (your performance / maximum attainable amount).
+                        Then, your bonus payment will be calculated as -> 2$ x your performance / maximum attainable amount.
                     </p>
                     <p style="font-size: 15px;">
                         Finally, your full payment will be equal to -> 2$ + bonus.
@@ -172,7 +172,7 @@
                 <blockquote class="blockquote">
                     <p class="mb-0">Thank you for your participation!
                     Your task performance was {%=o.performance%} whereas the maximum achievable performance was {%=o.performance_expected%}.</p> 
-                    <p>Hence, you will be paid overall ${%=o.amount%} of which $2 is participation reward and the rest is a bonus.</p>
+                    <p>Hence, you will be paid ${%= o.amount%} bonus and $2 as participation reward.</p>
                     <p>Please copy the survey code you see below and provide it at Amazon Mturk HIT page to complete the whole task.
                     <b>This is necessary for getting the payment.</b></p>
                     <h1>Survey code: {%=o.task_id%}</h1>

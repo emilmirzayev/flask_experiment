@@ -65,6 +65,7 @@ class Performances(Model):
     reward = db.Column(db.Float, nullable= False)
 
 
+
 class ChoiceSets(Model):
     __tablename__ = "choices"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

@@ -61,7 +61,7 @@ class PerformanceResource(MethodView):
                 recommendation_performance = recommendation_performance,
                 user_performance = user_performance,
                 treatment_group = data["treatment_group"],
-                reward = round(reward_amount, 2)
+                reward = round((reward_amount - 2), 2)
             )
 
             Performances.create(**performance)

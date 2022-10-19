@@ -63,6 +63,7 @@ class Performances(Model):
     user_performance = db.Column(db.Float, nullable= False)
     treatment_group = db.Column(db.Integer, nullable=False)
     reward = db.Column(db.Float, nullable= False)
+    total_payment = db.Column(db.Float, nullable= False)
 
 
 

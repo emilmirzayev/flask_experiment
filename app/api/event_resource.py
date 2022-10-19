@@ -131,7 +131,7 @@ class EventResource(MethodView):
             null_or_default = lambda x: "NoIP" if x is None else x
             # get the real ip of the person
             ip = null_or_default(request.headers.get("X-Real-IP"))
-            if ip == "NoIPP":
+            if ip == "NoIP":
                 hostname = socket.gethostname()
                 ip = socket.gethostbyname(hostname)
         

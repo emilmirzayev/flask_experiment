@@ -13,7 +13,7 @@ class UserResource(MethodView):
         data = request.get_json()
         null_or_default = lambda x: "NoIP" if x is None else x
         ip = null_or_default(request.headers.get("X-Real-IP"))
-        if ip == "NoIPP":
+        if ip == "NoIP":
             hostname = socket.gethostname()
             ip = socket.gethostbyname(hostname)
         data["real_ip"] = ip

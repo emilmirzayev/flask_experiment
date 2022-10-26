@@ -10,6 +10,7 @@ from app.api.user_resource import UserResource
 from flask_cors import CORS
 import sys
 import logging
+from app.helpers.helper import init_questions, init_event_types
 
 from flask import jsonify, Flask
 
@@ -94,4 +95,6 @@ def create_app(app_name, env_name):
     flask_app.add_url_rule("/users/", view_func=UserResource.as_view("users"))
     # flask_app.add_url_rule("/tasks/", view_func=TaskResource.as_view("tasks"))
     flask_app.app_context().push()
+    init_questions()
+    init_event_types()
     return flask_app
